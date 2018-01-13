@@ -8,7 +8,9 @@ import org.usfirst.frc.team4141.MDRobotBase.MDRobotBase;
 import org.usfirst.frc.team4141.MDRobotBase.config.DoubleConfigSetting;
 import org.usfirst.frc.team4141.MDRobotBase.config.StringConfigSetting;
 import org.usfirst.frc.team4141.robot.commands.MDPrintCommand;
+import org.usfirst.frc.team4141.robot.subsystems.ClawSubsystem;
 import org.usfirst.frc.team4141.robot.subsystems.CoreSubsystem;
+import org.usfirst.frc.team4141.robot.subsystems.LiftSubsystem;
 import org.usfirst.frc.team4141.robot.subsystems.MDDriveSubsystem;
 import org.usfirst.frc.team4141.robot.subsystems.MDDriveSubsystem.MotorPosition;
 import org.usfirst.frc.team4141.robot.subsystems.MDDriveSubsystem.Type;
@@ -60,8 +62,8 @@ public class Robot extends MDRobotBase {
 				.add("IMU", new MD_IMU())
 				.add(MotorPosition.frontLeft, new CANTalon(1))
 				.add(MotorPosition.frontRight, new CANTalon(2))
-				.add(MotorPosition.rearLeft, new CANTalon(5))
-				.add(MotorPosition.rearRight, new CANTalon(6))
+				.add(MotorPosition.rearLeft, new CANTalon(3))
+				.add(MotorPosition.rearRight, new CANTalon(4))
 				.add("Drive-F", new DoubleConfigSetting(0.0, 1.0, 0.0))
 		 	    .add("Drive-P", new DoubleConfigSetting(0.0, 1.0, 0.1))
 				.add("Drive-I", new DoubleConfigSetting(0.0, 1.0, 0.8))
@@ -71,6 +73,16 @@ public class Robot extends MDRobotBase {
 				.add("c", new DoubleConfigSetting(0.0, 1.0, 1.0)) //Speed Governor
 				.configure()
 		);	
+		
+		add(new LiftSubsystem(this, "liftSystem")
+				.add(LiftSubsystem.motorName, new CANTalon(5))
+				.configure()
+		);
+		
+		add(new ClawSubsystem(this, "clawSystem")
+				.add(ClawSubsystem.motorName, new CANTalon(6))
+				.configure()
+		);
 		
 		//TankDrive with 2 motors example:
 //		add(new MDDriveSubsystem(this, "driveSystem", Type.TankDrive)
