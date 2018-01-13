@@ -1,8 +1,8 @@
-# Project: MaterBot
+# Project: Glados Bot
 
 ### Description
 
-This project is intended to be the base project from which each season's Java RoboRio controller project is derived from. 
+This project is intended to be the competition robot for the 2018 season FIRST Power Up.
 
 ### Features
 * Improved Configuration
@@ -15,6 +15,3 @@ This project is intended to be the base project from which each season's Java Ro
 * ADIS16448_IMU Gyro Implementation
 
 see [Why MaterBot?](https://github.com/MDHSRobotics/TeamWiki/wiki/Why%20MaterBot) for more information
-
-### Typical Use
-Typically, this project would be duplicated for each season. See the [Duplicating a Repository](https://help.github.com/articles/duplicating-a-repository/) guide from GitHub
