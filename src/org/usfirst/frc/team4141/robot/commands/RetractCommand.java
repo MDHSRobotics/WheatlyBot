@@ -3,6 +3,7 @@ package org.usfirst.frc.team4141.robot.commands;
 import org.usfirst.frc.team4141.MDRobotBase.MDCommand;
 import org.usfirst.frc.team4141.MDRobotBase.MDRobotBase;
 import org.usfirst.frc.team4141.MDRobotBase.eventmanager.LogNotification.Level;
+import org.usfirst.frc.team4141.robot.subsystems.ClawSubsystem;
 import org.usfirst.frc.team4141.robot.subsystems.LiftSubsystem;
 
 
@@ -14,9 +15,9 @@ import org.usfirst.frc.team4141.robot.subsystems.LiftSubsystem;
  * 
  * @see RopeSubsystem
  */
-public class LowerCommand extends MDCommand {
+public class RetractCommand extends MDCommand {
 	
-	private LiftSubsystem liftSubsystem;
+	private ClawSubsystem clawSubsystem;
 	
 	// ------------------------------------------------ //
 	
@@ -30,14 +31,14 @@ public class LowerCommand extends MDCommand {
 	 * @param name the default name used after the string in the constructor
 	 * @return true if the ropeSubsystem is found, false if not.
 	 */
-	public LowerCommand(MDRobotBase robot, String name) {
+	public RetractCommand(MDRobotBase robot, String name) {
 		super(robot, name);
-		if(!getRobot().getSubsystems().containsKey("liftSubsystem")){
-			log(Level.ERROR, "initialize()", "lift subsystem not found");
-			throw new IllegalArgumentException("lift Subsystem not found");
+		if(!getRobot().getSubsystems().containsKey("clawSubsystem")){
+			log(Level.ERROR, "initialize()", "Claw subsystem not found");
+			throw new IllegalArgumentException("Claw Subsystem not found");
 		}
-		liftSubsystem = (LiftSubsystem)getRobot().getSubsystems().get("liftSubsystem"); 
-		requires(liftSubsystem);
+		clawSubsystem = (ClawSubsystem)getRobot().getSubsystems().get("clawSubsystem"); 
+		requires(clawSubsystem);
 	}
 
 	// ------------------------------------------------ //
@@ -62,9 +63,9 @@ public class LowerCommand extends MDCommand {
 	 * it reads no input from the driver. 
 	 */
 	protected void execute() {
-		if (liftSubsystem!=null)liftSubsystem.lower();
-		log(Level.DEBUG,"execute()","Lowering");
-	}
+		if (clawSubsystem!=null)clawSubsystem.retract();
+		log(Level.DEBUG,"execute()","Retracting");
+}
 	
 	/**
 	 * This signifies the end of the command by stopping the ropeSubsystem motors
@@ -73,7 +74,7 @@ public class LowerCommand extends MDCommand {
 	@Override
 		protected void end() {
 			
-		liftSubsystem.stop();
+		clawSubsystem.stopextend();
 			
 		}
 }

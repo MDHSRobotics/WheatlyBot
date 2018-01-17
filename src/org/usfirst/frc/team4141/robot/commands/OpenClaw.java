@@ -64,7 +64,7 @@ public class OpenClaw extends MDCommand {
 	 */
 	protected void execute() {
 		if (clawSubsystem!=null)clawSubsystem.open();
-		log(Level.DEBUG,"execute()","Riseing");
+		log(Level.DEBUG,"execute()","Opening");
 	}
 	
 	/**

@@ -63,7 +63,7 @@ public class RiseCommand extends MDCommand {
 	 */
 	protected void execute() {
 		if (liftSubsystem!=null)liftSubsystem.raise();
-		log(Level.DEBUG,"execute()","Riseing");
+		log(Level.DEBUG,"execute()","Raiseing");
 	}
 	
 	/**

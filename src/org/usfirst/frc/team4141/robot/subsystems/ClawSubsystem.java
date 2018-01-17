@@ -89,7 +89,7 @@ public class ClawSubsystem extends MDSubsystem {
 	}
 	
 	
-	public void retrieve(){
+	public void retract(){
 		extendSpeedController.set(-extendSpeed);
 		
 	}
