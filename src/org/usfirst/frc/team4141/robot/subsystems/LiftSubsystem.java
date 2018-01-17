@@ -75,6 +75,7 @@ public class LiftSubsystem extends MDSubsystem {
 	 */
 	public void stop(){
 		liftSpeedController.set(0);
+		// doesn't stop motor when OI has  whenPressed
 		
 	}
 	

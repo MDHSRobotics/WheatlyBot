@@ -55,7 +55,7 @@ public class MDDriveSubsystem extends MDSubsystem {
 	private long gyroResetStart;
 	private long gyroResetDuration = 150;
 	private double speed = 0;
-	private double c = 1.0;
+	private double governor = 1.0;
 	private MD_IMU imu;
 	private TankDriveInterpolator interpolator = new TankDriveInterpolator();
 	
@@ -285,7 +285,7 @@ public class MDDriveSubsystem extends MDSubsystem {
 		 // double rightTriggerValue = joystick.getRawAxis(3);
 		 //	double leftTriggerValue = -joystick.getRawAxis(2);
 			double forwardAxisValue = -joystick.getRawAxis(1);
-			double forward = (forwardAxisValue)*(1.0-(1.0-c));
+			double forward = (forwardAxisValue)*(1.0-(1.0-governor));
 		  	double rotate = -joystick.getRawAxis(0); //(Changed to accompass shifting w/controller and deadzoned)
 	  	  //debug("forward = " + forward + ", rotate = " + rotate);
 		  	double[] speeds = interpolator.calculate(forward, rotate);
@@ -314,9 +314,9 @@ public class MDDriveSubsystem extends MDSubsystem {
 	@Override
 	protected void setUp() {
 		//called after configuration is completed
-		if(getConfigSettings().containsKey("c")) c = getConfigSettings().get("c").getDouble();
-		if(getConfigSettings().containsKey("a")) interpolator.setA(getConfigSettings().get("a").getDouble());
-		if(getConfigSettings().containsKey("b")) interpolator.setB(getConfigSettings().get("b").getDouble());
+		if(getConfigSettings().containsKey("governor")) governor = getConfigSettings().get("governor").getDouble();
+		if(getConfigSettings().containsKey("highSpeed")) interpolator.setA(getConfigSettings().get("highSpeed").getDouble());
+		if(getConfigSettings().containsKey("lowSpeed")) interpolator.setB(getConfigSettings().get("lowSpeed").getDouble());
 //		if(getConfigSettings().containsKey("F")) F = getConfigSettings().get("F").getDouble();
 //		if(getConfigSettings().containsKey("P")) P = getConfigSettings().get("P").getDouble();
 //		if(getConfigSettings().containsKey("I")) I = getConfigSettings().get("I").getDouble();
@@ -331,9 +331,9 @@ public class MDDriveSubsystem extends MDSubsystem {
 	 */
 	@Override
 	public void settingChangeListener(ConfigSetting changedSetting) {
-		if(changedSetting.getName().equals("c")) c = changedSetting.getDouble();
-		if(changedSetting.getName().equals("a")) interpolator.setA(changedSetting.getDouble());
-		if(changedSetting.getName().equals("b")) interpolator.setB(changedSetting.getDouble());
+		if(changedSetting.getName().equals("governor")) governor = changedSetting.getDouble();
+		if(changedSetting.getName().equals("highSpeed")) interpolator.setA(changedSetting.getDouble());
+		if(changedSetting.getName().equals("lowSpeed")) interpolator.setB(changedSetting.getDouble());
 //		if(changedSetting.getName().equals("F")) F = changedSetting.getDouble();
 //		if(changedSetting.getName().equals("P")) P = changedSetting.getDouble()*pidFactor;
 //		if(changedSetting.getName().equals("I")) I = changedSetting.getDouble()*pidFactor;

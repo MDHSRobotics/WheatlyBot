@@ -8,6 +8,7 @@ import org.usfirst.frc.team4141.MDRobotBase.MDRobotBase;
 import org.usfirst.frc.team4141.MDRobotBase.config.DoubleConfigSetting;
 import org.usfirst.frc.team4141.MDRobotBase.config.StringConfigSetting;
 import org.usfirst.frc.team4141.robot.commands.MDPrintCommand;
+import org.usfirst.frc.team4141.robot.subsystems.AutonomousSubsystem;
 import org.usfirst.frc.team4141.robot.subsystems.ClawSubsystem;
 import org.usfirst.frc.team4141.robot.subsystems.CoreSubsystem;
 import org.usfirst.frc.team4141.robot.subsystems.LiftSubsystem;
@@ -46,8 +47,8 @@ public class Robot extends MDRobotBase {
 
 		//Subsystem to manage robot wide config settings
 		add( new CoreSubsystem(this, "core")
-				 .add("name",new StringConfigSetting("MaterBot"))					//go ahead name your robot
-				 .add("autoCommand",new StringConfigSetting("AutonomousCommand"))		//name of autoCommand you wish to start with
+				 .add("name",new StringConfigSetting("GladosBot"))					//go ahead name your robot
+				 .add("autoCommand",new StringConfigSetting("[Insert Command Here]"))		//name of autoCommand you wish to start with
 				 .configure()
 		);		
 		
@@ -64,23 +65,30 @@ public class Robot extends MDRobotBase {
 				.add(MotorPosition.frontRight, new CANTalon(2))
 				.add(MotorPosition.rearLeft, new CANTalon(3))
 				.add(MotorPosition.rearRight, new CANTalon(4))
-				.add("Drive-F", new DoubleConfigSetting(0.0, 1.0, 0.0))
-		 	    .add("Drive-P", new DoubleConfigSetting(0.0, 1.0, 0.1))
-				.add("Drive-I", new DoubleConfigSetting(0.0, 1.0, 0.8))
-				.add("Drive-D", new DoubleConfigSetting(0.0, 1.0, 0.1))
-				.add("a", new DoubleConfigSetting(0.0, 1.0, 0.25)) //High Speed - Turn Factor
-		 	    .add("b", new DoubleConfigSetting(0.0, 1.0, 0.4)) //Slow Speed - Turn Factor
-				.add("c", new DoubleConfigSetting(0.0, 1.0, 1.0)) //Speed Governor
+				//.add("Drive-F", new DoubleConfigSetting(0.0, 1.0, 0.0))
+		 	    //.add("Drive-P", new DoubleConfigSetting(0.0, 1.0, 0.1))
+				//.add("Drive-I", new DoubleConfigSetting(0.0, 1.0, 0.8))
+				//.add("Drive-D", new DoubleConfigSetting(0.0, 1.0, 0.1))
+				.add("highSpeed", new DoubleConfigSetting(0.0, 1.0, 0.25)) //High Speed - Turn Factor
+		 	    .add("lowSpeed", new DoubleConfigSetting(0.0, 1.0, 0.4)) //Slow Speed - Turn Factor
+				.add("governor", new DoubleConfigSetting(0.0, 1.0, 1.0)) //Speed Governor
 				.configure()
 		);	
 		
-		add(new LiftSubsystem(this, "liftSystem")
-				.add(LiftSubsystem.motorName, new CANTalon(5))
+		add(new AutonomousSubsystem(this, "autoSubsystem")
+				.add("scenario1Speed", new DoubleConfigSetting(0.0, 1.0, 0.5))
 				.configure()
 		);
 		
-		add(new ClawSubsystem(this, "clawSystem")
+		add(new LiftSubsystem(this, "liftSubsystem")
+				.add(LiftSubsystem.motorName, new CANTalon(0))
+				.add("liftSpeed", new DoubleConfigSetting(0.0, 1.0, 0.5))
+				.configure()
+		);
+		
+		add(new ClawSubsystem(this, "clawSubsystem")
 				.add(ClawSubsystem.motorName, new CANTalon(6))
+				.add("clawSpeed", new DoubleConfigSetting(0.0, 1.0, 0.5))
 				.configure()
 		);
 		
