@@ -6,7 +6,9 @@ import org.usfirst.frc.team4141.MDRobotBase.config.ConfigSetting;
 
 public class AutonomousSubsystem extends MDSubsystem {
 
-	private double scenario1Speed;
+	private double autoSpeed;
+	private long autoDuration;
+	
 	
 	//--------------------------------------------------------//
 	
@@ -21,15 +23,15 @@ public class AutonomousSubsystem extends MDSubsystem {
 	@Override
 	protected void setUp() {
 		
-		if(getConfigSettings().containsKey("scenario1Speed")) scenario1Speed = getConfigSettings().get("scenario1Speed").getDouble();
-
+		if(getConfigSettings().containsKey("autoSpeed")) autoSpeed = getConfigSettings().get("autoSpeed").getDouble();
+		if(getConfigSettings().containsKey("autoDuration")) autoDuration = (long) (getConfigSettings().get("autoDuration").getDouble()*1000);
 	}
 	
 	@Override
 	public void settingChangeListener(ConfigSetting changedSetting) {
 		
-		if(changedSetting.getName().equals("scenario1Speed")) scenario1Speed = changedSetting.getDouble();
-
+		if(changedSetting.getName().equals("autoSpeed")) autoSpeed = changedSetting.getDouble();
+		if(changedSetting.getName().equals("autoDuration")) autoDuration = (long) (changedSetting.getDouble()*1000);
 	}
 	
 	@Override
@@ -39,8 +41,13 @@ public class AutonomousSubsystem extends MDSubsystem {
 	
 	//--------------------------------------------------------//
 	
-	public long getScenario1Speed() {
-		return scenario1Speed;
+	public double getAutoSpeed() {
+		return autoSpeed;
 	}
+	
+	public long getAutoDuration() {
+		return autoDuration;
+	}
+	
 
 }

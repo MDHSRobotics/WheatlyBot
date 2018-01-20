@@ -6,11 +6,10 @@ import org.usfirst.frc.team4141.MDRobotBase.MDCommand;
 import org.usfirst.frc.team4141.MDRobotBase.MDRobotBase;
 import org.usfirst.frc.team4141.MDRobotBase.eventmanager.LogNotification.Level;
 import org.usfirst.frc.team4141.robot.subsystems.AutonomousSubsystem;
-import org.usfirst.frc.team4141.robot.subsystems.BracketGearSubsystem;
 import org.usfirst.frc.team4141.robot.subsystems.MDDriveSubsystem;
 
 
-public class AUTODriveFromWallCommand extends MDCommand {
+public class DriveFromWallCommand extends MDCommand {
 
 	private long start;
 	private double autoSpeed;
@@ -23,7 +22,7 @@ public class AUTODriveFromWallCommand extends MDCommand {
 	
 	// ------------------------------------------------ //
 	
-	public AUTODriveFromWallCommand(MDRobotBase robot, String name) {
+	public DriveFromWallCommand(MDRobotBase robot, String name) {
 		super(robot, name);
 		if(!getRobot().getSubsystems().containsKey("autoSubsystem")) {
 			log(Level.ERROR, "initialize()",  "Autonomous Subsystem not found");
@@ -33,26 +32,23 @@ public class AUTODriveFromWallCommand extends MDCommand {
 			log(Level.ERROR, "initialize()",  "Drive Subsystem not found");
 			throw new IllegalArgumentException("Drive Subsystem not found");
 		}
-		if(!getRobot().getSubsystems().containsKey("bracketGearSubsystem")) {
-			log(Level.ERROR, "initialize()",  "bracketGearSubsystem not found");
-			throw new IllegalArgumentException("bracketGearSubsystem not found");
-		}
+		
 		autoSubsystem = (AutonomousSubsystem)getRobot().getSubsystems().get("autoSubsystem");
 		requires(autoSubsystem);
 		driveSubsystem = (MDDriveSubsystem)getRobot().getSubsystems().get("driveSystem");
 		requires(driveSubsystem);
-		gearSubsystem = (BracketGearSubsystem)getRobot().getSubsystems().get("bracketGearSubsystem");
+		
 		
 		// TODO Auto-generated constructor stub
 	}
 	
 	// ------------------------------------------------ //
 	
-	@Override
+	@Override  
 	protected void initialize() {
 		driveSubsystem.gyroReset();
-		autoDuration = autoSubsystem.getAuto1Duration();
-		autoSpeed = autoSubsystem.getAuto1Speed();
+		autoDuration = autoSubsystem.getAutoDuration();
+		autoSpeed = autoSubsystem.getAutoSpeed();
 		start =(new Date()).getTime();	
 		setAngle = driveSubsystem.getAngle();
 		log(Level.DEBUG, "initialize()", "setAngle="+setAngle);
@@ -60,7 +56,8 @@ public class AUTODriveFromWallCommand extends MDCommand {
 	
 	@Override
 	protected boolean isFinished() {
-		return gearSubsystem.getActualDistance()>gearSubsystem.getWithdrawalDistanceSetting();
+		long now = (new Date()).getTime();
+		return  (now >=(start+autoDuration));
 			//long now = (new Date()).getTime();
 			//return  (now >=(start+autoDuration));
 		}

@@ -57,7 +57,7 @@ public class OI extends OIBase{
 			.whileHeld("6",6,new OpenClaw(getRobot(),"OpenClaw"))
 			.whileHeld("4",4,new CloseClaw(getRobot(),"CloseClaw"))
 			.whileHeld("1",1,new ExtendCommand(getRobot(),"ExtendCommand"))
-			.whileHeld("2",2,new RetractCommand(getRobot(),"ExtendCommand"))
+			.whileHeld("2",2,new RetractCommand(getRobot(),"RetractCommand"))
 			.configure()
 		);
 
