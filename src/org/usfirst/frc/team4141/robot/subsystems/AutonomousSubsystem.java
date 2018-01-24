@@ -5,9 +5,10 @@ import org.usfirst.frc.team4141.MDRobotBase.MDSubsystem;
 import org.usfirst.frc.team4141.MDRobotBase.config.ConfigSetting;
 
 public class AutonomousSubsystem extends MDSubsystem {
-
+ 
 	private double autoSpeed;
 	private long autoDuration;
+	private MDDriveSubsystem driveSystem;
 	
 	
 	//--------------------------------------------------------//
@@ -49,5 +50,45 @@ public class AutonomousSubsystem extends MDSubsystem {
 		return autoDuration;
 	}
 	
+	public void AUTOPosOne_RLR(){
+		driveSystem.forward(.5);
+	}
+	public void AUTOPosTwo_RLR(){
+		driveSystem.forward(.5);
+	}
+	public void AUTOPosThree_RLR(){
+		driveSystem.forward(.5);
+	}
+	public void AUTOPosOne_LRL(){
+		driveSystem.forward(.5);
+	}
+	public void AUTOPosTwo_LRL(){
+		driveSystem.forward(.5);
+	}
+	public void AUTOPosThree_LRL(){
+		driveSystem.forward(.5);
+	}
+	public void AUTOPosOne_LLL(){
+		driveSystem.forward(.5);
+	}
+	public void AUTOPosTwo_LLL(){
+		driveSystem.forward(.5);
+	}
+	public void AUTOPosThree_LLL(){
+		driveSystem.forward(.5);
+	}
+	public void AUTOPosOne_RRR(){
+		driveSystem.forward(.5);
+	}
+	public void AUTOPosTwo_RRR(){
+		driveSystem.forward(.5);
+	}
+	public void AUTOPosThree_RRR(){
+		driveSystem.forward(.5);
+	}
+	public void end(){
+		driveSystem.stop();
+	}
+
 
 }

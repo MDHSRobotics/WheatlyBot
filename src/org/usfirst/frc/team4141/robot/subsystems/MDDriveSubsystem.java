@@ -351,6 +351,7 @@ public class MDDriveSubsystem extends MDSubsystem {
 	 * @param speed used for the activation of the motors 
 	 */
 	public void right(double speed) {
+
 		this.speed = speed;
 		
 		if (isFlipped) {
