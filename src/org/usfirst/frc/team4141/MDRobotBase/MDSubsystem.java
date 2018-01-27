@@ -9,12 +9,13 @@ import org.usfirst.frc.team4141.MDRobotBase.eventmanager.LogNotification.Level;
 import org.usfirst.frc.team4141.MDRobotBase.sensors.Sensor;
 import org.usfirst.frc.team4141.MDRobotBase.sensors.SensorReading;
 
-import edu.wpi.first.wpilibj.PWM;
+//import edu.wpi.first.wpilibj.PWM;
+import edu.wpi.first.wpilibj.Sendable;
+//import edu.wpi.first.wpilibj.SendableBase;
 import edu.wpi.first.wpilibj.SolenoidBase;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 
 public abstract class MDSubsystem extends Subsystem {
 	protected String name;
@@ -77,13 +78,17 @@ public abstract class MDSubsystem extends Subsystem {
 		configSettings = new Hashtable<String,ConfigSetting>();
 		isConfigured = false;
 	}
+	//TODO Check if error
 	public MDSubsystem configure(){
 		if(this.motors!=null && this.motors.size()>0){
 			Set<String> keys = motors.keySet();
 			for(String key : keys){
 				SpeedController speedController = motors.get(key);
-				if(speedController instanceof LiveWindowSendable){
-					LiveWindow.addActuator(getName(), key, (LiveWindowSendable)speedController);
+				if(speedController instanceof Sendable){
+					setName(getName(), key);
+					LiveWindow.add((Sendable) speedController);
+//					LiveWindow.addActuator(getName(), key, (LiveWindowSendable)speedController);
+					
 				}
 			}
 		}
@@ -91,8 +96,9 @@ public abstract class MDSubsystem extends Subsystem {
 			Set<String> keys = solenoids.keySet();
 			for(String key : keys){
 				SolenoidBase item = solenoids.get(key);
-				if(item instanceof LiveWindowSendable){
-					LiveWindow.addActuator(getName(), key, (LiveWindowSendable)item);
+				if(item instanceof Sendable){
+					setName(getName(), key);
+					LiveWindow.add((Sendable) item);
 				}
 			}
 		}
@@ -100,8 +106,9 @@ public abstract class MDSubsystem extends Subsystem {
 			Set<String> keys = sensors.keySet();
 			for(String key : keys){
 				Sensor item = sensors.get(key);
-				if(item instanceof LiveWindowSendable){
-					LiveWindow.addSensor(getName(), key, (LiveWindowSendable)item);
+				if(item instanceof Sendable){
+					setName(getName(), key);
+					LiveWindow.add((Sendable) item);
 				}
 				System.out.println("system "+getName()+" has sensor "+key+" observe: "+item.observe());
 				if(item.observe()){
@@ -132,9 +139,9 @@ public abstract class MDSubsystem extends Subsystem {
 		setUp();
 		return this;
 	}
-	public String getName() {
-		return name;
-	}
+//	public String getName() {
+//		return name;
+//	}
 	public MDRobotBase getRobot() {
 		return robot;
 	}

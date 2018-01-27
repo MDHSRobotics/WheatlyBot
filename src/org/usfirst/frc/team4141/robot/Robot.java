@@ -16,7 +16,8 @@ import org.usfirst.frc.team4141.robot.subsystems.MDDriveSubsystem;
 import org.usfirst.frc.team4141.robot.subsystems.MDDriveSubsystem.MotorPosition;
 import org.usfirst.frc.team4141.robot.subsystems.MDDriveSubsystem.Type;
 
-import com.ctre.CANTalon;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Talon;
@@ -61,10 +62,10 @@ public class Robot extends MDRobotBase {
 		add(new MDDriveSubsystem(this, "driveSystem", Type.TankDrive)
 				.add("accelerometer", new MD_BuiltInAccelerometer())
 				.add("IMU", new MD_IMU())
-				.add(MotorPosition.frontLeft, new CANTalon(1))
-				.add(MotorPosition.frontRight, new CANTalon(2))
-				.add(MotorPosition.rearLeft, new CANTalon(3))
-				.add(MotorPosition.rearRight, new CANTalon(4))
+				.add(MotorPosition.frontLeft, new WPI_TalonSRX(1))
+				.add(MotorPosition.frontRight, new WPI_TalonSRX(2))
+				.add(MotorPosition.rearLeft, new WPI_TalonSRX(3))
+				.add(MotorPosition.rearRight, new WPI_TalonSRX(4))
 				//.add("Drive-F", new DoubleConfigSetting(0.0, 1.0, 0.0))
 		 	    //.add("Drive-P", new DoubleConfigSetting(0.0, 1.0, 0.1))
 				//.add("Drive-I", new DoubleConfigSetting(0.0, 1.0, 0.8))
@@ -81,13 +82,13 @@ public class Robot extends MDRobotBase {
 		);
 		
 		add(new LiftSubsystem(this, "liftSubsystem")
-				.add(LiftSubsystem.motorName, new CANTalon(0))
+				.add(LiftSubsystem.motorName, new WPI_TalonSRX(5))
 				.add("liftSpeed", new DoubleConfigSetting(0.0, 1.0, 0.5))
 				.configure()
 		);
 		
 		add(new ClawSubsystem(this, "clawSubsystem")
-				.add(ClawSubsystem.motorName, new CANTalon(6))
+				.add(ClawSubsystem.motorName, new WPI_TalonSRX(6))
 				.add("clawSpeed", new DoubleConfigSetting(0.0, 1.0, 0.5))
 				.configure()
 		);

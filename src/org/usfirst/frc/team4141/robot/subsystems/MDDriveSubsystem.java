@@ -16,13 +16,16 @@ import org.usfirst.frc.team4141.robot.commands.ArcadeDriveCommand;
 import org.usfirst.frc.team4141.robot.subsystems.MDDriveSubsystem.MotorPosition;
 import org.usfirst.frc.team4141.robot.subsystems.MDDriveSubsystem.Type;
 
-import com.ctre.CANTalon;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PWM;
-import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.drive.MecanumDrive;
 
 
 public class MDDriveSubsystem extends MDSubsystem {
@@ -48,7 +51,8 @@ public class MDDriveSubsystem extends MDSubsystem {
 	
 	// ------------------------------------------------ //
 	
-	private RobotDrive robotDrive;
+	private DifferentialDrive differentialDrive;
+	private MecanumDrive mecanumDrive;
 	private Type type;
 	private boolean isFlipped = false;
 	private boolean resettingGyro = false;
@@ -58,6 +62,7 @@ public class MDDriveSubsystem extends MDSubsystem {
 	private double governor = 1.0;
 	private MD_IMU imu;
 	private TankDriveInterpolator interpolator = new TankDriveInterpolator();
+//	CANTalon talon =  MDDriveSubsystem.TalonPosition.frontLeft;
 	
 //	private double F=0.0;
 //	private double P=0.0;
@@ -96,7 +101,7 @@ public class MDDriveSubsystem extends MDSubsystem {
 	 * @return true if the PWM or a CANTALON found, else Input is not a PWM.
 	 */
 	public MDDriveSubsystem add(MotorPosition position,SpeedController speedController){
-		if(speedController instanceof PWM || speedController instanceof CANTalon){
+		if(speedController instanceof PWM || speedController instanceof WPI_TalonSRX){
 			super.add(position.toString(),(SpeedController)speedController);
 		}
 		else
@@ -148,14 +153,14 @@ public class MDDriveSubsystem extends MDSubsystem {
 				if(!getMotors().containsKey(MotorPosition.left.toString()) || !getMotors().containsKey(MotorPosition.right.toString())){
 					throw new IllegalArgumentException("Invalid MDDriveSubsystem TankDrive configuraton, missing motors.");
 				}
-				robotDrive = new RobotDrive(get(MotorPosition.left), get(MotorPosition.right));
+				differentialDrive = new DifferentialDrive(get(MotorPosition.left), get(MotorPosition.right));
 			}
 			else if(getMotors().size()==4){
 				if(!getMotors().containsKey(MotorPosition.rearLeft.toString()) || !getMotors().containsKey(MotorPosition.frontLeft.toString())
 						  || !getMotors().containsKey(MotorPosition.rearRight.toString()) || !getMotors().containsKey(MotorPosition.frontRight.toString())){
 					throw new IllegalArgumentException("Invalid MDDriveSubsystem TankDrive configuraton, missing motors.");
 				}
-				robotDrive = new RobotDrive(new MultiSpeedController(new SpeedController[]{get(MotorPosition.rearLeft), get(MotorPosition.frontLeft)}),
+				differentialDrive = new DifferentialDrive(new MultiSpeedController(new SpeedController[]{get(MotorPosition.rearLeft), get(MotorPosition.frontLeft)}),
 						new MultiSpeedController(new SpeedController[]{get(MotorPosition.rearRight), get(MotorPosition.frontRight)}));
 
 			}
@@ -188,13 +193,14 @@ public class MDDriveSubsystem extends MDSubsystem {
 									  || !getMotors().containsKey(MotorPosition.rearRight.toString()) || !getMotors().containsKey(MotorPosition.frontRight.toString())){
 				throw new IllegalArgumentException("Invalid motor configuration for MecanumDrive system.");
 			}	
-			robotDrive = new RobotDrive(get(MotorPosition.rearLeft), get(MotorPosition.frontLeft),
+			mecanumDrive = new MecanumDrive(get(MotorPosition.rearLeft), get(MotorPosition.frontLeft),
 					get(MotorPosition.rearRight), get(MotorPosition.frontRight));
 			break;
 		default:
 			throw new NotImplementedException("drive of type "+type.toString()+" is not supported.");
 		}
-		robotDrive.stopMotor();
+		differentialDrive.stopMotor();
+		mecanumDrive.stopMotor();
 		return this;
 	}
 	
@@ -214,7 +220,8 @@ public class MDDriveSubsystem extends MDSubsystem {
 	 */
 	@Override
 	protected void initDefaultCommand() {
-		robotDrive.stopMotor();
+		differentialDrive.stopMotor();
+		mecanumDrive.stopMotor();
 		//set up default command, as needed
 		//setDefaultCommand(new ArcadeDriveCommand(getRobot()));
 	}
@@ -279,18 +286,18 @@ public class MDDriveSubsystem extends MDSubsystem {
 			double magnitude= calculateMagnitude(joystick.getRawAxis(0),joystick.getRawAxis(1));
 			double direction = calculateDirection(-joystick.getRawAxis(0),-joystick.getRawAxis(1));
 			double rotation = joystick.getRawAxis(1);
-			robotDrive.mecanumDrive_Polar(magnitude, direction, rotation);
+			mecanumDrive.drivePolar(magnitude, direction, rotation);
 			break;
 		default:
 		 // double rightTriggerValue = joystick.getRawAxis(3);
 		 //	double leftTriggerValue = -joystick.getRawAxis(2);
 			double forwardAxisValue = -joystick.getRawAxis(1);
 			double forward = (forwardAxisValue)*(1.0-(1.0-governor));
-		  	double rotate = -joystick.getRawAxis(0); //(Changed to accompass shifting w/controller and deadzoned)
+		  	double rotate = -joystick.getRawAxis(4); //(Changed to accompass shifting w/controller and deadzoned)
 	  	  //debug("forward = " + forward + ", rotate = " + rotate);
 		  	double[] speeds = interpolator.calculate(forward, rotate);
 		    //debug("left: "+speeds[0]+", right: "+speeds[1]);
-			robotDrive.tankDrive(speeds[0], -speeds[1]);
+		  	differentialDrive.tankDrive(speeds[0], -speeds[1]);
 		}
 	}
 	
@@ -302,7 +309,8 @@ public class MDDriveSubsystem extends MDSubsystem {
 	 */
 	public void stop(){
 //		debug("motors stopped");
-		robotDrive.stopMotor();
+		differentialDrive.stopMotor();
+		mecanumDrive.stopMotor();
 		speed = 0;
 	}	
 	
@@ -351,7 +359,6 @@ public class MDDriveSubsystem extends MDSubsystem {
 	 * @param speed used for the activation of the motors 
 	 */
 	public void right(double speed) {
-
 		this.speed = speed;
 		
 		if (isFlipped) {
@@ -361,10 +368,10 @@ public class MDDriveSubsystem extends MDSubsystem {
 		double direction = -90;
 		switch(type){
 		case MecanumDrive:
-			robotDrive.mecanumDrive_Polar(speed, direction, 0);
+			mecanumDrive.drivePolar(speed, direction, 0);
 			break;
 		default:
-			robotDrive.tankDrive(this.speed, this.speed/10);
+			differentialDrive.tankDrive(this.speed, this.speed/10);
 		}
 	}
 
@@ -374,9 +381,9 @@ public class MDDriveSubsystem extends MDSubsystem {
 	 * 
 	 * @param speed used for the activation of the motors 
 	 */
+	
 	public void left(double speed) {
 		this.speed = speed;
-		
 		if (isFlipped) {
 			this.speed = -this.speed;
 		}
@@ -384,10 +391,10 @@ public class MDDriveSubsystem extends MDSubsystem {
 		double direction = 90;
 		switch(type){
 		case MecanumDrive:
-			robotDrive.mecanumDrive_Polar(speed, direction, 0);
+			mecanumDrive.drivePolar(speed, direction, 0);
 			break;
 		default:
-			robotDrive.tankDrive(this.speed/10, this.speed);
+			differentialDrive.tankDrive(this.speed/10, this.speed);
 		}
 	}
 
@@ -406,10 +413,10 @@ public class MDDriveSubsystem extends MDSubsystem {
 		double direction = 180;
 		switch(type){
 		case MecanumDrive:
-			robotDrive.mecanumDrive_Polar(speed, direction, 0);
+			mecanumDrive.drivePolar(speed, direction, 0);
 			break;
 		default:
-			robotDrive.tankDrive(-this.speed, this.speed);
+			differentialDrive.tankDrive(-this.speed, this.speed);
 		}
 	}
 
@@ -420,6 +427,7 @@ public class MDDriveSubsystem extends MDSubsystem {
 	 * @param speed used for the activation of the motors 
 	 */
 	public void forward(double speed) {
+		
 	//	debug("forward"); 	
 		this.speed = speed;
 		if (isFlipped) {
@@ -430,11 +438,11 @@ public class MDDriveSubsystem extends MDSubsystem {
 		
 		switch(type){
 		case MecanumDrive:
-			robotDrive.mecanumDrive_Polar(speed, direction, 0);
+			mecanumDrive.drivePolar(speed, direction, 0);
 			break;
 		default:
 			debug("speed =" + speed);
-			robotDrive.tankDrive(this.speed, this.speed);
+			differentialDrive.tankDrive(this.speed, this.speed);
 		}
 	}
 	
@@ -482,7 +490,6 @@ public class MDDriveSubsystem extends MDSubsystem {
 	 * @return the z angle of the imu.
 	 */
 	public void gyroReset() {
-		imu.reset();
 		resettingGyro = true;
 	    gyroResetStart = (new Date()).getTime();
 	}
@@ -510,7 +517,7 @@ public class MDDriveSubsystem extends MDSubsystem {
 			speeds[1]=speed*(1.0 + angle/10.0);
 			speeds[0]=speed;
 		}
-		robotDrive.tankDrive(speeds[0], speeds[1]);
+		differentialDrive.tankDrive(speeds[0], speeds[1]);
 	}
 	
 	/**

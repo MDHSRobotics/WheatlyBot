@@ -4,10 +4,10 @@ import java.util.Hashtable;
 import java.util.Properties;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.command.Command;
+//import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.hal.HALUtil;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+//import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 
 import org.usfirst.frc.team4141.MDRobotBase.config.BooleanConfigSetting;
@@ -243,7 +243,8 @@ public abstract class MDRobotBase extends IterativeRobot{
      */
     @Override
 	public void testPeriodic() {
-        LiveWindow.run();
+//    	  No longer required
+//        LiveWindow.run();
     }
 
 	public void add(SensorReading reading) {
