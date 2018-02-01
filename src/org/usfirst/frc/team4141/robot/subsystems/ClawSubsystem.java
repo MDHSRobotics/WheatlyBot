@@ -34,10 +34,10 @@ public class ClawSubsystem extends MDSubsystem {
 		super.configure();
 		//setCore(true);
 		
-		if(getMotors()==null 
-				|| !getMotors().containsKey(motorName))
-			throw new IllegalArgumentException("Invalid motor configuration for Claw system.");
-		clawSpeedController = (SpeedController)(getMotors().get(motorName));
+//		if(getMotors()==null 
+//				|| !getMotors().containsKey(motorName))
+//			throw new IllegalArgumentException("Invalid motor configuration for Claw system.");
+//		clawSpeedController = (SpeedController)(getMotors().get(motorName));
 	return this;
 	
 	

@@ -32,12 +32,12 @@ public class LowerCommand extends MDCommand {
 	 */
 	public LowerCommand(MDRobotBase robot, String name) {
 		super(robot, name);
-		if(!getRobot().getSubsystems().containsKey("liftSubsystem")){
-			log(Level.ERROR, "initialize()", "lift subsystem not found");
-			throw new IllegalArgumentException("lift Subsystem not found");
-		}
-		liftSubsystem = (LiftSubsystem)getRobot().getSubsystems().get("liftSubsystem"); 
-		requires(liftSubsystem);
+//		if(!getRobot().getSubsystems().containsKey("liftSubsystem")){
+//			log(Level.ERROR, "initialize()", "lift subsystem not found");
+//			throw new IllegalArgumentException("lift Subsystem not found");
+//		}
+//		liftSubsystem = (LiftSubsystem)getRobot().getSubsystems().get("liftSubsystem"); 
+//		requires(liftSubsystem);
 	}
 
 	// ------------------------------------------------ //

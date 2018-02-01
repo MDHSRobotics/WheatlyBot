@@ -29,12 +29,12 @@ public class LiftSubsystem extends MDSubsystem {
 	
 	public MDSubsystem configure(){
 		super.configure();
-		//setCore(true);
-		
-		if(getMotors()==null 
-				|| !getMotors().containsKey(motorName))
-			throw new IllegalArgumentException("Invalid motor configuration for Lift system.");
-		liftSpeedController = (SpeedController)(getMotors().get(motorName));
+//		//setCore(true);
+//		
+//		if(getMotors()==null 
+//				|| !getMotors().containsKey(motorName))
+//			throw new IllegalArgumentException("Invalid motor configuration for Lift system.");
+//		liftSpeedController = (SpeedController)(getMotors().get(motorName));
 	return this;
 }
 	

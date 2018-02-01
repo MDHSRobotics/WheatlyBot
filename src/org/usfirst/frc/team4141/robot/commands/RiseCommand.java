@@ -1,5 +1,7 @@
 package org.usfirst.frc.team4141.robot.commands;
 
+import javax.swing.DebugGraphics;
+
 import org.usfirst.frc.team4141.MDRobotBase.MDCommand;
 import org.usfirst.frc.team4141.MDRobotBase.MDRobotBase;
 import org.usfirst.frc.team4141.MDRobotBase.eventmanager.LogNotification.Level;
@@ -32,12 +34,12 @@ public class RiseCommand extends MDCommand {
 	 */
 	public RiseCommand(MDRobotBase robot, String name) {
 		super(robot, name);
-		if(!getRobot().getSubsystems().containsKey("liftSubsystem")){
-			log(Level.ERROR, "initialize()", "lift subsystem not found");
-			throw new IllegalArgumentException("lift Subsystem not found");
-		}
-		liftSubsystem = (LiftSubsystem)getRobot().getSubsystems().get("liftSubsystem"); 
-		requires(liftSubsystem);
+//		if(!getRobot().getSubsystems().containsKey("liftSubsystem")){
+//			log(Level.ERROR, "initialize()", "lift subsystem not found");
+//			throw new IllegalArgumentException("lift Subsystem not found");
+//		}
+//		liftSubsystem = (LiftSubsystem)getRobot().getSubsystems().get("liftSubsystem"); 
+//		requires(liftSubsystem);
 	}
 
 	// ------------------------------------------------ //

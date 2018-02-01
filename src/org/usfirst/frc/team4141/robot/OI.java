@@ -53,11 +53,11 @@ public class OI extends OIBase{
 			//.whenPressed("B",3,new MDMoveCommand(getRobot(),"right command",Direction.right))
 			//.whenPressed("Y",4,new MDMoveCommand(getRobot(),"forward command",Direction.forward))
 			.whileHeld("5",5,new RiseCommand(getRobot(),"RiseCommand"))
-			.whileHeld("3",3,new LowerCommand(getRobot(),"LowerCommand"))
-			.whileHeld("6",6,new OpenClaw(getRobot(),"OpenClaw"))
-			.whileHeld("4",4,new CloseClaw(getRobot(),"CloseClaw"))
-			.whileHeld("1",1,new ExtendCommand(getRobot(),"ExtendCommand"))
-			.whileHeld("2",2,new RetractCommand(getRobot(),"RetractCommand"))
+//			.whileHeld("3",3,new LowerCommand(getRobot(),"LowerCommand"))
+//			.whileHeld("6",6,new OpenClaw(getRobot(),"OpenClaw"))
+//			.whileHeld("4",4,new CloseClaw(getRobot(),"CloseClaw"))
+//			.whileHeld("1",1,new ExtendCommand(getRobot(),"ExtendCommand"))
+//			.whileHeld("2",2,new RetractCommand(getRobot(),"RetractCommand"))
 			.configure()
 		);
 

@@ -88,6 +88,7 @@ public class MDDriveSubsystem extends MDSubsystem {
 	public MDDriveSubsystem(MDRobotBase robot, String name, Type type) {
 		super(robot, name);
 		this.type = type;
+		debug("in MDdrive Subsystem Constructor");
 	}
 	
 	/**
@@ -185,7 +186,7 @@ public class MDDriveSubsystem extends MDSubsystem {
 		    if(getSensors()==null && !getSensors().containsKey("High Gear")){
 				throw new IllegalArgumentException("Invalid MDDriveSubsystem configuraton, missing Gear Shift Sensors.");
 			}
-			
+			differentialDrive.stopMotor();
 			
 			break;
 		case MecanumDrive:
@@ -195,12 +196,12 @@ public class MDDriveSubsystem extends MDSubsystem {
 			}	
 			mecanumDrive = new MecanumDrive(get(MotorPosition.rearLeft), get(MotorPosition.frontLeft),
 					get(MotorPosition.rearRight), get(MotorPosition.frontRight));
+			mecanumDrive.stopMotor();
 			break;
 		default:
 			throw new NotImplementedException("drive of type "+type.toString()+" is not supported.");
 		}
-		differentialDrive.stopMotor();
-		mecanumDrive.stopMotor();
+
 		return this;
 	}
 	
@@ -220,8 +221,14 @@ public class MDDriveSubsystem extends MDSubsystem {
 	 */
 	@Override
 	protected void initDefaultCommand() {
-		differentialDrive.stopMotor();
-		mecanumDrive.stopMotor();
+		
+		switch(type) {
+		case MecanumDrive:
+			mecanumDrive.stopMotor();
+		default:
+			differentialDrive.stopMotor();
+		}
+		
 		//set up default command, as needed
 		//setDefaultCommand(new ArcadeDriveCommand(getRobot()));
 	}
@@ -309,9 +316,14 @@ public class MDDriveSubsystem extends MDSubsystem {
 	 */
 	public void stop(){
 //		debug("motors stopped");
-		differentialDrive.stopMotor();
-		mecanumDrive.stopMotor();
 		speed = 0;
+		switch(type) {
+		case TankDrive:
+			differentialDrive.stopMotor();
+		case MecanumDrive:
+			mecanumDrive.stopMotor();
+		default:
+		}
 	}	
 	
 	/**

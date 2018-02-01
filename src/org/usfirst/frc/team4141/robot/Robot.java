@@ -45,7 +45,7 @@ public class Robot extends MDRobotBase {
 //				new MDPrintCommand(this,"AutonomousCommand","AutonomousCommand message")
 //			}, "AutonomousCommand"  //specify the default
 //		);
-
+		debug("enter configured robot");
 		//Subsystem to manage robot wide config settings
 		add( new CoreSubsystem(this, "core")
 				 .add("name",new StringConfigSetting("GladosBot"))					//go ahead name your robot
@@ -60,7 +60,7 @@ public class Robot extends MDRobotBase {
 		//uncomment the desired drive system and adjust the motor configuration as needed
 		//Mecanum example :
 		add(new MDDriveSubsystem(this, "driveSystem", Type.TankDrive)
-				.add("accelerometer", new MD_BuiltInAccelerometer())
+//				.add("accelerometer", new MD_BuiltInAccelerometer())
 				.add("IMU", new MD_IMU())
 				.add(MotorPosition.frontLeft, new WPI_TalonSRX(1))
 				.add(MotorPosition.frontRight, new WPI_TalonSRX(2))
@@ -82,13 +82,13 @@ public class Robot extends MDRobotBase {
 		);
 		
 		add(new LiftSubsystem(this, "liftSubsystem")
-				.add(LiftSubsystem.motorName, new WPI_TalonSRX(5))
+				//.add(LiftSubsystem.motorName, new WPI_TalonSRX(5))
 				.add("liftSpeed", new DoubleConfigSetting(0.0, 1.0, 0.5))
 				.configure()
 		);
 		
 		add(new ClawSubsystem(this, "clawSubsystem")
-				.add(ClawSubsystem.motorName, new WPI_TalonSRX(6))
+				//.add(ClawSubsystem.motorName, new WPI_TalonSRX(6))
 				.add("clawSpeed", new DoubleConfigSetting(0.0, 1.0, 0.5))
 				.configure()
 		);

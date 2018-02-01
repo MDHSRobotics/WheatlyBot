@@ -165,6 +165,8 @@ public abstract class MDRobotBase extends IterativeRobot{
 				 .add("enableWebSockets",new BooleanConfigSetting(true))
 				 .configure()
 		);    	
+		debug("about to call configure robot");
+		System.out.println("print ln about to call configure robot");
     	configureRobot();  
     	oi.configureOI();
     	debug("RobotInit completed");
@@ -308,6 +310,7 @@ public abstract class MDRobotBase extends IterativeRobot{
 
 	public void debug(String message) {
 		log(Level.DEBUG, "", message);
+		System.out.println("Debug; " + message);
 	}
 
 	public MDCommandGroup getAutoCommand() {
