@@ -2,6 +2,7 @@ package org.usfirst.frc.team4141.MDRobotBase;
 
 import java.util.Hashtable;
 import java.util.Properties;
+import java.util.Set;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 //import edu.wpi.first.wpilibj.command.Command;
@@ -323,6 +324,64 @@ public abstract class MDRobotBase extends IterativeRobot{
 	public boolean hasAutoCommand(String name) {
 		return commandChooser.containsKey(name);
 	}	
+
+	public String toString() {
+		String objectString;
+		objectString = "\n===========================================";
+		objectString += "\nRobot class = " + this.getClass().getName();
+		objectString += "\nRobot name = "  + this.name;
+		objectString += "\nEnabled = " + this.isEnabled();
+		objectString += "\nDisabled = " + this.isDisabled();
+		objectString += "\nAutonomous = " + this.isAutonomous();
+		objectString += "\nTest = " + this.isTest();
+		objectString += "\nOperatorControl = " + this.isOperatorControl();
+
+		
+		if (subsystems != null) {
+			// get set of subsystem keys
+	        Set<String> setOfSubsystemKeys = subsystems.keySet();
+	        
+			objectString += "\nNumber of subsystems = " + setOfSubsystemKeys.size();
+			int i = 1;
+			
+	        // Loop over keys
+	        for (String key : setOfSubsystemKeys) {
+	    		objectString += "\nSubsystem #" + i;
+	    		// Print Subsystem
+	    		objectString += subsystems.get(key).toString();
+	    		++i;
+	        }
+	        objectString += "\nEnd of Subsystems";
+	        objectString += "\n-----------------";
+		}
+		else {
+			objectString += "Warning: subsystems hashtable not defined!";
+		}
+		
+		if (commandChooser != null) {
+			// get set of commandChooser keys
+	        Set<String> setOfCommandChooserKeys = commandChooser.keySet();
+	        
+			objectString += "\nNumber of Command Groups in Command Chooser = " + setOfCommandChooserKeys.size();
+			int i = 1;
+			
+	        // Loop over keys
+	        for (String key : setOfCommandChooserKeys) {
+	    		objectString += "\nCommand Group #" + i;
+	    		// Print Command Group Name
+	    		objectString += commandChooser.get(key).toString();
+	    		++i;
+	        }
+	        objectString += "\nEnd of Command Groups";
+	        objectString += "\n-----------------";
+		}
+		else {
+			objectString += "Warning: comanndChooser hashtable not defined!";
+		}
+		
+		return objectString;
+	}
+
 }
 
 

@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 public abstract class MDSubsystem extends Subsystem {
-	protected String name;
+//	protected String name;
 	private MDRobotBase robot;
 	private Hashtable<String,SpeedController> motors;
 	private Hashtable<String,SolenoidBase> solenoids;
@@ -69,9 +69,10 @@ public abstract class MDSubsystem extends Subsystem {
 		return configSettings;
 	}	
 	public MDSubsystem(MDRobotBase robot, String name) {
-		super();
+		super(name);
+		System.out.println("after calling super on MDSubsystem");
 		this.robot=robot;
-		this.name = name;
+//		this.name = name;
 		motors = new Hashtable<String,SpeedController>();
 		solenoids = new Hashtable<String,SolenoidBase>();
 		sensors = new Hashtable<String,Sensor>();
@@ -173,5 +174,61 @@ public abstract class MDSubsystem extends Subsystem {
 	}
 	public void debug(String message) {
 		getRobot().debug(message);		
+	}
+	public String toString() {
+		String objectString;
+		objectString = "\n===========================================";
+		objectString += "\nSubsystem class = " + this.getClass().getName();
+		objectString += "\nSubsystem name = "  + this.getName();
+		objectString += "\nSubsystem for robot = " + this.robot.getName();
+		objectString += "\nConfigured Flag = " + this.isConfigured;
+		objectString += "\nCore Flag = " + this.isCore;
+		
+		if (motors != null) {
+			// get set of motors keys
+	        Set<String> setOfMotorKeys = motors.keySet();
+	        
+			objectString += "\nNumber of motors = " + setOfMotorKeys.size();
+			int i = 1;
+			
+	        // Loop over keys
+	        for (String key : setOfMotorKeys) {
+	    		objectString += "\nMotor #" + i;
+	    		// Print Motor
+	    		objectString += motors.get(key).toString();
+	    		++i;
+	        }
+	        objectString += "\nEnd of motors";
+	        objectString += "\n-----------------";
+		}
+		else {
+			objectString += "Warning: motors hashtable not defined!";
+		}
+		
+		if (sensors != null) {
+			// get set of sensors keys
+	        Set<String> setOfSensorKeys = sensors.keySet();
+	        
+			objectString += "\nNumber of sensors = " + setOfSensorKeys.size();
+			int i = 1;
+			
+	        // Loop over keys
+	        for (String key : setOfSensorKeys) {
+	    		objectString += "\nSensor #" + i;
+	    		// Print Sensor Information
+	    		Sensor sensor = sensors.get(key);
+	    		objectString += "\n  Name = " + sensor.getName();
+	    		objectString += "\n  Subsystem = " + sensor.getSubsystemObject().getName();
+	    		
+	    		++i;
+	        }
+	        objectString += "\nEnd of sensors";
+	        objectString += "\n-----------------";
+		}
+		else {
+			objectString += "Warning: sensors hashtable not defined!";
+		}
+		
+		return objectString;
 	}
 }

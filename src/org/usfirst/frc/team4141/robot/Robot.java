@@ -1,10 +1,13 @@
 package org.usfirst.frc.team4141.robot;
 
 
+import java.util.Hashtable;
+
 import org.usfirst.frc.team4141.MDRobotBase.MDCommand;
 import org.usfirst.frc.team4141.MDRobotBase.sensors.MD_BuiltInAccelerometer;
 import org.usfirst.frc.team4141.MDRobotBase.sensors.MD_IMU;
 import org.usfirst.frc.team4141.MDRobotBase.MDRobotBase;
+import org.usfirst.frc.team4141.MDRobotBase.MDSubsystem;
 import org.usfirst.frc.team4141.MDRobotBase.config.DoubleConfigSetting;
 import org.usfirst.frc.team4141.MDRobotBase.config.StringConfigSetting;
 import org.usfirst.frc.team4141.robot.commands.MDPrintCommand;
@@ -45,7 +48,7 @@ public class Robot extends MDRobotBase {
 //				new MDPrintCommand(this,"AutonomousCommand","AutonomousCommand message")
 //			}, "AutonomousCommand"  //specify the default
 //		);
-		debug("enter configured robot");
+		debug("\n \n \n enter configured robot");
 		//Subsystem to manage robot wide config settings
 		add( new CoreSubsystem(this, "core")
 				 .add("name",new StringConfigSetting("GladosBot"))					//go ahead name your robot
@@ -59,8 +62,14 @@ public class Robot extends MDRobotBase {
 		//We have 2 types of drive systems, tank drive and mecanum drive
 		//uncomment the desired drive system and adjust the motor configuration as needed
 		//Mecanum example :
-		add(new MDDriveSubsystem(this, "driveSystem", Type.TankDrive)
-//				.add("accelerometer", new MD_BuiltInAccelerometer())
+
+//		add(new MDDriveSubsystem(this, "driveSystem", Type.TankDrive)
+		MDDriveSubsystem driveSubsystem = new MDDriveSubsystem(this, "driveSystem", Type.TankDrive);
+		add(driveSubsystem);
+		System.out.println("Hashtable after adding drive");
+		Hashtable<String, MDSubsystem> ht = this.getSubsystems();
+		System.out.println(ht.toString());
+		driveSubsystem.add("accelerometer", new MD_BuiltInAccelerometer())
 				.add("IMU", new MD_IMU())
 				.add(MotorPosition.frontLeft, new WPI_TalonSRX(1))
 				.add(MotorPosition.frontRight, new WPI_TalonSRX(2))
@@ -73,9 +82,27 @@ public class Robot extends MDRobotBase {
 				.add("highSpeed", new DoubleConfigSetting(0.0, 1.0, 0.25)) //High Speed - Turn Factor
 		 	    .add("lowSpeed", new DoubleConfigSetting(0.0, 1.0, 0.4)) //Slow Speed - Turn Factor
 				.add("governor", new DoubleConfigSetting(0.0, 1.0, 1.0)) //Speed Governor
-				.configure()
-		);	
+				.configure();
+			
 		
+		
+//		add(new MDDriveSubsystem(this, "driveSystem", Type.TankDrive)
+//				.add("accelerometer", new MD_BuiltInAccelerometer())
+//				.add("IMU", new MD_IMU())
+//				.add(MotorPosition.frontLeft, new WPI_TalonSRX(1))
+//				.add(MotorPosition.frontRight, new WPI_TalonSRX(2))
+//				.add(MotorPosition.rearLeft, new WPI_TalonSRX(3))
+//				.add(MotorPosition.rearRight, new WPI_TalonSRX(4))
+//				//.add("Drive-F", new DoubleConfigSetting(0.0, 1.0, 0.0))
+//		 	    //.add("Drive-P", new DoubleConfigSetting(0.0, 1.0, 0.1))
+//				//.add("Drive-I", new DoubleConfigSetting(0.0, 1.0, 0.8))
+//				//.add("Drive-D", new DoubleConfigSetting(0.0, 1.0, 0.1))
+//				.add("highSpeed", new DoubleConfigSetting(0.0, 1.0, 0.25)) //High Speed - Turn Factor
+//		 	    .add("lowSpeed", new DoubleConfigSetting(0.0, 1.0, 0.4)) //Slow Speed - Turn Factor
+//				.add("governor", new DoubleConfigSetting(0.0, 1.0, 1.0)) //Speed Governor
+//				.configure()
+//		);	
+//		
 		add(new AutonomousSubsystem(this, "autoSubsystem")
 				.add("scenario1Speed", new DoubleConfigSetting(0.0, 1.0, 0.5))
 				.configure()
@@ -112,6 +139,9 @@ public class Robot extends MDRobotBase {
 //				.configure()
 //		);	
 		
+		debug("\n \n \n done with config robot");
+		debug("printing the state of teh robot");
+		debug(this.toString());
 
 	}
 

@@ -88,7 +88,7 @@ public class MDDriveSubsystem extends MDSubsystem {
 	public MDDriveSubsystem(MDRobotBase robot, String name, Type type) {
 		super(robot, name);
 		this.type = type;
-		debug("in MDdrive Subsystem Constructor");
+		debug("\n at the end of the MDDrive Sbsystem Constructor after creating drive");
 	}
 	
 	/**
@@ -145,6 +145,8 @@ public class MDDriveSubsystem extends MDSubsystem {
 	 */
 	public MDSubsystem configure(){
 		super.configure();
+		debug("inside MDDriveSubsystem Configure");
+		debug(this.toString());
 		switch(type){
 		case TankDrive:
 			if(getMotors()==null){
@@ -530,6 +532,13 @@ public class MDDriveSubsystem extends MDSubsystem {
 			speeds[0]=speed;
 		}
 		differentialDrive.tankDrive(speeds[0], speeds[1]);
+	}
+	
+	public String toString(){
+		String objectString;
+		objectString = super.toString();
+		objectString += "\n Drive Type =" + type;
+		return objectString;
 	}
 	
 	/**
