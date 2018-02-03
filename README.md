@@ -5,13 +5,11 @@
 This project is intended to be the competition robot for the 2018 season FIRST Power Up.
 
 ### Features
-* Improved Configuration
+* Fixed Project for New Season
 * MDConsole Support
-* Improved Logging
-* Core Subsystem
-* WebSockets Subsystem
-* Diagnostics Subsystem
-* Drive Sybsystem
+* Improved Logging (by FRC, thanks I guess)
+* Subsystems Added and Removed from Default
+* Core Subsystem Re-worked
 * ADIS16448_IMU Gyro Implementation
 
-see [Why MaterBot?](https://github.com/MDHSRobotics/TeamWiki/wiki/Why%20MaterBot) for more information
+See [Why MaterBot?](https://github.com/MDHSRobotics/TeamWiki/wiki/Why%20MaterBot) for more information
