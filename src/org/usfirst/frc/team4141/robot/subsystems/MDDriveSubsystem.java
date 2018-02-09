@@ -227,6 +227,7 @@ public class MDDriveSubsystem extends MDSubsystem {
 		switch(type) {
 		case MecanumDrive:
 			mecanumDrive.stopMotor();
+			break;
 		default:
 			differentialDrive.stopMotor();
 		}
@@ -302,11 +303,11 @@ public class MDDriveSubsystem extends MDSubsystem {
 		 //	double leftTriggerValue = -joystick.getRawAxis(2);
 			double forwardAxisValue = -joystick.getRawAxis(1);
 			double forward = (forwardAxisValue)*(1.0-(1.0-governor));
-		  	double rotate = -joystick.getRawAxis(4); //(Changed to accompass shifting w/controller and deadzoned)
+		  	double rotate = -joystick.getRawAxis(2); //(Changed to accompass shifting w/controller and deadzoned)
 	  	  //debug("forward = " + forward + ", rotate = " + rotate);
 		  	double[] speeds = interpolator.calculate(forward, rotate);
 		    //debug("left: "+speeds[0]+", right: "+speeds[1]);
-		  	differentialDrive.tankDrive(speeds[0], -speeds[1]);
+		  	differentialDrive.tankDrive(-speeds[0], -speeds[1]);
 		}
 	}
 	
@@ -322,6 +323,7 @@ public class MDDriveSubsystem extends MDSubsystem {
 		switch(type) {
 		case TankDrive:
 			differentialDrive.stopMotor();
+			break;
 		case MecanumDrive:
 			mecanumDrive.stopMotor();
 		default:

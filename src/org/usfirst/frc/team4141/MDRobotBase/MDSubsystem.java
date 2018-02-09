@@ -70,7 +70,7 @@ public abstract class MDSubsystem extends Subsystem {
 	}	
 	public MDSubsystem(MDRobotBase robot, String name) {
 		super(name);
-		System.out.println("after calling super on MDSubsystem");
+//		System.out.println("after calling super on MDSubsystem");
 		this.robot=robot;
 //		this.name = name;
 		motors = new Hashtable<String,SpeedController>();
@@ -81,24 +81,31 @@ public abstract class MDSubsystem extends Subsystem {
 	}
 	//TODO Check if error
 	public MDSubsystem configure(){
+//		System.out.println("MDSubsystem.config #1");
+//		System.out.println(this.toString());
+//		System.out.println("^^^^^^^^^^^^^^^");
 		if(this.motors!=null && this.motors.size()>0){
 			Set<String> keys = motors.keySet();
 			for(String key : keys){
 				SpeedController speedController = motors.get(key);
 				if(speedController instanceof Sendable){
-					setName(getName(), key);
+//					setName(getName(), key);
 					LiveWindow.add((Sendable) speedController);
 //					LiveWindow.addActuator(getName(), key, (LiveWindowSendable)speedController);
 					
 				}
 			}
 		}
+//		System.out.println("MDSubsystem.config #2");
+//		System.out.println(this.toString());
+//		System.out.println("^^^^^^^^^^^^^^^");
+		
 		if(this.solenoids!=null && this.solenoids.size()>0){
 			Set<String> keys = solenoids.keySet();
 			for(String key : keys){
 				SolenoidBase item = solenoids.get(key);
 				if(item instanceof Sendable){
-					setName(getName(), key);
+//					setName(getName(), key);
 					LiveWindow.add((Sendable) item);
 				}
 			}
@@ -108,7 +115,7 @@ public abstract class MDSubsystem extends Subsystem {
 			for(String key : keys){
 				Sensor item = sensors.get(key);
 				if(item instanceof Sendable){
-					setName(getName(), key);
+//					setName(getName(), key);
 					LiveWindow.add((Sendable) item);
 				}
 				System.out.println("system "+getName()+" has sensor "+key+" observe: "+item.observe());
@@ -129,6 +136,9 @@ public abstract class MDSubsystem extends Subsystem {
 				}
 			}
 		}
+//		System.out.println("MDSubsystem.config #3");
+//		System.out.println(this.toString());
+//		System.out.println("^^^^^^^^^^^^^^^");
 		
 		if(configSettings!=null && configSettings.size()>0){
 			for(String settingName : configSettings.keySet()){

@@ -311,7 +311,7 @@ public abstract class MDRobotBase extends IterativeRobot{
 
 	public void debug(String message) {
 		log(Level.DEBUG, "", message);
-		System.out.println("Debug; " + message);
+//		System.out.println("Debug; " + message);
 	}
 
 	public MDCommandGroup getAutoCommand() {

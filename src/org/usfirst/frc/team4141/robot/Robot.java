@@ -66,59 +66,85 @@ public class Robot extends MDRobotBase {
 //		add(new MDDriveSubsystem(this, "driveSystem", Type.TankDrive)
 		MDDriveSubsystem driveSubsystem = new MDDriveSubsystem(this, "driveSystem", Type.TankDrive);
 		add(driveSubsystem);
-		System.out.println("Hashtable after adding drive");
-		Hashtable<String, MDSubsystem> ht = this.getSubsystems();
-		System.out.println(ht.toString());
-		driveSubsystem.add("accelerometer", new MD_BuiltInAccelerometer())
-				.add("IMU", new MD_IMU())
-				.add(MotorPosition.frontLeft, new WPI_TalonSRX(1))
-				.add(MotorPosition.frontRight, new WPI_TalonSRX(2))
-				.add(MotorPosition.rearLeft, new WPI_TalonSRX(3))
-				.add(MotorPosition.rearRight, new WPI_TalonSRX(4))
+//		System.out.println("Hashtable after adding drive");
+//		Hashtable<String, MDSubsystem> ht = this.getSubsystems();
+//		System.out.println(ht.toString());
+		driveSubsystem.add("accelerometer", new MD_BuiltInAccelerometer());
+//		System.out.println("\nMDDrive after adding accelerometer");
+//		System.out.println(driveSubsystem.toString());
+		driveSubsystem.add("IMU", new MD_IMU())
+				.add(MotorPosition.left, new WPI_TalonSRX(1))
+				.add(MotorPosition.right, new WPI_TalonSRX(3))
+//				.add(MotorPosition.rearLeft, new WPI_TalonSRX(1))
+//				.add(MotorPosition.rearRight, new WPI_TalonSRX(2))
 				//.add("Drive-F", new DoubleConfigSetting(0.0, 1.0, 0.0))
 		 	    //.add("Drive-P", new DoubleConfigSetting(0.0, 1.0, 0.1))
 				//.add("Drive-I", new DoubleConfigSetting(0.0, 1.0, 0.8))
 				//.add("Drive-D", new DoubleConfigSetting(0.0, 1.0, 0.1))
 				.add("highSpeed", new DoubleConfigSetting(0.0, 1.0, 0.25)) //High Speed - Turn Factor
 		 	    .add("lowSpeed", new DoubleConfigSetting(0.0, 1.0, 0.4)) //Slow Speed - Turn Factor
-				.add("governor", new DoubleConfigSetting(0.0, 1.0, 1.0)) //Speed Governor
-				.configure();
+				.add("governor", new DoubleConfigSetting(0.0, 1.0, 1.0)); //Speed Governor
+//				driveSubsystem.configure();
+				configureDrive(driveSubsystem);
 			
 		
-		
-//		add(new MDDriveSubsystem(this, "driveSystem", Type.TankDrive)
-//				.add("accelerometer", new MD_BuiltInAccelerometer())
-//				.add("IMU", new MD_IMU())
-//				.add(MotorPosition.frontLeft, new WPI_TalonSRX(1))
-//				.add(MotorPosition.frontRight, new WPI_TalonSRX(2))
-//				.add(MotorPosition.rearLeft, new WPI_TalonSRX(3))
-//				.add(MotorPosition.rearRight, new WPI_TalonSRX(4))
-//				//.add("Drive-F", new DoubleConfigSetting(0.0, 1.0, 0.0))
-//		 	    //.add("Drive-P", new DoubleConfigSetting(0.0, 1.0, 0.1))
-//				//.add("Drive-I", new DoubleConfigSetting(0.0, 1.0, 0.8))
-//				//.add("Drive-D", new DoubleConfigSetting(0.0, 1.0, 0.1))
-//				.add("highSpeed", new DoubleConfigSetting(0.0, 1.0, 0.25)) //High Speed - Turn Factor
-//		 	    .add("lowSpeed", new DoubleConfigSetting(0.0, 1.0, 0.4)) //Slow Speed - Turn Factor
-//				.add("governor", new DoubleConfigSetting(0.0, 1.0, 1.0)) //Speed Governor
-//				.configure()
-//		);	
-//		
 		add(new AutonomousSubsystem(this, "autoSubsystem")
 				.add("scenario1Speed", new DoubleConfigSetting(0.0, 1.0, 0.5))
 				.configure()
 		);
 		
 		add(new LiftSubsystem(this, "liftSubsystem")
-				//.add(LiftSubsystem.motorName, new WPI_TalonSRX(5))
+				.add(LiftSubsystem.motorName, new WPI_TalonSRX(4))
+				.add(LiftSubsystem.motorName, new WPI_TalonSRX(5))
 				.add("liftSpeed", new DoubleConfigSetting(0.0, 1.0, 0.5))
 				.configure()
 		);
 		
-		add(new ClawSubsystem(this, "clawSubsystem")
-				//.add(ClawSubsystem.motorName, new WPI_TalonSRX(6))
+		ClawSubsystem clawSubsystem = new ClawSubsystem(this, "clawSubsystem");
+		add(clawSubsystem);
+		clawSubsystem.add(ClawSubsystem.clawMotorName, new WPI_TalonSRX(2))
+				.add(ClawSubsystem.extendclawMotorName, new WPI_TalonSRX(0))
 				.add("clawSpeed", new DoubleConfigSetting(0.0, 1.0, 0.5))
-				.configure()
-		);
+				.configure();
+//		System.out.println(clawSubsystem.toString());
+		
+		
+		
+		
+		
+		debug("\n \n \n done with config robot");
+		debug("printing the state of the robot");
+		debug(this.toString());
+
+	}
+
+
+		
+		
+		/*		add(new MDDriveSubsystem(this, "driveSystem", Type.TankDrive)
+		.add("accelerometer", new MD_BuiltInAccelerometer())
+		.add("IMU", new MD_IMU())
+		.add(MotorPosition.frontLeft, new WPI_TalonSRX(1))
+		.add(MotorPosition.frontRight, new WPI_TalonSRX(2))
+		.add(MotorPosition.rearLeft, new WPI_TalonSRX(3))
+		.add(MotorPosition.rearRight, new WPI_TalonSRX(4))
+		//.add("Drive-F", new DoubleConfigSetting(0.0, 1.0, 0.0))
+ 	    //.add("Drive-P", new DoubleConfigSetting(0.0, 1.0, 0.1))
+		//.add("Drive-I", new DoubleConfigSetting(0.0, 1.0, 0.8))
+		//.add("Drive-D", new DoubleConfigSetting(0.0, 1.0, 0.1))
+		.add("highSpeed", new DoubleConfigSetting(0.0, 1.0, 0.25)) //High Speed - Turn Factor
+ 	    .add("lowSpeed", new DoubleConfigSetting(0.0, 1.0, 0.4)) //Slow Speed - Turn Factor
+		.add("governor", new DoubleConfigSetting(0.0, 1.0, 1.0)) //Speed Governor
+		.configure()
+);	
+*/		
+		
+//		add(new ClawSubsystem(this, "clawSubsystem")
+//				.add(ClawSubsystem.motorName, new WPI_TalonSRX(2))
+//				.add(ClawSubsystem.motorName2, new WPI_TalonSRX(0))
+//				.add("clawSpeed", new DoubleConfigSetting(0.0, 1.0, 0.5))
+//				.configure()
+//		);
 		
 		//TankDrive with 2 motors example:
 //		add(new MDDriveSubsystem(this, "driveSystem", Type.TankDrive)
@@ -139,14 +165,6 @@ public class Robot extends MDRobotBase {
 //				.configure()
 //		);	
 		
-		debug("\n \n \n done with config robot");
-		debug("printing the state of teh robot");
-		debug(this.toString());
-
-	}
-
-
-
 	
 	//Override lifecycle methods, as needed
 	//	@Override
@@ -168,5 +186,18 @@ public class Robot extends MDRobotBase {
 	//		super.onConnect(session);
 	//		...
 	//	}
+	
+	private void configureDrive(MDDriveSubsystem driveSubsystem) {
+		System.out.println("^^^^^^^^^^^^^^^");
+		System.out.println("MDDrive before configuring drivesubsystem");
+		System.out.println(driveSubsystem.toString());
+		System.out.println("^^^^^^^^^^^^^^^");
+		driveSubsystem.configure();
+		System.out.println("^^^^^^^^^^^^^^^");
+		System.out.println("MDDrive after configuring drivesubsystem");
+		System.out.println(driveSubsystem.toString());
+		System.out.println("^^^^^^^^^^^^^^^");
+		
+	}
 		
 }

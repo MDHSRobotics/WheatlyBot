@@ -32,12 +32,15 @@ public class ExtendCommand extends MDCommand {
 	 */
 	public ExtendCommand(MDRobotBase robot, String name) {
 		super(robot, name);
-//		if(!getRobot().getSubsystems().containsKey("clawSubsystem")){
-//			log(Level.ERROR, "initialize()", "Claw subsystem not found");
-//			throw new IllegalArgumentException("Claw Subsystem not found");
-//		}
-//		clawSubsystem = (ClawSubsystem)getRobot().getSubsystems().get("clawSubsystem"); 
-//		requires(clawSubsystem);
+		if(!getRobot().getSubsystems().containsKey("clawSubsystem")){
+			log(Level.ERROR, "initialize()", "Claw subsystem not found");
+			throw new IllegalArgumentException("Claw Subsystem not found");
+		}
+		clawSubsystem = (ClawSubsystem)getRobot().getSubsystems().get("clawSubsystem"); 
+		requires(clawSubsystem);
+		System.out.println("Extend Command Constructor");
+		System.out.println(clawSubsystem.toString());
+		
 	}
 
 	// ------------------------------------------------ //
@@ -62,6 +65,7 @@ public class ExtendCommand extends MDCommand {
 	 * it reads no input from the driver. 
 	 */
 	protected void execute() {
+		System.out.println("In extend Command.execute " + clawSubsystem.getName());
 		if (clawSubsystem!=null)clawSubsystem.extend();
 		log(Level.DEBUG,"execute()","Extending");
 }
@@ -72,7 +76,6 @@ public class ExtendCommand extends MDCommand {
 	 */
 	@Override
 		protected void end() {
-			
 		clawSubsystem.stopextend();
 			
 		}

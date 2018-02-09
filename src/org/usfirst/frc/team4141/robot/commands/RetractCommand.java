@@ -33,12 +33,12 @@ public class RetractCommand extends MDCommand {
 	 */
 	public RetractCommand(MDRobotBase robot, String name) {
 		super(robot, name);
-//		if(!getRobot().getSubsystems().containsKey("clawSubsystem")){
-//			log(Level.ERROR, "initialize()", "Claw subsystem not found");
-//			throw new IllegalArgumentException("Claw Subsystem not found");
-//		}
-//		clawSubsystem = (ClawSubsystem)getRobot().getSubsystems().get("clawSubsystem"); 
-//		requires(clawSubsystem);
+		if(!getRobot().getSubsystems().containsKey("clawSubsystem")){
+			log(Level.ERROR, "initialize()", "Claw subsystem not found");
+			throw new IllegalArgumentException("Claw Subsystem not found");
+		}
+		clawSubsystem = (ClawSubsystem)getRobot().getSubsystems().get("clawSubsystem"); 
+		requires(clawSubsystem);
 	}
 
 	// ------------------------------------------------ //
