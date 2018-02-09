@@ -10,7 +10,9 @@ import org.usfirst.frc.team4141.MDRobotBase.MDRobotBase;
 import org.usfirst.frc.team4141.MDRobotBase.MDSubsystem;
 import org.usfirst.frc.team4141.MDRobotBase.config.DoubleConfigSetting;
 import org.usfirst.frc.team4141.MDRobotBase.config.StringConfigSetting;
+import org.usfirst.frc.team4141.robot.commands.ArcadeDriveCommand;
 import org.usfirst.frc.team4141.robot.commands.MDPrintCommand;
+import org.usfirst.frc.team4141.robot.commands.RiseCommand;
 import org.usfirst.frc.team4141.robot.subsystems.AutonomousSubsystem;
 import org.usfirst.frc.team4141.robot.subsystems.ClawSubsystem;
 import org.usfirst.frc.team4141.robot.subsystems.CoreSubsystem;
@@ -39,8 +41,15 @@ public class Robot extends MDRobotBase {
      * used for any initialization code.
      */
 
+	public void teleopInit() {
+		super.teleopInit();
+		RiseCommand riseCommand = new RiseCommand(this);
+		riseCommand.start();
+
+	}
 	@Override
 	protected void configureRobot() {
+
 
 		//A commands needs to be configured for the autonomous mode.
 		//In some cases it is desirable to have more than 1 auto command and make a decision at game time which command to use
@@ -73,7 +82,7 @@ public class Robot extends MDRobotBase {
 //		System.out.println("\nMDDrive after adding accelerometer");
 //		System.out.println(driveSubsystem.toString());
 		driveSubsystem.add("IMU", new MD_IMU())
-				.add(MotorPosition.left, new WPI_TalonSRX(1))
+				.add(MotorPosition.left, new WPI_TalonSRX(4))
 				.add(MotorPosition.right, new WPI_TalonSRX(3))
 //				.add(MotorPosition.rearLeft, new WPI_TalonSRX(1))
 //				.add(MotorPosition.rearRight, new WPI_TalonSRX(2))
@@ -85,7 +94,7 @@ public class Robot extends MDRobotBase {
 		 	    .add("lowSpeed", new DoubleConfigSetting(0.0, 1.0, 0.4)) //Slow Speed - Turn Factor
 				.add("governor", new DoubleConfigSetting(0.0, 1.0, 1.0)); //Speed Governor
 //				driveSubsystem.configure();
-				configureDrive(driveSubsystem);
+				driveSubsystem.configure();
 			
 		
 		add(new AutonomousSubsystem(this, "autoSubsystem")
@@ -94,16 +103,15 @@ public class Robot extends MDRobotBase {
 		);
 		
 		add(new LiftSubsystem(this, "liftSubsystem")
-				.add(LiftSubsystem.motorName, new WPI_TalonSRX(4))
-				.add(LiftSubsystem.motorName, new WPI_TalonSRX(5))
+				.add(LiftSubsystem.motorName, new WPI_TalonSRX(1))
 				.add("liftSpeed", new DoubleConfigSetting(0.0, 1.0, 0.5))
 				.configure()
 		);
 		
 		ClawSubsystem clawSubsystem = new ClawSubsystem(this, "clawSubsystem");
 		add(clawSubsystem);
-		clawSubsystem.add(ClawSubsystem.clawMotorName, new WPI_TalonSRX(2))
-				.add(ClawSubsystem.extendclawMotorName, new WPI_TalonSRX(0))
+		clawSubsystem.add(ClawSubsystem.clawMotorName, new WPI_TalonSRX(5))
+				.add(ClawSubsystem.extendclawMotorName, new WPI_TalonSRX(6))
 				.add("clawSpeed", new DoubleConfigSetting(0.0, 1.0, 0.5))
 				.configure();
 //		System.out.println(clawSubsystem.toString());
@@ -187,17 +195,4 @@ public class Robot extends MDRobotBase {
 	//		...
 	//	}
 	
-	private void configureDrive(MDDriveSubsystem driveSubsystem) {
-		System.out.println("^^^^^^^^^^^^^^^");
-		System.out.println("MDDrive before configuring drivesubsystem");
-		System.out.println(driveSubsystem.toString());
-		System.out.println("^^^^^^^^^^^^^^^");
-		driveSubsystem.configure();
-		System.out.println("^^^^^^^^^^^^^^^");
-		System.out.println("MDDrive after configuring drivesubsystem");
-		System.out.println(driveSubsystem.toString());
-		System.out.println("^^^^^^^^^^^^^^^");
-		
-	}
-		
 }

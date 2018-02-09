@@ -3,6 +3,7 @@ package org.usfirst.frc.team4141.robot.commands;
 import javax.swing.DebugGraphics;
 
 import org.usfirst.frc.team4141.MDRobotBase.MDCommand;
+import org.usfirst.frc.team4141.MDRobotBase.MDJoystick;
 import org.usfirst.frc.team4141.MDRobotBase.MDRobotBase;
 import org.usfirst.frc.team4141.MDRobotBase.eventmanager.LogNotification.Level;
 import org.usfirst.frc.team4141.robot.subsystems.LiftSubsystem;
@@ -32,14 +33,14 @@ public class RiseCommand extends MDCommand {
 	 * @param name the default name used after the string in the constructor
 	 * @return true if the ropeSubsystem is found, false if not.
 	 */
-	public RiseCommand(MDRobotBase robot, String name) {
-		super(robot, name);
-//		if(!getRobot().getSubsystems().containsKey("liftSubsystem")){
-//			log(Level.ERROR, "initialize()", "lift subsystem not found");
-//			throw new IllegalArgumentException("lift Subsystem not found");
-//		}
-//		liftSubsystem = (LiftSubsystem)getRobot().getSubsystems().get("liftSubsystem"); 
-//		requires(liftSubsystem);
+	public RiseCommand(MDRobotBase robot) {
+		super(robot, "RiseCommand");
+		if(!getRobot().getSubsystems().containsKey("liftSubsystem")){
+			log(Level.ERROR, "initialize()", "lift subsystem not found");
+			throw new IllegalArgumentException("lift Subsystem not found");
+		}
+		liftSubsystem = (LiftSubsystem)getRobot().getSubsystems().get("liftSubsystem"); 
+		requires(liftSubsystem);
 	}
 
 	// ------------------------------------------------ //
@@ -47,7 +48,12 @@ public class RiseCommand extends MDCommand {
 	/**
 	 * When the command first starts nothing happens.
 	 */
+	
+	private MDJoystick xbox = null;
+	
 	protected void initialize() {
+			super.initialize();
+			xbox = getRobot().getOi().getJoysticks().get("xbox");
 		}
 	
 	/**
@@ -64,7 +70,7 @@ public class RiseCommand extends MDCommand {
 	 * it reads no input from the driver. 
 	 */
 	protected void execute() {
-		if (liftSubsystem!=null)liftSubsystem.raise();
+		if (liftSubsystem!=null)liftSubsystem.raise(xbox);
 		log(Level.DEBUG,"execute()","Raiseing");
 	}
 	
@@ -74,7 +80,7 @@ public class RiseCommand extends MDCommand {
 	 */
 	@Override
 		protected void end() {
-			
+		super.end();
 		liftSubsystem.stop();
 			
 		}
