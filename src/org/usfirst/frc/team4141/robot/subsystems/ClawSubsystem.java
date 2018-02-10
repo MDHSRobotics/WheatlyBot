@@ -6,11 +6,15 @@ import org.usfirst.frc.team4141.MDRobotBase.config.ConfigSetting;
 
 import edu.wpi.first.wpilibj.SpeedController;
 
-/**
- * RopeSubsystem is a subsystem class based off the MDSubsystem.
- * This subsystem allows the use of a motor to either lift or 
- * lower the robot on a rope.
+/********************************************************************
+ * 																	*	
+ * 	RopeSubsystem is a subsystem class based off the MDSubsystem.	*
+ * 	This subsystem allows the use of a motor to either lift or 		*
+ * 	lower the robot on a rope.										*		
+ * 																	*
+ ********************************************************************
  */
+
 public class ClawSubsystem extends MDSubsystem {
 	
 	private double clawSpeed=0.75;

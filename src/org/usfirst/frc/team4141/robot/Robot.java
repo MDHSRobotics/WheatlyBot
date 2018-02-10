@@ -1,6 +1,6 @@
 package org.usfirst.frc.team4141.robot;
 
-
+//===================================================================== Imported Systems ===================================================================== //
 import java.util.Hashtable;
 
 import org.usfirst.frc.team4141.MDRobotBase.MDCommand;
@@ -29,74 +29,103 @@ import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.Victor;
 
 /**
- * The VM is configured to automatically run this class, and to call the
- * functions corresponding to each mode, as described in the IterativeRobot
- * documentation. If you change the name of this class or the package after
- * creating this project, you must also update the manifest file in the resource
- * directory.
+ * This system is the entire brain of the robot.
+ * A brain takes to different parts of the body and tells it what to do (right?).
+ * We assign motors and what positions to different subsystems.
+ * A robot is composed of subsystems
+ * A robot will typically have one (1) drive system and several other fit to purpose subsystems
  */
-public class Robot extends MDRobotBase {
-    /**
-     * This function is run when the robot is first started up and should be
-     * used for any initialization code.
-     */
 
+public class Robot extends MDRobotBase {
+
+	// This runs as soon as we press enable in Driver Station (the first thing it does essentially).
+	
 	public void teleopInit() {
 		super.teleopInit();
 		RiseCommand riseCommand = new RiseCommand(this);
 		riseCommand.start();
-
 	}
+	
+	// ================================================================================ Robot Configuration ========================================================================== //
+	
 	@Override
-	protected void configureRobot() {
-
-
-		//A commands needs to be configured for the autonomous mode.
-		//In some cases it is desirable to have more than 1 auto command and make a decision at game time which command to use
-//		setAutonomousCommand(new MDCommand[]{
-//				new MDPrintCommand(this,"AutonomousCommand","AutonomousCommand message")
-//			}, "AutonomousCommand"  //specify the default
-//		);
-		debug("\n \n \n enter configured robot");
-		//Subsystem to manage robot wide config settings
+	protected void configureRobot() {		
+	
+		// The name needs to be updated every year to keep track.
+		// The AutoCommand changes every year and is based off the competition and team agreement.
+		
+		debug("\nEnter configured Robot");
 		add( new CoreSubsystem(this, "core")
-				 .add("name",new StringConfigSetting("GladosBot"))					//go ahead name your robot
-				 .add("autoCommand",new StringConfigSetting("[Insert Command Here]"))		//name of autoCommand you wish to start with
+				 .add("name",new StringConfigSetting("GladosBot")) // <--- Name
+				 .add("autoCommand",new StringConfigSetting("[Insert Command Here]")) // <--- Default AutoCommand
 				 .configure()
 		);		
-		
-		//A robot is composed of subsystems
-		//A robot will typically have 1 drive system and several other fit to purpose subsystems		
-		//The Drive system is a special subsystem in that it has specific logic handle the speed controllers
-		//We have 2 types of drive systems, tank drive and mecanum drive
-		//uncomment the desired drive system and adjust the motor configuration as needed
-		//Mecanum example :
 
-//		add(new MDDriveSubsystem(this, "driveSystem", Type.TankDrive)
+		// ================================================== Drive Subsystem Configuration ==================================================================== //				
+		
+		/*********************************************************************************
+		 * 																				 *
+		 * 	There are two (2) different types of drive systems.							 *
+		 * 	TankDrive: Typically the one used by default. Simple as it gets.			 *
+		 * 	MecanumDrive: Allows moving left and right without turning but not as fast.	 *
+		 *	Each drive type is programmed and hot-swappable below.						 *
+		 * 																				 *
+		 *********************************************************************************
+		 */
+
 		MDDriveSubsystem driveSubsystem = new MDDriveSubsystem(this, "driveSystem", Type.TankDrive);
 		add(driveSubsystem);
-//		System.out.println("Hashtable after adding drive");
-//		Hashtable<String, MDSubsystem> ht = this.getSubsystems();
-//		System.out.println(ht.toString());
-		driveSubsystem.add("accelerometer", new MD_BuiltInAccelerometer());
-//		System.out.println("\nMDDrive after adding accelerometer");
-//		System.out.println(driveSubsystem.toString());
-		driveSubsystem.add("IMU", new MD_IMU())
+			
+//				   DriveSystem factors including Gyro and Accelerometer
+				// ==================================================== //
+				driveSubsystem.add("accelerometer", new MD_BuiltInAccelerometer());
+				driveSubsystem.add("IMU", new MD_IMU())
+
+//						Initial Driving Motors (Kind of important)
+				// ==================================================== //				
 				.add(MotorPosition.left, new WPI_TalonSRX(4))
 				.add(MotorPosition.right, new WPI_TalonSRX(3))
-//				.add(MotorPosition.rearLeft, new WPI_TalonSRX(1))
-//				.add(MotorPosition.rearRight, new WPI_TalonSRX(2))
-				//.add("Drive-F", new DoubleConfigSetting(0.0, 1.0, 0.0))
-		 	    //.add("Drive-P", new DoubleConfigSetting(0.0, 1.0, 0.1))
-				//.add("Drive-I", new DoubleConfigSetting(0.0, 1.0, 0.8))
-				//.add("Drive-D", new DoubleConfigSetting(0.0, 1.0, 0.1))
+				
+//				Speed Governor limits how fast the driving speed (1.0 = 100%)
+				// ==================================================== //
 				.add("highSpeed", new DoubleConfigSetting(0.0, 1.0, 0.25)) //High Speed - Turn Factor
 		 	    .add("lowSpeed", new DoubleConfigSetting(0.0, 1.0, 0.4)) //Slow Speed - Turn Factor
 				.add("governor", new DoubleConfigSetting(0.0, 1.0, 1.0)); //Speed Governor
-//				driveSubsystem.configure();
+
+// 							These are used for MecanumDrive
+				// ==================================================== //
+/*				.add(MotorPosition.rearLeft, new WPI_TalonSRX(1))
+				.add(MotorPosition.rearRight, new WPI_TalonSRX(2))                               */
+
+//			Enable these if you want to configure PID values within MDConsole
+				// ==================================================== //
+/* 				.add("Drive-F", new DoubleConfigSetting(0.0, 1.0, 0.0))
+              	.add("Drive-P", new DoubleConfigSetting(0.0, 1.0, 0.1))
+ 				.add("Drive-I", new DoubleConfigSetting(0.0, 1.0, 0.8))
+				.add("Drive-D", new DoubleConfigSetting(0.0, 1.0, 0.1))                          */
+
 				driveSubsystem.configure();
 			
-		
+		// =================================================== Other Subsystems ======================================================================== //		
+				
+		/************************************************************************************
+		 * 																					*
+		 * 	Developing a subsystem is very simple.											*
+		 * 	We need the name, the string, and whatever motors and configurations we want.	*
+		 * 	Each new subsystem must be identified to the correct							*
+		 * 																					*
+		 ************************************************************************************
+		 */		
+				
+				// === Joystick Mapping Structure === //
+/*
+ 		add(new [SUBSYSTEM_NAME](this, "[subsystemName]")
+	    	.add("scenario1Speed", new DoubleConfigSetting(0.0, 1.0, 0.5))
+	    	.add([SUBSYSTEM NAME.motorName, new WPI_TalonSRX(1))
+				.configure()
+		);
+*/
+				
 		add(new AutonomousSubsystem(this, "autoSubsystem")
 				.add("scenario1Speed", new DoubleConfigSetting(0.0, 1.0, 0.5))
 				.configure()
@@ -114,85 +143,69 @@ public class Robot extends MDRobotBase {
 				.add(ClawSubsystem.extendclawMotorName, new WPI_TalonSRX(6))
 				.add("clawSpeed", new DoubleConfigSetting(0.0, 1.0, 0.5))
 				.configure();
-//		System.out.println(clawSubsystem.toString());
 		
-		
-		
-		
-		
-		debug("\n \n \n done with config robot");
-		debug("printing the state of the robot");
+		debug("\n \n \n Done configuring the Robot.");
+		debug("Printing the state of the Robot...");
 		debug(this.toString());
 
 	}
-
-
 		
-		
-		/*		add(new MDDriveSubsystem(this, "driveSystem", Type.TankDrive)
-		.add("accelerometer", new MD_BuiltInAccelerometer())
-		.add("IMU", new MD_IMU())
-		.add(MotorPosition.frontLeft, new WPI_TalonSRX(1))
-		.add(MotorPosition.frontRight, new WPI_TalonSRX(2))
-		.add(MotorPosition.rearLeft, new WPI_TalonSRX(3))
-		.add(MotorPosition.rearRight, new WPI_TalonSRX(4))
-		//.add("Drive-F", new DoubleConfigSetting(0.0, 1.0, 0.0))
- 	    //.add("Drive-P", new DoubleConfigSetting(0.0, 1.0, 0.1))
-		//.add("Drive-I", new DoubleConfigSetting(0.0, 1.0, 0.8))
-		//.add("Drive-D", new DoubleConfigSetting(0.0, 1.0, 0.1))
-		.add("highSpeed", new DoubleConfigSetting(0.0, 1.0, 0.25)) //High Speed - Turn Factor
- 	    .add("lowSpeed", new DoubleConfigSetting(0.0, 1.0, 0.4)) //Slow Speed - Turn Factor
-		.add("governor", new DoubleConfigSetting(0.0, 1.0, 1.0)) //Speed Governor
-		.configure()
-);	
-*/		
-		
-//		add(new ClawSubsystem(this, "clawSubsystem")
-//				.add(ClawSubsystem.motorName, new WPI_TalonSRX(2))
-//				.add(ClawSubsystem.motorName2, new WPI_TalonSRX(0))
-//				.add("clawSpeed", new DoubleConfigSetting(0.0, 1.0, 0.5))
-//				.configure()
-//		);
-		
-		//TankDrive with 2 motors example:
-//		add(new MDDriveSubsystem(this, "driveSystem", Type.TankDrive)
-//				.add(MotorPosition.right, new Victor(0))
-//				.add(MotorPosition.left, new Victor(1))
-//				.add("accelerometer", new MD_BuiltInAccelerometer())
-//				.add("IMU", new MD_IMU())
-//				.configure()
-//		);	
-		//TankDrive with 4 motors example:
-//		add(new MDDriveSubsystem(this, "driveSystem", Type.TankDrive)
-//				.add(MotorPosition.frontRight, new Victor(0))
-//				.add(MotorPosition.rearRight, new Victor(1))
-//				.add(MotorPosition.frontLeft, new Victor(2))
-//				.add(MotorPosition.rearLeft, new Victor(3))
-//				.add("accelerometer", new MD_BuiltInAccelerometer())
-//				.add("IMU", new MD_IMU())
-//				.configure()
-//		);	
-		
-	
-	//Override lifecycle methods, as needed
-	//	@Override
-	//	public void teleopPeriodic() {
-	//		super.teleopPeriodic();
-	//		...
-	//	}
-	//	@Override
-	//	public void autonomousPeriodic() {
-	//		super.autonomousPeriodic();
-	//		...
-	//	}	
-	
-		
-		//Event manager WebSocket related methods
-		//Override as needed
-	//	@Override
-	//	public void onConnect(Session session) {
-	//		super.onConnect(session);
-	//		...
-	//	}
+	// =================================================================================================================================================== //		
 	
 }
+
+
+// ===================================================================== Unused Code ======================================================================= //
+
+
+// This sets the default AutonomousCommand in MDConsole.
+// In some cases it is desirable to have more than 1 auto command and make a decision at game time which command to use
+// ===================================================================================================================
+/*
+ 	setAutonomousCommand(new MDCommand[]{
+
+		new MDPrintCommand(this,"AutonomousCommand","AutonomousCommand message")
+	}, "AutonomousCommand"  //specify the default
+);
+*/
+
+
+// ======================================================================
+//System.out.println("Hashtable after adding drive");
+//Hashtable<String, MDSubsystem> ht = this.getSubsystems();
+//System.out.println(ht.toString());
+//======================================================================
+
+
+//======================================================================
+// add(new MDDriveSubsystem(this, "driveSystem", Type.TankDrive)
+//======================================================================
+
+
+//add(new ClawSubsystem(this, "clawSubsystem")
+//.add(ClawSubsystem.motorName, new WPI_TalonSRX(2))
+//.add(ClawSubsystem.motorName2, new WPI_TalonSRX(0))
+//.add("clawSpeed", new DoubleConfigSetting(0.0, 1.0, 0.5))
+//.configure()
+//);
+
+
+/*
+
+@Override
+public void teleopPeriodic() {
+	super.teleopPeriodic();
+}
+	
+@Override
+public void autonomousPeriodic() {
+	super.autonomousPeriodic();
+}	
+
+@Override
+public void onConnect(Session session) {
+	super.onConnect(session);
+
+}
+
+*/	
