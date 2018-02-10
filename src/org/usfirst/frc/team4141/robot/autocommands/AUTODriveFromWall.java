@@ -1,7 +1,9 @@
-package org.usfirst.frc.team4141.robot.commands;
+package org.usfirst.frc.team4141.robot.autocommands;
 
 import org.usfirst.frc.team4141.MDRobotBase.MDCommandGroup;
 import org.usfirst.frc.team4141.MDRobotBase.MDRobotBase;
+import org.usfirst.frc.team4141.robot.commands.DriveFromWallCommand;
+import org.usfirst.frc.team4141.robot.commands.MDPrintCommand;
 
 public class AUTODriveFromWall extends MDCommandGroup{
 	public AUTODriveFromWall(MDRobotBase robot){

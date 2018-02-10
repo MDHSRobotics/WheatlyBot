@@ -10,6 +10,19 @@ import org.usfirst.frc.team4141.MDRobotBase.MDRobotBase;
 import org.usfirst.frc.team4141.MDRobotBase.MDSubsystem;
 import org.usfirst.frc.team4141.MDRobotBase.config.DoubleConfigSetting;
 import org.usfirst.frc.team4141.MDRobotBase.config.StringConfigSetting;
+import org.usfirst.frc.team4141.robot.Robot.fieldPosition;
+import org.usfirst.frc.team4141.robot.autocommands.AUTOPosOne_LLL;
+import org.usfirst.frc.team4141.robot.autocommands.AUTOPosOne_LRL;
+import org.usfirst.frc.team4141.robot.autocommands.AUTOPosOne_RLR;
+import org.usfirst.frc.team4141.robot.autocommands.AUTOPosOne_RRR;
+import org.usfirst.frc.team4141.robot.autocommands.AUTOPosThree_LLL;
+import org.usfirst.frc.team4141.robot.autocommands.AUTOPosThree_LRL;
+import org.usfirst.frc.team4141.robot.autocommands.AUTOPosThree_RLR;
+import org.usfirst.frc.team4141.robot.autocommands.AUTOPosThree_RRR;
+import org.usfirst.frc.team4141.robot.autocommands.AUTOPosTwo_LLL;
+import org.usfirst.frc.team4141.robot.autocommands.AUTOPosTwo_LRL;
+import org.usfirst.frc.team4141.robot.autocommands.AUTOPosTwo_RLR;
+import org.usfirst.frc.team4141.robot.autocommands.AUTOPosTwo_RRR;
 import org.usfirst.frc.team4141.robot.commands.ArcadeDriveCommand;
 import org.usfirst.frc.team4141.robot.commands.MDPrintCommand;
 import org.usfirst.frc.team4141.robot.commands.RiseCommand;
@@ -46,7 +59,15 @@ public class Robot extends MDRobotBase {
 		riseCommand.start();
 	}
 	
+	public enum fieldPosition {
+		ONE,
+		TWO,
+		THREE
+	}
+	
 	// ================================================================================ Robot Configuration ========================================================================== //
+	
+	private fieldPosition startingPosition = fieldPosition.ONE;
 	
 	@Override
 	protected void configureRobot() {		
@@ -143,12 +164,76 @@ public class Robot extends MDRobotBase {
 				.add(ClawSubsystem.extendclawMotorName, new WPI_TalonSRX(6))
 				.add("clawSpeed", new DoubleConfigSetting(0.0, 1.0, 0.5))
 				.configure();
+	}
+		
+		private void initAutoCommands(){
+			MDCommand[] autoCommandArray = new MDCommand[];
+			//autoCommandArray[0] = new  MDPrintCommand(this,"AutonomousCommand","AutonomousCommand message");
+			autoCommandArray[0] = new  AUTOPosOne_LLL(this,"AUTOPosOne_LLL");
+			autoCommandArray[1] = new  AUTOPosOne_LRL(this,"AUTOPosOne_LRL");
+			autoCommandArray[2] = new  AUTOPosOne_RLR(this,"AUTOPosOne_RLR");
+			autoCommandArray[3] = new  AUTOPosOne_RRR(this,"AUTOPosOne_RRR");
+			
+			autoCommandArray[4] = new  AUTOPosTwo_LLL(this,"AUTOPosTwo_LLL");
+			autoCommandArray[5] = new  AUTOPosTwo_LRL(this,"AUTOPosTwo_LRL");
+			autoCommandArray[6] = new  AUTOPosTwo_RLR(this,"AUTOPosTwo_RLR");
+			autoCommandArray[7] = new  AUTOPosTwo_RRR(this,"AUTOPosTwo_RRR");
+			
+			autoCommandArray[8] = new  AUTOPosThree_LLL(this,"AUTOPosThree_LLL");
+			autoCommandArray[9] = new  AUTOPosThree_LRL(this,"AUTOPosThree_LRL");
+			autoCommandArray[10] = new  AUTOPosThree_RLR(this,"AUTOPosThree_RLR");
+			autoCommandArray[11] = new  AUTOPosThree_RRR(this,"AUTOPosThree_RRR");
+
+			setAutonomousCommand(autoCommandArray, "AUTOPosOne_LLL"); 
 		
 		debug("\n \n \n Done configuring the Robot.");
 		debug("Printing the state of the Robot...");
 		debug(this.toString());
 
 	}
+	
+// =================================================== Autonomous Configurations ======================================================================== //				
+		
+		public void autonomousInit() {
+			String commandName = null;
+			String colorAssignment;
+			
+			// Get color assignment for this match
+			colorAssignment = getColorAssignment();
+			
+			switch(startingPosition){
+				case ONE:
+					commandName = "AutoPos" + "One" + "_" + colorAssignment;
+					break;
+				case TWO:
+					commandName = "AutoPos" + "Two" + "_" + colorAssignment;
+					break;
+				case THREE:
+					commandName = "AutoPos" + "Three" + "_" + colorAssignment;
+					break;
+			
+			}
+			
+			setAutoCommand(commandName);
+			
+			if (autonomousCommand != null) {
+				debug("autonomous command should start");
+				autonomousCommand.start();
+			}
+			else {
+				debug("autonomousCommand is unexpectedly null");
+			}
+			
+		}
+
+
+		private String getColorAssignment(){
+			String matchColorAssignment = new String();
+			// Insert code here to read color assignment from FMS
+			matchColorAssignment = "LLL";
+			return matchColorAssignment;
+			
+		}
 		
 	// =================================================================================================================================================== //		
 	
