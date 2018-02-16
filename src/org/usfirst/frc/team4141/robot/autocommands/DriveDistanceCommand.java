@@ -38,12 +38,12 @@ public class DriveDistanceCommand extends MDCommand {
 	 */
 	public DriveDistanceCommand(MDRobotBase robot, String name, double distanceInFeet, double speed) {
 		super(robot, name);
-		if(!getRobot().getSubsystems().containsKey("driveSubsystem")){
+		if(!getRobot().getSubsystems().containsKey("driveSystem")){
 			log(Level.ERROR, "initialize()", "Drive subsystem not found");
 			throw new IllegalArgumentException("Drive Subsystem not found");
 		}
-		driveSubsystem = (MDDriveSubsystem)getRobot().getSubsystems().get("driveSubsystem "); 
-		requires(driveSubsystem );
+		driveSubsystem = (MDDriveSubsystem)getRobot().getSubsystems().get("driveSystem"); 
+		requires(driveSubsystem);
 		
 		m_distanceInFeet = distanceInFeet;
 		m_speed = speed;

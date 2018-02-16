@@ -7,6 +7,7 @@ import org.usfirst.frc.team4141.MDRobotBase.MDJoystick;
 import org.usfirst.frc.team4141.MDRobotBase.MDRobotBase;
 import org.usfirst.frc.team4141.MDRobotBase.OIBase;
 import org.usfirst.frc.team4141.MDRobotBase.RioHID;
+import org.usfirst.frc.team4141.robot.autocommands.AUTOPosOne_LLL;
 // Commands
 import org.usfirst.frc.team4141.robot.commands.CloseClaw;
 import org.usfirst.frc.team4141.robot.commands.ExtendCommand;
@@ -67,7 +68,8 @@ public class OI extends OIBase{
 			.whileHeld("6",6,new OpenClaw(getRobot(),"OpenClaw"))
 			.whileHeld("4",4,new CloseClaw(getRobot(),"CloseClaw"))
 			.whileHeld("1",1,new ExtendCommand(getRobot(),"ExtendCommand"))
-			.whileHeld("2",2,new RetractCommand(getRobot(),"RetractCommand"))	
+			.whileHeld("2",2,new RetractCommand(getRobot(),"RetractCommand"))
+			//.whenPressed("7",7,new AUTOPosOne_LLL(getRobot(), "AUTOPosOne_LLL"))
 			.configure()
 		);
 		

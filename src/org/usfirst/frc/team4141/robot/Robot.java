@@ -80,9 +80,10 @@ public class Robot extends MDRobotBase {
 		debug("\nEnter configured Robot");
 		add( new CoreSubsystem(this, "core")
 				 .add("name",new StringConfigSetting("GladosBot")) // <--- Name
-				 .add("autoCommand",new StringConfigSetting("[Insert Command Here]")) // <--- Default AutoCommand
+				 .add("autoCommand",new StringConfigSetting("AUTOPosOne_LLL")) // <--- Default AutoCommand
 				 .configure()
-		);		
+		);	
+		
 
 		// ================================================== Drive Subsystem Configuration ==================================================================== //				
 		
@@ -148,6 +149,8 @@ public class Robot extends MDRobotBase {
 				.configure()
 		);
 */
+		
+				
 				
 		add(new AutonomousSubsystem(this, "autoSubsystem")
 				.add("scenario1Speed", new DoubleConfigSetting(0.0, 1.0, 0.5))
@@ -166,6 +169,9 @@ public class Robot extends MDRobotBase {
 				.add(ClawSubsystem.extendclawMotorName, new WPI_TalonSRX(6))
 				.add("clawSpeed", new DoubleConfigSetting(0.0, 1.0, 0.5))
 				.configure();
+				
+		initAutoCommands();
+		
 	}
 		
 		private void initAutoCommands(){
@@ -187,6 +193,8 @@ public class Robot extends MDRobotBase {
 //			autoCommandArray[11] = new  AUTOPosThree_RRR(this,"AUTOPosThree_RRR");
 
 			setAutonomousCommand(autoCommandArray, "AUTOPosOne_LLL"); 
+			
+
 		
 		debug("\n \n \n Done configuring the Robot.");
 		debug("Printing the state of the Robot...");
