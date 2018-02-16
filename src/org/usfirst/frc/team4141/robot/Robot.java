@@ -4,6 +4,7 @@ package org.usfirst.frc.team4141.robot;
 import java.util.Hashtable;
 
 import org.usfirst.frc.team4141.MDRobotBase.MDCommand;
+import org.usfirst.frc.team4141.MDRobotBase.MDCommandGroup;
 import org.usfirst.frc.team4141.MDRobotBase.sensors.MD_BuiltInAccelerometer;
 import org.usfirst.frc.team4141.MDRobotBase.sensors.MD_IMU;
 import org.usfirst.frc.team4141.MDRobotBase.MDRobotBase;
@@ -11,6 +12,7 @@ import org.usfirst.frc.team4141.MDRobotBase.MDSubsystem;
 import org.usfirst.frc.team4141.MDRobotBase.config.DoubleConfigSetting;
 import org.usfirst.frc.team4141.MDRobotBase.config.StringConfigSetting;
 import org.usfirst.frc.team4141.robot.Robot.fieldPosition;
+import org.usfirst.frc.team4141.robot.autocommands.DriveDistanceCommand;
 import org.usfirst.frc.team4141.robot.autocommands.AUTOPosOne_LLL;
 import org.usfirst.frc.team4141.robot.autocommands.AUTOPosOne_LRL;
 import org.usfirst.frc.team4141.robot.autocommands.AUTOPosOne_RLR;
@@ -167,22 +169,22 @@ public class Robot extends MDRobotBase {
 	}
 		
 		private void initAutoCommands(){
-			MDCommand[] autoCommandArray = new MDCommand[];
+			MDCommandGroup[] autoCommandArray = new MDCommandGroup[1];
 			//autoCommandArray[0] = new  MDPrintCommand(this,"AutonomousCommand","AutonomousCommand message");
 			autoCommandArray[0] = new  AUTOPosOne_LLL(this,"AUTOPosOne_LLL");
-			autoCommandArray[1] = new  AUTOPosOne_LRL(this,"AUTOPosOne_LRL");
-			autoCommandArray[2] = new  AUTOPosOne_RLR(this,"AUTOPosOne_RLR");
-			autoCommandArray[3] = new  AUTOPosOne_RRR(this,"AUTOPosOne_RRR");
-			
-			autoCommandArray[4] = new  AUTOPosTwo_LLL(this,"AUTOPosTwo_LLL");
-			autoCommandArray[5] = new  AUTOPosTwo_LRL(this,"AUTOPosTwo_LRL");
-			autoCommandArray[6] = new  AUTOPosTwo_RLR(this,"AUTOPosTwo_RLR");
-			autoCommandArray[7] = new  AUTOPosTwo_RRR(this,"AUTOPosTwo_RRR");
-			
-			autoCommandArray[8] = new  AUTOPosThree_LLL(this,"AUTOPosThree_LLL");
-			autoCommandArray[9] = new  AUTOPosThree_LRL(this,"AUTOPosThree_LRL");
-			autoCommandArray[10] = new  AUTOPosThree_RLR(this,"AUTOPosThree_RLR");
-			autoCommandArray[11] = new  AUTOPosThree_RRR(this,"AUTOPosThree_RRR");
+//			autoCommandArray[1] = new  AUTOPosOne_LRL(this,"AUTOPosOne_LRL");
+//			autoCommandArray[2] = new  AUTOPosOne_RLR(this,"AUTOPosOne_RLR");
+//			autoCommandArray[3] = new  AUTOPosOne_RRR(this,"AUTOPosOne_RRR");
+//			
+//			autoCommandArray[4] = new  AUTOPosTwo_LLL(this,"AUTOPosTwo_LLL");
+//			autoCommandArray[5] = new  AUTOPosTwo_LRL(this,"AUTOPosTwo_LRL");
+//			autoCommandArray[6] = new  AUTOPosTwo_RLR(this,"AUTOPosTwo_RLR");
+//			autoCommandArray[7] = new  AUTOPosTwo_RRR(this,"AUTOPosTwo_RRR");
+//			
+//			autoCommandArray[8] = new  AUTOPosThree_LLL(this,"AUTOPosThree_LLL");
+//			autoCommandArray[9] = new  AUTOPosThree_LRL(this,"AUTOPosThree_LRL");
+//			autoCommandArray[10] = new  AUTOPosThree_RLR(this,"AUTOPosThree_RLR");
+//			autoCommandArray[11] = new  AUTOPosThree_RRR(this,"AUTOPosThree_RRR");
 
 			setAutonomousCommand(autoCommandArray, "AUTOPosOne_LLL"); 
 		
