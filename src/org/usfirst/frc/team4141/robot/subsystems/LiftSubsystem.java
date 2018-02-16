@@ -14,11 +14,13 @@ import edu.wpi.first.wpilibj.SpeedController;
  */
 public class LiftSubsystem extends MDSubsystem {
 	
-	private double liftSpeed=0.75;
+	private double liftSpeed=1;
 	private SpeedController liftSpeedController;
-	public static String motorName="liftSpeedController";
+	public static String liftMotor1="liftSpeedController";
 	private double governor = 1.0;
 	
+	private SpeedController liftSpeedController2;
+	public static String liftMotor2="liftSpeedController2";
 	// ------------------------------------------------ //
 	
 	/**
@@ -34,9 +36,13 @@ public class LiftSubsystem extends MDSubsystem {
 		//setCore(true);
 		
 		if(getMotors()==null 
-				|| !getMotors().containsKey(motorName))
+				|| !getMotors().containsKey(liftMotor1))
 			throw new IllegalArgumentException("Invalid motor configuration for Lift system.");
-		liftSpeedController = (SpeedController)(getMotors().get(motorName));
+		liftSpeedController = (SpeedController)(getMotors().get(liftMotor1));
+		if(getMotors()==null 
+				|| !getMotors().containsKey(liftMotor2))
+			throw new IllegalArgumentException("Invalid motor configuration for Lift system.");
+		liftSpeedController2 = (SpeedController)(getMotors().get(liftMotor2));
 	return this;
 }
 	
@@ -69,30 +75,40 @@ public class LiftSubsystem extends MDSubsystem {
 //		  	differentialDrive.tankDrive(-speeds[0], -speeds[1]);
 //		}
 //		
-	public void raise(Joystick xbox){
+	public void lift(Joystick xbox){
 		//positive speed=wind
 		//negative speed=unwind
-		double liftAxisValue = xbox.getRawAxis(2);
-		double upwardSpeed = (liftAxisValue)*(1.0-(1.0-governor));
-		liftSpeedController.set(upwardSpeed);
-		debug("lift speed is at " + upwardSpeed);
+		double upwardAxisValue = xbox.getRawAxis(2);
+		double upwardSpeed = (upwardAxisValue)*(1.0-(1.0-governor));
+		double downwardAxisValue = xbox.getRawAxis(3);
+		double downwardSpeed = (downwardAxisValue)*(1.0-(1.0-governor));
+		double moveSpeed = upwardSpeed-downwardSpeed;
+		liftSpeedController.set(moveSpeed);
+		liftSpeedController2.set(moveSpeed);
+		debug("lift speed is at " + moveSpeed);
 	}
 	
 	/**
 	 * This calls the variable ropeController to go in a negative direction
 	 * which lowers the robot down the rope.
 	 */
-	public void lower(){
-		//positive speed=wind
-		//negative speed=unwind
-		liftSpeedController.set(-liftSpeed);
-	}
-	
+//	public void lower(Joystick xbox){
+//		//positive speed=wind
+//		//negative speed=unwind
+////		liftSpeedController.set(-liftSpeed);
+//		double liftAxisValue = xbox.getRawAxis(3);
+//		double downwardSpeed = (liftAxisValue)*(1.0-(1.0-governor));
+//		liftSpeedController.set(downwardSpeed);
+//		liftSpeedController2.set(downwardSpeed);
+//		debug("lift speed is at " + downwardSpeed);
+//	}
+//	
 	/**
 	 * This calls the variable ropeController to halt its speed to 0.
 	 */
 	public void stop(){
 		liftSpeedController.set(0);
+		liftSpeedController2.set(0);
 		// doesn't stop motor when OI has  whenPressed
 		
 	}

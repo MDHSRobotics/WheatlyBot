@@ -17,7 +17,7 @@ import org.usfirst.frc.team4141.robot.subsystems.LiftSubsystem;
  * 
  * @see RopeSubsystem
  */
-public class RiseCommand extends MDCommand {
+public class LiftCommand extends MDCommand {
 	
 	private LiftSubsystem liftSubsystem;
 	
@@ -33,8 +33,8 @@ public class RiseCommand extends MDCommand {
 	 * @param name the default name used after the string in the constructor
 	 * @return true if the ropeSubsystem is found, false if not.
 	 */
-	public RiseCommand(MDRobotBase robot) {
-		super(robot, "RiseCommand");
+	public LiftCommand(MDRobotBase robot) {
+		super(robot, "LiftCommand");
 		if(!getRobot().getSubsystems().containsKey("liftSubsystem")){
 			log(Level.ERROR, "initialize()", "lift subsystem not found");
 			throw new IllegalArgumentException("lift Subsystem not found");
@@ -70,8 +70,8 @@ public class RiseCommand extends MDCommand {
 	 * it reads no input from the driver. 
 	 */
 	protected void execute() {
-		if (liftSubsystem!=null)liftSubsystem.raise(xbox);
-		log(Level.DEBUG,"execute()","Raiseing");
+		if (liftSubsystem!=null)liftSubsystem.lift(xbox);
+		log(Level.DEBUG,"execute()","Lifting");
 	}
 	
 	/**

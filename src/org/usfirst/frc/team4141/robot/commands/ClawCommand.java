@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4141.robot.commands;
 
 import org.usfirst.frc.team4141.MDRobotBase.MDCommand;
+import org.usfirst.frc.team4141.MDRobotBase.MDJoystick;
 import org.usfirst.frc.team4141.MDRobotBase.MDRobotBase;
 import org.usfirst.frc.team4141.MDRobotBase.eventmanager.LogNotification.Level;
 import org.usfirst.frc.team4141.robot.subsystems.ClawSubsystem;
@@ -14,7 +15,7 @@ import org.usfirst.frc.team4141.robot.subsystems.ClawSubsystem;
  * 
  * @see RopeSubsystem
  */
-public class OpenClaw extends MDCommand {
+public class ClawCommand extends MDCommand {
 	
 	private ClawSubsystem clawSubsystem;
 	
@@ -30,14 +31,14 @@ public class OpenClaw extends MDCommand {
 	 * @param name the default name used after the string in the constructor
 	 * @return true if the ropeSubsystem is found, false if not.
 	 */
-	public OpenClaw(MDRobotBase robot, String name) {
-		super(robot, name);
-//		if(!getRobot().getSubsystems().containsKey("clawSubsystem")){
-//			log(Level.ERROR, "initialize()", "Claw subsystem not found");
-//			throw new IllegalArgumentException("Claw Subsystem not found");
-//		}
-//		clawSubsystem = (ClawSubsystem)getRobot().getSubsystems().get("clawSubsystem"); 
-//		requires(clawSubsystem);
+	public ClawCommand(MDRobotBase robot) {
+		super(robot, "ClawCommand");
+		if(!getRobot().getSubsystems().containsKey("clawSubsystem")){
+			log(Level.ERROR, "initialize()", "Claw subsystem not found");
+			throw new IllegalArgumentException("Claw Subsystem not found");
+		}
+		clawSubsystem = (ClawSubsystem)getRobot().getSubsystems().get("clawSubsystem"); 
+		requires(clawSubsystem);
 	}
 
 	// ------------------------------------------------ //
@@ -45,7 +46,11 @@ public class OpenClaw extends MDCommand {
 	/**
 	 * When the command first starts nothing happens.
 	 */
+	private MDJoystick xbox = null;
+	
 	protected void initialize() {
+		super.initialize();
+		xbox = getRobot().getOi().getJoysticks().get("xbox");
 		}
 	
 	/**
@@ -62,8 +67,8 @@ public class OpenClaw extends MDCommand {
 	 * it reads no input from the driver. 
 	 */
 	protected void execute() {
-		if (clawSubsystem!=null)clawSubsystem.open();
-		log(Level.DEBUG,"execute()","Opening");
+		if (clawSubsystem!=null)clawSubsystem.claw(xbox);
+		log(Level.DEBUG,"execute()","Clawing");
 	}
 	
 	/**
@@ -72,7 +77,7 @@ public class OpenClaw extends MDCommand {
 	 */
 	@Override
 		protected void end() {
-			
+		super.end();
 		clawSubsystem.stop();
 			
 		}
