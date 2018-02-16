@@ -66,6 +66,7 @@ public class MDDriveSubsystem extends MDSubsystem {
 	private double encoderDistance; // <--- Placeholder
 	private MDDriveSubsystem driveSystem;
 	private TankDriveInterpolator interpolator = new TankDriveInterpolator();
+//	Talon talon =new Talon(1);
 //	CANTalon talon =  MDDriveSubsystem.TalonPosition.frontLeft;
 	
 //	private double F=0.0;
@@ -305,13 +306,17 @@ public class MDDriveSubsystem extends MDSubsystem {
 		default:
 		 // double rightTriggerValue = joystick.getRawAxis(3);
 		 //	double leftTriggerValue = -joystick.getRawAxis(2);
-			double forwardAxisValue = -joystick.getRawAxis(1);
+			//added minus sign
+			double forwardAxisValue = joystick.getRawAxis(1);
 			double forward = (forwardAxisValue)*(1.0-(1.0-governor));
-		  	double rotate = -joystick.getRawAxis(2); //(Changed to accompass shifting w/controller and deadzoned)
+		  	double rotate = joystick.getRawAxis(2); //(Changed to accompass shifting w/controller and deadzoned)
 	  	  //debug("forward = " + forward + ", rotate = " + rotate);
+		  	if(rotate>0){
+		  		System.out.print("turning");
+		  	}
 		  	double[] speeds = interpolator.calculate(forward, rotate);
 		    //debug("left: "+speeds[0]+", right: "+speeds[1]);
-		  	differentialDrive.tankDrive(-speeds[0], -speeds[1]);
+		  	differentialDrive.tankDrive(speeds[0], speeds[1]);
 		}
 	}
 	
@@ -343,8 +348,8 @@ public class MDDriveSubsystem extends MDSubsystem {
 	protected void setUp() {
 		//called after configuration is completed
 		if(getConfigSettings().containsKey("governor")) governor = getConfigSettings().get("governor").getDouble();
-		if(getConfigSettings().containsKey("highSpeed")) interpolator.setA(getConfigSettings().get("highSpeed").getDouble());
-		if(getConfigSettings().containsKey("lowSpeed")) interpolator.setB(getConfigSettings().get("lowSpeed").getDouble());
+		if(getConfigSettings().containsKey("forwardSpeed")) interpolator.setA(getConfigSettings().get("forwardSpeed").getDouble());
+		if(getConfigSettings().containsKey("rotateSpeed")) interpolator.setB(getConfigSettings().get("rotateSpeed").getDouble());
 //		if(getConfigSettings().containsKey("F")) F = getConfigSettings().get("F").getDouble();
 //		if(getConfigSettings().containsKey("P")) P = getConfigSettings().get("P").getDouble();
 //		if(getConfigSettings().containsKey("I")) I = getConfigSettings().get("I").getDouble();
@@ -360,8 +365,8 @@ public class MDDriveSubsystem extends MDSubsystem {
 	@Override
 	public void settingChangeListener(ConfigSetting changedSetting) {
 		if(changedSetting.getName().equals("governor")) governor = changedSetting.getDouble();
-		if(changedSetting.getName().equals("highSpeed")) interpolator.setA(changedSetting.getDouble());
-		if(changedSetting.getName().equals("lowSpeed")) interpolator.setB(changedSetting.getDouble());
+		if(changedSetting.getName().equals("forwardSpeed")) interpolator.setA(changedSetting.getDouble());
+		if(changedSetting.getName().equals("rotateSpeed")) interpolator.setB(changedSetting.getDouble());
 //		if(changedSetting.getName().equals("F")) F = changedSetting.getDouble();
 //		if(changedSetting.getName().equals("P")) P = changedSetting.getDouble()*pidFactor;
 //		if(changedSetting.getName().equals("I")) I = changedSetting.getDouble()*pidFactor;

@@ -26,11 +26,14 @@ import org.usfirst.frc.team4141.robot.autocommands.AUTOPosTwo_LRL;
 import org.usfirst.frc.team4141.robot.autocommands.AUTOPosTwo_RLR;
 import org.usfirst.frc.team4141.robot.autocommands.AUTOPosTwo_RRR;
 import org.usfirst.frc.team4141.robot.commands.ArcadeDriveCommand;
+import org.usfirst.frc.team4141.robot.commands.ClawCommand;
+import org.usfirst.frc.team4141.robot.commands.ExtendCommand;
 import org.usfirst.frc.team4141.robot.commands.MDPrintCommand;
-import org.usfirst.frc.team4141.robot.commands.RiseCommand;
+import org.usfirst.frc.team4141.robot.commands.LiftCommand;
 import org.usfirst.frc.team4141.robot.subsystems.AutonomousSubsystem;
 import org.usfirst.frc.team4141.robot.subsystems.ClawSubsystem;
 import org.usfirst.frc.team4141.robot.subsystems.CoreSubsystem;
+import org.usfirst.frc.team4141.robot.subsystems.ExtendSubsystem;
 import org.usfirst.frc.team4141.robot.subsystems.LiftSubsystem;
 import org.usfirst.frc.team4141.robot.subsystems.MDDriveSubsystem;
 import org.usfirst.frc.team4141.robot.subsystems.MDDriveSubsystem.MotorPosition;
@@ -57,8 +60,15 @@ public class Robot extends MDRobotBase {
 	
 	public void teleopInit() {
 		super.teleopInit();
-		RiseCommand riseCommand = new RiseCommand(this);
-		riseCommand.start();
+
+		LiftCommand liftCommand = new LiftCommand(this);
+		liftCommand.start();
+		ExtendCommand extendCommand = new ExtendCommand(this);
+		extendCommand.start();
+		ClawCommand clawCommand = new ClawCommand(this);
+		clawCommand.start();
+
+
 	}
 	
 	public enum fieldPosition {
@@ -99,21 +109,24 @@ public class Robot extends MDRobotBase {
 
 		MDDriveSubsystem driveSubsystem = new MDDriveSubsystem(this, "driveSystem", Type.TankDrive);
 		add(driveSubsystem);
-			
-//				   DriveSystem factors including Gyro and Accelerometer
-				// ==================================================== //
-				driveSubsystem.add("accelerometer", new MD_BuiltInAccelerometer());
-				driveSubsystem.add("IMU", new MD_IMU())
 
-//						Initial Driving Motors (Kind of important)
-				// ==================================================== //				
-				.add(MotorPosition.left, new WPI_TalonSRX(4))
-				.add(MotorPosition.right, new WPI_TalonSRX(3))
-				
-//				Speed Governor limits how fast the driving speed (1.0 = 100%)
-				// ==================================================== //
-				.add("highSpeed", new DoubleConfigSetting(0.0, 1.0, 0.25)) //High Speed - Turn Factor
-		 	    .add("lowSpeed", new DoubleConfigSetting(0.0, 1.0, 0.4)) //Slow Speed - Turn Factor
+//		System.out.println("Hashtable after adding drive");
+//		Hashtable<String, MDSubsystem> ht = this.getSubsystems();
+//		System.out.println(ht.toString());
+		driveSubsystem.add("accelerometer", new MD_BuiltInAccelerometer());
+//		System.out.println("\nMDDrive after adding accelerometer");
+//		System.out.println(driveSubsystem.toString());
+		driveSubsystem.add("IMU", new MD_IMU())
+				.add(MotorPosition.frontLeft, new WPI_TalonSRX(1))
+				.add(MotorPosition.frontRight, new WPI_TalonSRX(3))
+				.add(MotorPosition.rearLeft, new WPI_TalonSRX(2))
+				.add(MotorPosition.rearRight, new WPI_TalonSRX(4))
+				//.add("Drive-F", new DoubleConfigSetting(0.0, 1.0, 0.0))
+		 	    //.add("Drive-P", new DoubleConfigSetting(0.0, 1.0, 0.1))
+				//.add("Drive-I", new DoubleConfigSetting(0.0, 1.0, 0.8))
+				//.add("Drive-D", new DoubleConfigSetting(0.0, 1.0, 0.1))
+				.add("forwardSpeed", new DoubleConfigSetting(0.0, 1.0, 0.25)) //High Speed - Turn Factor
+		 	    .add("rotateSpeed", new DoubleConfigSetting(0.0, 1.0, 1.0)) //Slow Speed - Turn Factor
 				.add("governor", new DoubleConfigSetting(0.0, 1.0, 1.0)); //Speed Governor
 
 // 							These are used for MecanumDrive
@@ -158,16 +171,22 @@ public class Robot extends MDRobotBase {
 		);
 		
 		add(new LiftSubsystem(this, "liftSubsystem")
-				.add(LiftSubsystem.motorName, new WPI_TalonSRX(1))
-				.add("liftSpeed", new DoubleConfigSetting(0.0, 1.0, 0.5))
+				.add(LiftSubsystem.liftMotor1, new WPI_TalonSRX(7))
+				.add(LiftSubsystem.liftMotor2, new WPI_TalonSRX(8))
+				.add("liftSpeed", new DoubleConfigSetting(0.0, 1.0, 1.0))
 				.configure()
 		);
 		
 		ClawSubsystem clawSubsystem = new ClawSubsystem(this, "clawSubsystem");
 		add(clawSubsystem);
 		clawSubsystem.add(ClawSubsystem.clawMotorName, new WPI_TalonSRX(5))
-				.add(ClawSubsystem.extendclawMotorName, new WPI_TalonSRX(6))
-				.add("clawSpeed", new DoubleConfigSetting(0.0, 1.0, 0.5))
+				.add("clawSpeed", new DoubleConfigSetting(0.0, 1.0, 1.0))
+				.configure();
+		
+		ExtendSubsystem extendSubsystem = new ExtendSubsystem(this, "extendSubsystem");
+		add(extendSubsystem);
+				extendSubsystem.add(ExtendSubsystem.extendclawMotorName, new WPI_TalonSRX(6))
+				.add("extendSpeed", new DoubleConfigSetting(0.0, 1.0, 1.0))
 				.configure();
 				
 		initAutoCommands();

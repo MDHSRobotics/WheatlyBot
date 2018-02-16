@@ -4,6 +4,7 @@ import org.usfirst.frc.team4141.MDRobotBase.MDRobotBase;
 import org.usfirst.frc.team4141.MDRobotBase.MDSubsystem;
 import org.usfirst.frc.team4141.MDRobotBase.config.ConfigSetting;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SpeedController;
 
 /********************************************************************
@@ -20,10 +21,8 @@ public class ClawSubsystem extends MDSubsystem {
 	private double clawSpeed=0.75;
 	private SpeedController clawSpeedController;
 	public static String clawMotorName="clawSpeedController";
+	private double governor = 1.0;
 	
-	private double extendSpeed=0.45;
-	private SpeedController extendSpeedController;
-	public static String extendclawMotorName="extendSpeedController";
 	// ------------------------------------------------ //
 	
 	/**
@@ -42,7 +41,6 @@ public class ClawSubsystem extends MDSubsystem {
 				|| !getMotors().containsKey(clawMotorName))
 			throw new IllegalArgumentException("Invalid motor configuration for Claw system.");
 		clawSpeedController = (SpeedController)(getMotors().get(clawMotorName));
-		extendSpeedController = (SpeedController)(getMotors().get(extendclawMotorName));
 	return this;
 	
 	
@@ -65,20 +63,17 @@ public class ClawSubsystem extends MDSubsystem {
 	 * This calls the variable ropeController to go in a positive direction
 	 * which raises the robot up the rope.
 	 */
-	public void open(){
+	public void claw(Joystick xbox){
 		//positive speed=wind
 		//negative speed=unwind
-		clawSpeedController.set(clawSpeed);
-	}
-	
-	/**
-	 * This calls the variable ropeController to go in a negative direction
-	 * which lowers the robot down the rope.
-	 */
-	public void close(){
-		//positive speed=wind
-		//negative speed=unwind
-		clawSpeedController.set(-clawSpeed);
+		double upwardAxisValue = xbox.getRawAxis(5);
+		double upwardSpeed = (upwardAxisValue)*(1.0-(1.0-governor));
+//		double downwardAxisValue = xbox.getRawAxis(3);
+//		double downwardSpeed = (downwardAxisValue)*(1.0-(1.0-governor));
+//		double moveSpeed = upwardSpeed-downwardSpeed;
+		clawSpeedController.set(upwardSpeed);
+		debug("lift speed is at " + upwardSpeed);
+//		clawSpeedController.set(clawSpeed);
 	}
 	
 	/**
@@ -86,22 +81,6 @@ public class ClawSubsystem extends MDSubsystem {
 	 */
 	public void stop(){
 		clawSpeedController.set(0);
-		
-	}
-	
-	public void extend(){
-		extendSpeedController.set(extendSpeed);
-	}
-	
-	
-	public void retract(){
-		extendSpeedController.set(-extendSpeed);
-		
-	}
-	
-	
-	public void stopextend(){
-		extendSpeedController.stopMotor();
 		
 	}
 	// ------------------------------------------------ //
@@ -113,7 +92,7 @@ public class ClawSubsystem extends MDSubsystem {
 	@Override
 	protected void setUp() {
 		if(getConfigSettings().containsKey("clawSpeed")) clawSpeed = getConfigSettings().get("clawSpeed").getDouble();
-		
+		if(getConfigSettings().containsKey("governor")) governor = getConfigSettings().get("governor").getDouble();
 	}
 
 	/**
@@ -124,7 +103,7 @@ public class ClawSubsystem extends MDSubsystem {
 	@Override
 	public void settingChangeListener(ConfigSetting changedSetting) {
 		if(changedSetting.getName().equals("clawSpeed")) clawSpeed = changedSetting.getDouble();
-
+		if(changedSetting.getName().equals("governor")) governor = changedSetting.getDouble();
 	}
 
 	/**

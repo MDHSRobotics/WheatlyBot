@@ -1,9 +1,11 @@
 package org.usfirst.frc.team4141.robot.commands;
 
 import org.usfirst.frc.team4141.MDRobotBase.MDCommand;
+import org.usfirst.frc.team4141.MDRobotBase.MDJoystick;
 import org.usfirst.frc.team4141.MDRobotBase.MDRobotBase;
 import org.usfirst.frc.team4141.MDRobotBase.eventmanager.LogNotification.Level;
 import org.usfirst.frc.team4141.robot.subsystems.ClawSubsystem;
+import org.usfirst.frc.team4141.robot.subsystems.ExtendSubsystem;
 
 
 /**
@@ -16,7 +18,7 @@ import org.usfirst.frc.team4141.robot.subsystems.ClawSubsystem;
  */
 public class ExtendCommand extends MDCommand {
 	
-	private ClawSubsystem clawSubsystem;
+	private ExtendSubsystem extendSubsystem;
 	
 	// ------------------------------------------------ //
 	
@@ -30,16 +32,16 @@ public class ExtendCommand extends MDCommand {
 	 * @param name the default name used after the string in the constructor
 	 * @return true if the ropeSubsystem is found, false if not.
 	 */
-	public ExtendCommand(MDRobotBase robot, String name) {
-		super(robot, name);
+	public ExtendCommand(MDRobotBase robot) {
+		super(robot, "ExtendCommand");
 		if(!getRobot().getSubsystems().containsKey("clawSubsystem")){
 			log(Level.ERROR, "initialize()", "Claw subsystem not found");
 			throw new IllegalArgumentException("Claw Subsystem not found");
 		}
-		clawSubsystem = (ClawSubsystem)getRobot().getSubsystems().get("clawSubsystem"); 
-		requires(clawSubsystem);
+		extendSubsystem = (ExtendSubsystem)getRobot().getSubsystems().get("extendSubsystem"); 
+		requires(extendSubsystem);
 		System.out.println("Extend Command Constructor");
-		System.out.println(clawSubsystem.toString());
+		System.out.println(extendSubsystem.toString());
 		
 	}
 
@@ -48,7 +50,12 @@ public class ExtendCommand extends MDCommand {
 	/**
 	 * When the command first starts nothing happens.
 	 */
+	
+	private MDJoystick xbox = null;
+	
 	protected void initialize() {
+		super.initialize();
+		xbox = getRobot().getOi().getJoysticks().get("xbox");
 		}
 	
 	/**
@@ -65,8 +72,7 @@ public class ExtendCommand extends MDCommand {
 	 * it reads no input from the driver. 
 	 */
 	protected void execute() {
-		System.out.println("In extend Command.execute " + clawSubsystem.getName());
-		if (clawSubsystem!=null)clawSubsystem.extend();
+		if (extendSubsystem!=null)extendSubsystem.extend(xbox);
 		log(Level.DEBUG,"execute()","Extending");
 }
 	
@@ -76,7 +82,7 @@ public class ExtendCommand extends MDCommand {
 	 */
 	@Override
 		protected void end() {
-		clawSubsystem.stopextend();
-			
+		super.end();
+		extendSubsystem.stopextend();
 		}
 }

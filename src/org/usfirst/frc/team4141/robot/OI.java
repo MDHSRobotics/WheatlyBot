@@ -7,15 +7,23 @@ import org.usfirst.frc.team4141.MDRobotBase.MDJoystick;
 import org.usfirst.frc.team4141.MDRobotBase.MDRobotBase;
 import org.usfirst.frc.team4141.MDRobotBase.OIBase;
 import org.usfirst.frc.team4141.MDRobotBase.RioHID;
+<<<<<<< HEAD
 import org.usfirst.frc.team4141.robot.autocommands.AUTOPosOne_LLL;
 // Commands
 import org.usfirst.frc.team4141.robot.commands.CloseClaw;
+=======
+>>>>>>> refs/heads/master
 import org.usfirst.frc.team4141.robot.commands.ExtendCommand;
+<<<<<<< HEAD
 import org.usfirst.frc.team4141.robot.commands.LowerCommand;
+=======
+//import org.usfirst.frc.team4141.robot.commands.MDMoveCommand;
+//import org.usfirst.frc.team4141.robot.commands.MDMoveCommand.Direction;
+>>>>>>> refs/heads/master
 import org.usfirst.frc.team4141.robot.commands.MDPrintCommand;
-import org.usfirst.frc.team4141.robot.commands.OpenClaw;
-import org.usfirst.frc.team4141.robot.commands.RetractCommand;
-import org.usfirst.frc.team4141.robot.commands.RiseCommand;
+import org.usfirst.frc.team4141.robot.commands.ClawCommand;
+import org.usfirst.frc.team4141.robot.commands.LiftCommand;
+import org.usfirst.frc.team4141.robot.commands.ToggleOrientationCommand;
 
 // ===================================================================== Unused Imports ===================================================================== //
 // import org.usfirst.frc.team4141.robot.commands.MDMoveCommand;
@@ -61,15 +69,22 @@ public class OI extends OIBase{
 */
 		
 		add(new MDJoystick(getRobot(), "joystick", 0)
-			.whenPressed("rightBumper",5,new MDPrintCommand(getRobot(),"Right Bumper Command","Right Bumper Command message"))
-			.whileHeld("leftBumper",6,new MDPrintCommand(getRobot(),"Left Bumper Command","Left Bumper Command message"))
-			.whileHeld("5",5,new RiseCommand(getRobot()))
-			.whileHeld("3",3,new LowerCommand(getRobot(),"LowerCommand"))
-			.whileHeld("6",6,new OpenClaw(getRobot(),"OpenClaw"))
-			.whileHeld("4",4,new CloseClaw(getRobot(),"CloseClaw"))
-			.whileHeld("1",1,new ExtendCommand(getRobot(),"ExtendCommand"))
-			.whileHeld("2",2,new RetractCommand(getRobot(),"RetractCommand"))
-			//.whenPressed("7",7,new AUTOPosOne_LLL(getRobot(), "AUTOPosOne_LLL"))
+
+			//.whenPressed("rightBumper",5,new MDPrintCommand(getRobot(),"Right Bumper Command","Right Bumper Command message"))
+			//.whileHeld("leftBumper",6,new MDPrintCommand(getRobot(),"Left Bumper Command","Left Bumper Command message"))
+		    //the following commands are test move commands useful in testing drive configuration and set up
+		    //comment out and replace as needed
+			//.whenPressed("X",1,new MDMoveCommand(getRobot(),"left command",Direction.left))
+			//.whenPressed("A",2,new MDMoveCommand(getRobot(),"reverse command",Direction.reverse))
+			//.whenPressed("B",3,new MDMoveCommand(getRobot(),"right command",Direction.right))
+			//.whenPressed("Y",4,new MDMoveCommand(getRobot(),"forward command",Direction.forward))
+//			.whileHeld("5",5,new RiseCommand(getRobot(),"RiseCommand"))
+//			.whileHeld("3",3,new LowerCommand(getRobot(),"LowerCommand"))
+//			.whileHeld("6",6,new OpenClaw(getRobot(),"OpenClaw"))
+//			.whileHeld("4",4,new CloseClaw(getRobot(),"CloseClaw"))
+//			.whileHeld("1",1,new ExtendCommand(getRobot(),"ExtendCommand"))
+//			.whileHeld("2",2,new RetractCommand(getRobot(),"RetractCommand"))
+			.whenPressed("5",5,new ToggleOrientationCommand(getRobot(), "ToggleOrientationCommand"))
 			.configure()
 		);
 		
@@ -96,12 +111,9 @@ public class OI extends OIBase{
 //          We add commands here that will show up as buttons in the MDConsole
 		// ==================================================================== //
 		add(new ConsoleOI(getRobot())
-				.whileHeld("RiseCommand",5,new RiseCommand(getRobot()))
-				.whileHeld("LowerCommand",4,new LowerCommand(getRobot(),"LowerCommand"))
-				.whileHeld("OpenClaw",3,new OpenClaw(getRobot(),"CloseClaw"))
-				.whileHeld("CloseClaw",2,new CloseClaw(getRobot(),"CloseClaw"))
-				.whileHeld("ExtendCommand",1,new ExtendCommand(getRobot(),"ExtendCommand"))
-				.whileHeld("RetractCommand",0,new RetractCommand(getRobot(),"ExtendCommand"))
+				.whileHeld("LiftCommand",5,new LiftCommand(getRobot()))
+				.whileHeld("ClawCommand",3,new ClawCommand(getRobot()))
+				.whileHeld("ExtendCommand",1,new ExtendCommand(getRobot()))
 				.configure()
 			);		
 		
