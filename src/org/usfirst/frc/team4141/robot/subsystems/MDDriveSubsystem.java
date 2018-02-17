@@ -61,6 +61,10 @@ public class MDDriveSubsystem extends MDSubsystem {
 	private double speed = 0;
 	private double governor = 1.0;
 	private MD_IMU imu;
+	private double targetDistance; 
+	private double distanceInFeet;
+	private double encoderDistance; // <--- Placeholder
+	private MDDriveSubsystem driveSystem;
 	private TankDriveInterpolator interpolator = new TankDriveInterpolator();
 //	Talon talon =new Talon(1);
 //	CANTalon talon =  MDDriveSubsystem.TalonPosition.frontLeft;
@@ -373,6 +377,19 @@ public class MDDriveSubsystem extends MDSubsystem {
 
 	// ------------------------------------------------ //
 
+	
+	public void turn(double wantAngle){
+		double currentAngle = getAngle();
+		 
+		while(currentAngle < wantAngle){
+			driveSystem.right(speed);
+		}
+		while(currentAngle > wantAngle){
+			driveSystem.left(speed);
+		}
+	}
+	
+	
 	/**
 	 * This method calls the robot to make a right turn, 
 	 * which is mainly used for testing and maybe autonomous commands.
@@ -555,4 +572,8 @@ public class MDDriveSubsystem extends MDSubsystem {
 	}
 
 	// boolean isOn = false; // Why is this here? What is this? It doesn't link to anything.;
+
+
+
+
 

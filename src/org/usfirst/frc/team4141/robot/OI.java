@@ -1,24 +1,45 @@
 package org.usfirst.frc.team4141.robot;
 
-
+//===================================================================== Imported Systems ===================================================================== //
+// Base Systems
 import org.usfirst.frc.team4141.MDRobotBase.ConsoleOI;
 import org.usfirst.frc.team4141.MDRobotBase.MDJoystick;
 import org.usfirst.frc.team4141.MDRobotBase.MDRobotBase;
 import org.usfirst.frc.team4141.MDRobotBase.OIBase;
 import org.usfirst.frc.team4141.MDRobotBase.RioHID;
+<<<<<<< HEAD
+import org.usfirst.frc.team4141.robot.autocommands.AUTOPosOne_LLL;
+// Commands
+import org.usfirst.frc.team4141.robot.commands.CloseClaw;
+=======
+>>>>>>> refs/heads/master
 import org.usfirst.frc.team4141.robot.commands.ExtendCommand;
+<<<<<<< HEAD
+import org.usfirst.frc.team4141.robot.commands.LowerCommand;
+=======
 //import org.usfirst.frc.team4141.robot.commands.MDMoveCommand;
 //import org.usfirst.frc.team4141.robot.commands.MDMoveCommand.Direction;
+>>>>>>> refs/heads/master
 import org.usfirst.frc.team4141.robot.commands.MDPrintCommand;
 import org.usfirst.frc.team4141.robot.commands.ClawCommand;
 import org.usfirst.frc.team4141.robot.commands.LiftCommand;
 import org.usfirst.frc.team4141.robot.commands.ToggleOrientationCommand;
 
+// ===================================================================== Unused Imports ===================================================================== //
+// import org.usfirst.frc.team4141.robot.commands.MDMoveCommand;
+// import org.usfirst.frc.team4141.robot.commands.MDMoveCommand.Direction;
+
 
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
+ * 
+ * We use devices including but not limited to:
+ * 	Xbox Controller
+ * 	Flight Simulator Controller
+ * 
  */
+
 public class OI extends OIBase{
 	
 	public OI(MDRobotBase robot) {
@@ -29,19 +50,26 @@ public class OI extends OIBase{
 
 	public void configureOI(){
 		
-		//A robot should have 1 or more operator interfaces (OI)
-		//Typically, a robot will have at least 1 joystick and 1 console
+		/**
+		 * 
+		 * A robot should have 1 or more operator interfaces (OI)
+		 * Typically, a robot will have at least 1 joystick and 1 console (MDConsole in our instance)
+		 * We control what buttons are mapped in both the console and the joystick.
+		 * We configure the joysticks below.
+		 * 
+		 */	
+	
+					// === Joystick Mapping Structure === //
+/*
+     	add(new MDJoystick(getRobot(), "[joystickName]", [JOYSTICK NUMBER]);
+		    .("[JOYSTICK_BUTTON_NAME]",[JOYSTICK BUTTON NUMBER],new [COMMAND NAME]))
+			.whileHeld("[JOYSTICK_BUTTON_NAME]",[JOYSTICK BUTTON NUMBER],new [COMMAND NAME]))
+			.configure()
+		);
+*/
 		
-		//if using gamepad, the buttons are generally as follows:
-		// x is button 1
-		// a is button 2
-		// b is button 3
-		// y is button 4
-		
-		
-		
-		//Configure the joystick(s) here
 		add(new MDJoystick(getRobot(), "joystick", 0)
+
 			//.whenPressed("rightBumper",5,new MDPrintCommand(getRobot(),"Right Bumper Command","Right Bumper Command message"))
 			//.whileHeld("leftBumper",6,new MDPrintCommand(getRobot(),"Left Bumper Command","Left Bumper Command message"))
 		    //the following commands are test move commands useful in testing drive configuration and set up
@@ -61,14 +89,6 @@ public class OI extends OIBase{
 		);
 		
 		add(new MDJoystick(getRobot(), "xbox", 1)
-				//.whenPressed("rightBumper",5,new MDPrintCommand(getRobot(),"Right Bumper Command","Right Bumper Command message"))
-				//.whileHeld("leftBumper",6,new MDPrintCommand(getRobot(),"Left Bumper Command","Left Bumper Command message"))
-			    //the following commands are test move commands useful in testing drive configuration and set up
-			    //comment out and replace as needed
-				//.whenPressed("X",1,new MDMoveCommand(getRobot(),"left command",Direction.left))
-				//.whenPressed("A",2,new MDMoveCommand(getRobot(),"reverse command",Direction.reverse))
-				//.whenPressed("B",3,new MDMoveCommand(getRobot(),"right command",Direction.right))
-				//.whenPressed("Y",4,new MDMoveCommand(getRobot(),"forward command",Direction.forward))
 //				.whileHeld("5",5,new RiseCommand(getRobot(),"RiseCommand"))
 //				.whileHeld("6",6,new LowerCommand(getRobot(),"LowerCommand"))
 //				.whileHeld("3",3,new OpenClaw(getRobot(),"OpenClaw"))
@@ -78,15 +98,18 @@ public class OI extends OIBase{
 				.configure()
 			);
 
-		//Configure the RioHID here
-		// Uncomment the following to attach a command to the user button on the RoboRio
+//                               Configure the RioHID 
+//         Uncomment the following to attach a command to the user button on the RoboRIO. 
+		// ============================================================================= //
 		add(new RioHID(getRobot())
 			.whileHeld(new MDPrintCommand(getRobot(),"ExampleCommand1","ExampleCommand1 message"))
 			.configure()
 		);
 		
 		
-		//Configure the MDConsole OI here		
+//                         Configure the MDConsole "Joystick"
+//          We add commands here that will show up as buttons in the MDConsole
+		// ==================================================================== //
 		add(new ConsoleOI(getRobot())
 				.whileHeld("LiftCommand",5,new LiftCommand(getRobot()))
 				.whileHeld("ClawCommand",3,new ClawCommand(getRobot()))
@@ -99,3 +122,11 @@ public class OI extends OIBase{
 }  
 
 
+// ========================================== Unused Code ========================================== //
+
+// .whenPressed("X",1,new MDMoveCommand(getRobot(),"left command",Direction.left))
+// .whenPressed("A",2,new MDMoveCommand(getRobot(),"reverse command",Direction.reverse))
+// .whenPressed("B",3,new MDMoveCommand(getRobot(),"right command",Direction.right))
+// .whenPressed("Y",4,new MDMoveCommand(getRobot(),"forward command",Direction.forward))
+// .whenPressed("rightBumper",5,new MDPrintCommand(getRobot(),"Right Bumper Command","Right Bumper Command message"))
+// .whileHeld("leftBumper",6,new MDPrintCommand(getRobot(),"Left Bumper Command","Left Bumper Command message"))
