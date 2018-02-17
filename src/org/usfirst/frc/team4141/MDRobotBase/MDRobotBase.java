@@ -378,6 +378,7 @@ public abstract class MDRobotBase extends IterativeRobot{
 		else {
 			objectString += "Warning: comanndChooser hashtable not defined!";
 		}
+		objectString += "\n Currently set Auto Command Group is: " + this.getAutoCommand().getName();
 		
 		return objectString;
 	}

@@ -10,11 +10,11 @@ public class AUTOPosOne_LLL extends MDCommandGroup {
 
 	public AUTOPosOne_LLL(MDRobotBase robot, String name) {
 		super(robot, name);
-		addSequential(new DriveDistanceCommand(robot, "DriveDistanceCommand", 10, .5));
-//		addSequential(new TurnCommand(robot, "TurnCommand", 180, .5));
-//		addSequential(new DriveDistanceCommand(robot, "DriveDistanceCommand", 10, .5));
-//		addSequential(new TurnCommand(robot, "TurnCommand", 90, .5));
-//		addSequential(new DriveDistanceCommand(robot, "DriveDistanceCommand", 10, .5));
+		addSequential(new DriveDistanceCommand(robot, "STEP 1: DriveDistanceCommand", 10, .5));
+//		addSequential(new TurnCommand(robot, "STEP 2: TurnCommand", 180, .5));
+//		addSequential(new DriveDistanceCommand(robot, "STEP 3: DriveDistanceCommand", 10, .5));
+//		addSequential(new TurnCommand(robot, "STEP 4: TurnCommand", 90, .5));
+//		addSequential(new DriveDistanceCommand(robot, "STEP 5: DriveDistanceCommand", 10, .5));
 
 	}
 	
