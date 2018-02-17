@@ -7,19 +7,11 @@ import org.usfirst.frc.team4141.MDRobotBase.MDJoystick;
 import org.usfirst.frc.team4141.MDRobotBase.MDRobotBase;
 import org.usfirst.frc.team4141.MDRobotBase.OIBase;
 import org.usfirst.frc.team4141.MDRobotBase.RioHID;
-<<<<<<< HEAD
 import org.usfirst.frc.team4141.robot.autocommands.AUTOPosOne_LLL;
 // Commands
-import org.usfirst.frc.team4141.robot.commands.CloseClaw;
-=======
->>>>>>> refs/heads/master
 import org.usfirst.frc.team4141.robot.commands.ExtendCommand;
-<<<<<<< HEAD
-import org.usfirst.frc.team4141.robot.commands.LowerCommand;
-=======
 //import org.usfirst.frc.team4141.robot.commands.MDMoveCommand;
 //import org.usfirst.frc.team4141.robot.commands.MDMoveCommand.Direction;
->>>>>>> refs/heads/master
 import org.usfirst.frc.team4141.robot.commands.MDPrintCommand;
 import org.usfirst.frc.team4141.robot.commands.ClawCommand;
 import org.usfirst.frc.team4141.robot.commands.LiftCommand;
