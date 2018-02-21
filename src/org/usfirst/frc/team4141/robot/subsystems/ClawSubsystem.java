@@ -66,13 +66,13 @@ public class ClawSubsystem extends MDSubsystem {
 	public void claw(Joystick xbox){
 		//positive speed=wind
 		//negative speed=unwind
-		double upwardAxisValue = xbox.getRawAxis(5);
+		double upwardAxisValue = -xbox.getRawAxis(5);
 		double upwardSpeed = (upwardAxisValue)*(1.0-(1.0-governor));
 //		double downwardAxisValue = xbox.getRawAxis(3);
 //		double downwardSpeed = (downwardAxisValue)*(1.0-(1.0-governor));
 //		double moveSpeed = upwardSpeed-downwardSpeed;
 		clawSpeedController.set(upwardSpeed);
-		debug("lift speed is at " + upwardSpeed);
+//		debug("lift speed is at " + upwardSpeed);
 //		clawSpeedController.set(clawSpeed);
 	}
 	

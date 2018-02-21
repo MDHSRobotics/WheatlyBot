@@ -60,13 +60,15 @@ public class MDDriveSubsystem extends MDSubsystem {
 	private long gyroResetDuration = 150;
 	private double speed = 0;
 	private double governor = 1.0;
+	private double timeInS;
 	private MD_IMU imu;
 	private double targetDistance; 
 	private double distanceInFeet;
 	private double encoderDistance; // <--- Placeholder
 	private MDDriveSubsystem driveSystem;
 	private TankDriveInterpolator interpolator = new TankDriveInterpolator();
-//	Talon talon =new Talon(1);
+//	TalonSRX talon = new TalonSRX(1);
+	
 //	CANTalon talon =  MDDriveSubsystem.TalonPosition.frontLeft;
 	
 //	private double F=0.0;
@@ -108,6 +110,8 @@ public class MDDriveSubsystem extends MDSubsystem {
 	 */
 	public MDDriveSubsystem add(MotorPosition position,SpeedController speedController){
 		if(speedController instanceof PWM || speedController instanceof WPI_TalonSRX){
+//			((TalonSRX) speedController).configClosedloopRamp(timeInS, 10);
+//			((TalonSRX) speedController).configOpenloopRamp(timeInS, 10);
 			super.add(position.toString(),(SpeedController)speedController);
 		}
 		else
@@ -141,6 +145,24 @@ public class MDDriveSubsystem extends MDSubsystem {
 		return null;
 	}
 	
+	private void configureTalonSRX(MotorPosition motorPosition, MotorPosition motorToFollow){
+		TalonSRX speedController;
+		speedController = (TalonSRX) get(motorPosition);
+		if(motorPosition == motorToFollow){
+			//This is a master
+			System.out.println("The master is ramping: " + timeInS);
+			 speedController.configOpenloopRamp(timeInS, 10);
+		}else{
+			//this is a slave
+			System.out.println("The slave is ramping: " + timeInS);
+			TalonSRX speedControllerToFollow = (TalonSRX) get(motorToFollow);
+			speedController.follow(speedControllerToFollow);
+			speedController.configOpenloopRamp(timeInS, 0);
+		}
+//		((TalonSRX) speedController).configClosedloopRamp(timeInS, 10);
+//		((TalonSRX) speedController).configOpenloopRamp(timeInS, 10);
+	}
+	
 	/**
 	 * This method is used as a fail-safe to check that all the motors and sensors used in the
 	 * selected drive train is connected and ready to be used. If none of the items are connected 
@@ -168,6 +190,11 @@ public class MDDriveSubsystem extends MDSubsystem {
 						  || !getMotors().containsKey(MotorPosition.rearRight.toString()) || !getMotors().containsKey(MotorPosition.frontRight.toString())){
 					throw new IllegalArgumentException("Invalid MDDriveSubsystem TankDrive configuraton, missing motors.");
 				}
+				System.out.println(this.toString());
+				configureTalonSRX(MotorPosition.frontLeft, MotorPosition.rearLeft);			//slave
+				configureTalonSRX(MotorPosition.rearLeft, MotorPosition.rearLeft);			//master
+				configureTalonSRX(MotorPosition.frontRight, MotorPosition.frontRight);		//master
+				configureTalonSRX(MotorPosition.rearRight, MotorPosition.frontRight);		//slave
 				differentialDrive = new DifferentialDrive(new MultiSpeedController(new SpeedController[]{get(MotorPosition.rearLeft), get(MotorPosition.frontLeft)}),
 						new MultiSpeedController(new SpeedController[]{get(MotorPosition.rearRight), get(MotorPosition.frontRight)}));
 
@@ -309,14 +336,14 @@ public class MDDriveSubsystem extends MDSubsystem {
 			//added minus sign
 			double forwardAxisValue = joystick.getRawAxis(1);
 			double forward = (forwardAxisValue)*(1.0-(1.0-governor));
-		  	double rotate = joystick.getRawAxis(2); //(Changed to accompass shifting w/controller and deadzoned)
+		  	double rotate = -joystick.getRawAxis(2); //(Changed to accompass shifting w/controller and deadzoned)
 	  	  //debug("forward = " + forward + ", rotate = " + rotate);
 		  	if(rotate>0){
 		  		System.out.print("turning");
 		  	}
 		  	double[] speeds = interpolator.calculate(forward, rotate);
 		    //debug("left: "+speeds[0]+", right: "+speeds[1]);
-		  	differentialDrive.tankDrive(speeds[0], speeds[1]);
+		  	differentialDrive.tankDrive(-speeds[0], -speeds[1]);
 		}
 	}
 	
@@ -348,6 +375,7 @@ public class MDDriveSubsystem extends MDSubsystem {
 	protected void setUp() {
 		//called after configuration is completed
 		if(getConfigSettings().containsKey("governor")) governor = getConfigSettings().get("governor").getDouble();
+		if(getConfigSettings().containsKey("Ramp Time In seconds")) timeInS = getConfigSettings().get("Ramp Time In seconds").getDouble();
 		if(getConfigSettings().containsKey("forwardSpeed")) interpolator.setA(getConfigSettings().get("forwardSpeed").getDouble());
 		if(getConfigSettings().containsKey("rotateSpeed")) interpolator.setB(getConfigSettings().get("rotateSpeed").getDouble());
 //		if(getConfigSettings().containsKey("F")) F = getConfigSettings().get("F").getDouble();
@@ -365,6 +393,7 @@ public class MDDriveSubsystem extends MDSubsystem {
 	@Override
 	public void settingChangeListener(ConfigSetting changedSetting) {
 		if(changedSetting.getName().equals("governor")) governor = changedSetting.getDouble();
+		if(changedSetting.getName().equals("Ramp Time In seconds")) timeInS = changedSetting.getDouble();
 		if(changedSetting.getName().equals("forwardSpeed")) interpolator.setA(changedSetting.getDouble());
 		if(changedSetting.getName().equals("rotateSpeed")) interpolator.setB(changedSetting.getDouble());
 //		if(changedSetting.getName().equals("F")) F = changedSetting.getDouble();
@@ -564,7 +593,7 @@ public class MDDriveSubsystem extends MDSubsystem {
 		objectString += "\n Drive Type =" + type;
 		return objectString;
 	}
-	
+
 	/**
 	 * This method is still in the works.
 	 */

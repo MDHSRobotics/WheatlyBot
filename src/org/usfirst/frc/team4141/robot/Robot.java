@@ -125,6 +125,7 @@ public class Robot extends MDRobotBase {
 		 	    //.add("Drive-P", new DoubleConfigSetting(0.0, 1.0, 0.1))
 				//.add("Drive-I", new DoubleConfigSetting(0.0, 1.0, 0.8))
 				//.add("Drive-D", new DoubleConfigSetting(0.0, 1.0, 0.1))
+				.add("Ramp Time In seconds", new DoubleConfigSetting(0.0, 10.0, 1.0))
 				.add("forwardSpeed", new DoubleConfigSetting(0.0, 1.0, 0.25)) //High Speed - Turn Factor
 		 	    .add("rotateSpeed", new DoubleConfigSetting(0.0, 1.0, 1.0)) //Slow Speed - Turn Factor
 				.add("governor", new DoubleConfigSetting(0.0, 1.0, 1.0)); //Speed Governor
@@ -163,7 +164,7 @@ public class Robot extends MDRobotBase {
 		);
 */
 		
-				
+			
 				
 		add(new AutonomousSubsystem(this, "autoSubsystem")
 				.add("scenario1Speed", new DoubleConfigSetting(0.0, 1.0, 0.5))
@@ -171,21 +172,21 @@ public class Robot extends MDRobotBase {
 		);
 		
 		add(new LiftSubsystem(this, "liftSubsystem")
-				.add(LiftSubsystem.liftMotor1, new WPI_TalonSRX(7))
-				.add(LiftSubsystem.liftMotor2, new WPI_TalonSRX(8))
+				.add(LiftSubsystem.liftMotor1, new WPI_TalonSRX(5))
+				.add(LiftSubsystem.liftMotor2, new WPI_TalonSRX(6))
 				.add("liftSpeed", new DoubleConfigSetting(0.0, 1.0, 1.0))
 				.configure()
 		);
 		
 		ClawSubsystem clawSubsystem = new ClawSubsystem(this, "clawSubsystem");
 		add(clawSubsystem);
-		clawSubsystem.add(ClawSubsystem.clawMotorName, new WPI_TalonSRX(5))
+		clawSubsystem.add(ClawSubsystem.clawMotorName, new WPI_TalonSRX(7))
 				.add("clawSpeed", new DoubleConfigSetting(0.0, 1.0, 1.0))
 				.configure();
 		
 		ExtendSubsystem extendSubsystem = new ExtendSubsystem(this, "extendSubsystem");
 		add(extendSubsystem);
-				extendSubsystem.add(ExtendSubsystem.extendclawMotorName, new WPI_TalonSRX(6))
+				extendSubsystem.add(ExtendSubsystem.extendclawMotorName, new WPI_TalonSRX(8))
 				.add("extendSpeed", new DoubleConfigSetting(0.0, 1.0, 1.0))
 				.configure();
 				

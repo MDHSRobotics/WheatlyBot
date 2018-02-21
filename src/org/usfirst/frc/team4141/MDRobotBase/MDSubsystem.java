@@ -203,9 +203,11 @@ public abstract class MDSubsystem extends Subsystem {
 			
 	        // Loop over keys
 	        for (String key : setOfMotorKeys) {
-	    		objectString += "\nMotor #" + i;
+	    		objectString += "\nMotor #: " + i;
 	    		// Print Motor
-	    		objectString += motors.get(key).toString();
+	    		SpeedController motor = motors.get(key);
+	    		objectString += "  " + key + " = ";
+	    		objectString += motor.toString();
 	    		++i;
 	        }
 	        objectString += "\nEnd of motors";
@@ -239,6 +241,29 @@ public abstract class MDSubsystem extends Subsystem {
 			objectString += "Warning: sensors hashtable not defined!";
 		}
 		
+		if (configSettings != null) {
+			// get set of configSettings keys
+	        Set<String> setOfConfigKeys = configSettings.keySet();
+	        
+			objectString += "\nNumber of configSettings = " + setOfConfigKeys.size();
+			int i = 1;
+			
+	        // Loop over keys
+	        for (String key : setOfConfigKeys) {
+	    		objectString += "\nConfigSetting #" + i;
+	    		// Print ConfigSetting Information
+	    		ConfigSetting value = configSettings.get(key);
+	    		objectString += "\n  Name = " + key;
+	    		objectString += "\n  Value = " + value;
+	    		
+	    		++i;
+	        }
+	        objectString += "\nEnd of configSettings";
+	        objectString += "\n-----------------";
+		}
+		else {
+			objectString += "Warning: ConfigSetting hashtable not defined!";
+		}
 		return objectString;
 	}
 }
