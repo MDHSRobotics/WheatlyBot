@@ -9,6 +9,8 @@ import org.usfirst.frc.team4141.MDRobotBase.eventmanager.LogNotification.Level;
 import org.usfirst.frc.team4141.MDRobotBase.sensors.Sensor;
 import org.usfirst.frc.team4141.MDRobotBase.sensors.SensorReading;
 
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
 //import edu.wpi.first.wpilibj.PWM;
 import edu.wpi.first.wpilibj.Sendable;
 //import edu.wpi.first.wpilibj.SendableBase;
@@ -26,12 +28,14 @@ public abstract class MDSubsystem extends Subsystem {
 	private Hashtable<String,ConfigSetting> configSettings;	
 	private boolean isConfigured = false;
 	private boolean isCore = false;
+	private double timeInS = 2.0;
 	
 	public boolean isCore(){ return isCore;}
 	public void setCore(boolean isCore){this.isCore = isCore;}
 	
 	public MDSubsystem add(String name,SpeedController motor){
 		if(isConfigured) return this;
+		((TalonSRX) motor).configOpenloopRamp(timeInS, 10);
 		motors.put(name, motor);
 		return this;
 	}

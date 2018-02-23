@@ -172,22 +172,25 @@ public class Robot extends MDRobotBase {
 		);
 		
 		add(new LiftSubsystem(this, "liftSubsystem")
-				.add(LiftSubsystem.liftMotor1, new WPI_TalonSRX(5))
-				.add(LiftSubsystem.liftMotor2, new WPI_TalonSRX(6))
+				.add(LiftSubsystem.liftMotor1, new WPI_TalonSRX(7))
+				.add(LiftSubsystem.liftMotor2, new WPI_TalonSRX(8))
 				.add("liftSpeed", new DoubleConfigSetting(0.0, 1.0, 1.0))
+				.add("governor", new DoubleConfigSetting(0.0, 1.0, 1.0)) //Speed Governor
 				.configure()
 		);
 		
 		ClawSubsystem clawSubsystem = new ClawSubsystem(this, "clawSubsystem");
 		add(clawSubsystem);
-		clawSubsystem.add(ClawSubsystem.clawMotorName, new WPI_TalonSRX(7))
+		clawSubsystem.add(ClawSubsystem.clawMotorName, new WPI_TalonSRX(5))
 				.add("clawSpeed", new DoubleConfigSetting(0.0, 1.0, 1.0))
+				.add("governor", new DoubleConfigSetting(0.0, 1.0, 1.0)) //Speed Governor
 				.configure();
 		
 		ExtendSubsystem extendSubsystem = new ExtendSubsystem(this, "extendSubsystem");
 		add(extendSubsystem);
-				extendSubsystem.add(ExtendSubsystem.extendclawMotorName, new WPI_TalonSRX(8))
+				extendSubsystem.add(ExtendSubsystem.extendclawMotorName, new WPI_TalonSRX(6))
 				.add("extendSpeed", new DoubleConfigSetting(0.0, 1.0, 1.0))
+				.add("governor", new DoubleConfigSetting(0.0, 1.0, 1.0)) //Speed Governor
 				.configure();
 				
 		initAutoCommands();
