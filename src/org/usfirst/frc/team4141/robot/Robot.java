@@ -1,7 +1,7 @@
 package org.usfirst.frc.team4141.robot;
 
 //===================================================================== Imported Systems ===================================================================== //
-import java.util.Hashtable;
+//import java.util.Hashtable;
 
 import org.usfirst.frc.team4141.MDRobotBase.MDCommand;
 import org.usfirst.frc.team4141.MDRobotBase.MDCommandGroup;
@@ -10,22 +10,11 @@ import org.usfirst.frc.team4141.MDRobotBase.sensors.MD_IMU;
 import org.usfirst.frc.team4141.MDRobotBase.MDRobotBase;
 import org.usfirst.frc.team4141.MDRobotBase.MDSubsystem;
 import org.usfirst.frc.team4141.MDRobotBase.config.DoubleConfigSetting;
+import org.usfirst.frc.team4141.MDRobotBase.config.IntegerConfigSetting;
 import org.usfirst.frc.team4141.MDRobotBase.config.StringConfigSetting;
-import org.usfirst.frc.team4141.robot.Robot.fieldPosition;
 import org.usfirst.frc.team4141.robot.autocommands.DriveDistanceCommand;
 import org.usfirst.frc.team4141.robot.autocommands.AUTOPosOne_LLL;
-import org.usfirst.frc.team4141.robot.autocommands.AUTOPosOne_LRL;
-import org.usfirst.frc.team4141.robot.autocommands.AUTOPosOne_RLR;
-import org.usfirst.frc.team4141.robot.autocommands.AUTOPosOne_RRR;
-import org.usfirst.frc.team4141.robot.autocommands.AUTOPosThree_LLL;
-import org.usfirst.frc.team4141.robot.autocommands.AUTOPosThree_LRL;
-import org.usfirst.frc.team4141.robot.autocommands.AUTOPosThree_RLR;
 import org.usfirst.frc.team4141.robot.autocommands.AUTOPosThree_RRR;
-import org.usfirst.frc.team4141.robot.autocommands.AUTOPosTwo_LLL;
-import org.usfirst.frc.team4141.robot.autocommands.AUTOPosTwo_LRL;
-import org.usfirst.frc.team4141.robot.autocommands.AUTOPosTwo_RLR;
-import org.usfirst.frc.team4141.robot.autocommands.AUTOPosTwo_RRR;
-import org.usfirst.frc.team4141.robot.commands.ArcadeDriveCommand;
 import org.usfirst.frc.team4141.robot.commands.ClawCommand;
 import org.usfirst.frc.team4141.robot.commands.ExtendCommand;
 import org.usfirst.frc.team4141.robot.commands.MDPrintCommand;
@@ -41,6 +30,7 @@ import org.usfirst.frc.team4141.robot.subsystems.MDDriveSubsystem.Type;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import edu.wpi.first.wpilibj.DriverStation;
 
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Talon;
@@ -71,15 +61,9 @@ public class Robot extends MDRobotBase {
 
 	}
 	
-	public enum fieldPosition {
-		ONE,
-		TWO,
-		THREE
-	}
+
 	
 	// ================================================================================ Robot Configuration ========================================================================== //
-	
-	private fieldPosition startingPosition = fieldPosition.ONE;
 	
 	@Override
 	protected void configureRobot() {		
@@ -166,8 +150,10 @@ public class Robot extends MDRobotBase {
 		
 			
 				
+				
 		add(new AutonomousSubsystem(this, "autoSubsystem")
-				.add("scenario1Speed", new DoubleConfigSetting(0.0, 1.0, 0.5))
+				.add("delayStartTime", new DoubleConfigSetting(0.0, 15.0, 0.0))
+				.add("startingPosition", new IntegerConfigSetting(1, 3, 1))
 				.configure()
 		);
 		
@@ -193,12 +179,16 @@ public class Robot extends MDRobotBase {
 				.add("governor", new DoubleConfigSetting(0.0, 1.0, 1.0)) //Speed Governor
 				.configure();
 				
-		initAutoCommands();
+		initAutoCommands();				// Create all of the possible command groups
+				
+		debug("\n \n \n Done configuring the Robot.");
+		debug("Printing the state of the Robot...");
+		debug(this.toString());
 		
 	}
 		
 		private void initAutoCommands(){
-			MDCommandGroup[] autoCommandArray = new MDCommandGroup[1];
+			MDCommandGroup[] autoCommandArray = new MDCommandGroup[2];
 			//autoCommandArray[0] = new  MDPrintCommand(this,"AutonomousCommand","AutonomousCommand message");
 			autoCommandArray[0] = new  AUTOPosOne_LLL(this,"AUTOPosOne_LLL");
 //			autoCommandArray[1] = new  AUTOPosOne_LRL(this,"AUTOPosOne_LRL");
@@ -213,16 +203,9 @@ public class Robot extends MDRobotBase {
 //			autoCommandArray[8] = new  AUTOPosThree_LLL(this,"AUTOPosThree_LLL");
 //			autoCommandArray[9] = new  AUTOPosThree_LRL(this,"AUTOPosThree_LRL");
 //			autoCommandArray[10] = new  AUTOPosThree_RLR(this,"AUTOPosThree_RLR");
-//			autoCommandArray[11] = new  AUTOPosThree_RRR(this,"AUTOPosThree_RRR");
+			autoCommandArray[1] = new  AUTOPosThree_RRR(this,"AUTOPosThree_RRR");
 
 			setAutonomousCommand(autoCommandArray, "AUTOPosOne_LLL"); 
-			
-
-		
-		debug("\n \n \n Done configuring the Robot.");
-		debug("Printing the state of the Robot...");
-		debug(this.toString());
-
 	}
 	
 // =================================================== Autonomous Configurations ======================================================================== //				
@@ -231,21 +214,32 @@ public class Robot extends MDRobotBase {
 			String commandName = null;
 			String colorAssignment;
 			
+			System.out.println("\n\n========================\n=== Starting Autonomous Mode ===\n=======================");
+
+			// Get the starting position for this match
+			AutonomousSubsystem autoSubsystem = (AutonomousSubsystem) getSubsystem("autoSubsystem");
+			int startingPosition = autoSubsystem.getStartingPosition();
+			System.out.println("Starting Position = " + startingPosition);
+			
 			// Get color assignment for this match
 			colorAssignment = getColorAssignment();
+			System.out.println("Match Color Assignment: " + colorAssignment);
 			
 			switch(startingPosition){
-				case ONE:
-					commandName = "AutoPos" + "One" + "_" + colorAssignment;
+				case 1:
+					commandName = "AUTOPos" + "One" + "_" + colorAssignment;
 					break;
-				case TWO:
-					commandName = "AutoPos" + "Two" + "_" + colorAssignment;
+				case 2:
+					commandName = "AUTOPos" + "Two" + "_" + colorAssignment;
 					break;
-				case THREE:
-					commandName = "AutoPos" + "Three" + "_" + colorAssignment;
+				case 3:
+					commandName = "AUTOPos" + "Three" + "_" + colorAssignment;
 					break;
 			
 			}
+
+			System.out.println("Setting auto command to " + commandName);
+			System.out.flush();
 			
 			setAutoCommand(commandName);
 			
@@ -254,7 +248,7 @@ public class Robot extends MDRobotBase {
 				autonomousCommand.start();
 			}
 			else {
-				debug("autonomousCommand is unexpectedly null");
+				System.out.println("autonomousCommand is unexpectedly null");
 			}
 			
 		}
@@ -263,7 +257,12 @@ public class Robot extends MDRobotBase {
 		private String getColorAssignment(){
 			String matchColorAssignment = new String();
 			// Insert code here to read color assignment from FMS
-			matchColorAssignment = "LLL";
+			String gameMessage = DriverStation.getInstance().getGameSpecificMessage();
+			//make sure to use only the first 3 characters of the game message
+			matchColorAssignment = gameMessage.substring(0,3);
+			
+			System.out.println("Get Color Assignment: " + matchColorAssignment);
+
 			return matchColorAssignment;
 			
 		}

@@ -17,6 +17,8 @@ public class DriveDistanceCommand extends MDCommand {
 	private boolean m_movingForward;			// True if moving forward; False if moving backward
 	private Timer m_timer; 						// Timer for this command
 	
+	private int counter;
+	
 	private double velocityAtFullPower = 2;     // Velocity (feet/second) at full power - THIS IS A GUESS - CHECK IT!!
 	
 	private MDDriveSubsystem driveSubsystem;
@@ -57,11 +59,12 @@ public class DriveDistanceCommand extends MDCommand {
 	// Initialize is called when the command first starts
 	 
 	protected void initialize() {
+		counter = 0;
 		m_distanceTraveled = 0.;
 		m_elapsedTime = 0.;
 		m_timer.reset();
 		m_timer.start();
-		System.out.println("Starting DriveDistance Command: Target = " + m_targetDistanceInFeet + " feet");
+		System.out.println("Starting "+ this.getName() +"; Target = " + m_targetDistanceInFeet + " feet" + ", Power = " + m_power);
 	}
 		
 	// isFinished is called every 20ms to determine whether the robot has traveled the requested distance
@@ -69,7 +72,7 @@ public class DriveDistanceCommand extends MDCommand {
 	protected boolean isFinished() {
 		if(m_distanceTraveled >= m_targetDistanceInFeet){
 			m_timer.stop();
-			System.out.println("Finished DriveDistance Command: Target = " + m_targetDistanceInFeet + "; Actual = " + m_distanceTraveled + "; Elapsed time = " + m_elapsedTime);
+			System.out.println("Finished "+ this.getName() + "; Target = " + m_targetDistanceInFeet + "; Actual = " + m_distanceTraveled + "; Elapsed time = " + m_elapsedTime);
 			return true;
 		}
 		else {
@@ -88,7 +91,10 @@ public class DriveDistanceCommand extends MDCommand {
 		m_elapsedTime = m_timer.get();							// Return number of seconds since the timer was started
 		m_distanceTraveled = m_elapsedTime * m_velocity;		// Distance traveled (feet) = elapsed time (seconds) * velocity (feet per second)
 		
-		System.out.println("Executing Drive Distance Command: Elapsed time= " + m_elapsedTime + "; Distance traveled= " + m_distanceTraveled);
+		if (++counter >= 50) {
+			System.out.println("Executing Drive Distance Command: Elapsed time= " + m_elapsedTime + "; Distance traveled= " + m_distanceTraveled);
+			counter = 0;
+		}
 	}
 	
 	// End is called when the command is terminated 
