@@ -9,6 +9,7 @@ import org.usfirst.frc.team4141.MDRobotBase.sensors.MD_BuiltInAccelerometer;
 import org.usfirst.frc.team4141.MDRobotBase.sensors.MD_IMU;
 import org.usfirst.frc.team4141.MDRobotBase.MDRobotBase;
 import org.usfirst.frc.team4141.MDRobotBase.MDSubsystem;
+import org.usfirst.frc.team4141.MDRobotBase.MDTalonSRX;
 import org.usfirst.frc.team4141.MDRobotBase.config.DoubleConfigSetting;
 import org.usfirst.frc.team4141.MDRobotBase.config.IntegerConfigSetting;
 import org.usfirst.frc.team4141.MDRobotBase.config.StringConfigSetting;
@@ -101,10 +102,10 @@ public class Robot extends MDRobotBase {
 //		System.out.println("\nMDDrive after adding accelerometer");
 //		System.out.println(driveSubsystem.toString());
 		driveSubsystem.add("IMU", new MD_IMU())
-				.add(MotorPosition.frontLeft, new WPI_TalonSRX(1))
-				.add(MotorPosition.frontRight, new WPI_TalonSRX(3))
-				.add(MotorPosition.rearLeft, new WPI_TalonSRX(2))
-				.add(MotorPosition.rearRight, new WPI_TalonSRX(4))
+				.add(MotorPosition.frontLeft, new MDTalonSRX(1))
+				.add(MotorPosition.frontRight, new MDTalonSRX(3))
+				.add(MotorPosition.rearLeft, new MDTalonSRX(2))
+				.add(MotorPosition.rearRight, new MDTalonSRX(4))
 				//.add("Drive-F", new DoubleConfigSetting(0.0, 1.0, 0.0))
 		 	    //.add("Drive-P", new DoubleConfigSetting(0.0, 1.0, 0.1))
 				//.add("Drive-I", new DoubleConfigSetting(0.0, 1.0, 0.8))
@@ -116,8 +117,8 @@ public class Robot extends MDRobotBase {
 
 // 							These are used for MecanumDrive
 				// ==================================================== //
-/*				.add(MotorPosition.rearLeft, new WPI_TalonSRX(1))
-				.add(MotorPosition.rearRight, new WPI_TalonSRX(2))                               */
+/*				.add(MotorPosition.rearLeft, new MDTalonSRX(1))
+				.add(MotorPosition.rearRight, new MDTalonSRX(2))                               */
 
 //			Enable these if you want to configure PID values within MDConsole
 				// ==================================================== //
@@ -143,7 +144,7 @@ public class Robot extends MDRobotBase {
 /*
  		add(new [SUBSYSTEM_NAME](this, "[subsystemName]")
 	    	.add("scenario1Speed", new DoubleConfigSetting(0.0, 1.0, 0.5))
-	    	.add([SUBSYSTEM NAME.motorName, new WPI_TalonSRX(1))
+	    	.add([SUBSYSTEM NAME.motorName, new MDTalonSRX(1))
 				.configure()
 		);
 */
@@ -158,8 +159,8 @@ public class Robot extends MDRobotBase {
 		);
 		
 		add(new LiftSubsystem(this, "liftSubsystem")
-				.add(LiftSubsystem.liftMotor1, new WPI_TalonSRX(7))
-				.add(LiftSubsystem.liftMotor2, new WPI_TalonSRX(8))
+				.add(LiftSubsystem.liftMotor1, new MDTalonSRX(7))
+				.add(LiftSubsystem.liftMotor2, new MDTalonSRX(8))
 				.add("liftSpeed", new DoubleConfigSetting(0.0, 1.0, 1.0))
 				.add("governor", new DoubleConfigSetting(0.0, 1.0, 1.0)) //Speed Governor
 				.configure()
@@ -167,14 +168,14 @@ public class Robot extends MDRobotBase {
 		
 		ClawSubsystem clawSubsystem = new ClawSubsystem(this, "clawSubsystem");
 		add(clawSubsystem);
-		clawSubsystem.add(ClawSubsystem.clawMotorName, new WPI_TalonSRX(5))
+		clawSubsystem.add(ClawSubsystem.clawMotorName, new MDTalonSRX(5))
 				.add("clawSpeed", new DoubleConfigSetting(0.0, 1.0, 1.0))
 				.add("governor", new DoubleConfigSetting(0.0, 1.0, 1.0)) //Speed Governor
 				.configure();
 		
 		ExtendSubsystem extendSubsystem = new ExtendSubsystem(this, "extendSubsystem");
 		add(extendSubsystem);
-				extendSubsystem.add(ExtendSubsystem.extendclawMotorName, new WPI_TalonSRX(6))
+				extendSubsystem.add(ExtendSubsystem.extendclawMotorName, new MDTalonSRX(6))
 				.add("extendSpeed", new DoubleConfigSetting(0.0, 1.0, 1.0))
 				.add("governor", new DoubleConfigSetting(0.0, 1.0, 1.0)) //Speed Governor
 				.configure();
@@ -300,8 +301,8 @@ public class Robot extends MDRobotBase {
 
 
 //add(new ClawSubsystem(this, "clawSubsystem")
-//.add(ClawSubsystem.motorName, new WPI_TalonSRX(2))
-//.add(ClawSubsystem.motorName2, new WPI_TalonSRX(0))
+//.add(ClawSubsystem.motorName, new MDTalonSRX(2))
+//.add(ClawSubsystem.motorName2, new MDTalonSRX(0))
 //.add("clawSpeed", new DoubleConfigSetting(0.0, 1.0, 0.5))
 //.configure()
 //);
