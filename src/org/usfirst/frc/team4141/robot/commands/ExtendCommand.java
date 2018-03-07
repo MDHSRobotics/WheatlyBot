@@ -40,8 +40,8 @@ public class ExtendCommand extends MDCommand {
 		}
 		extendSubsystem = (ExtendSubsystem)getRobot().getSubsystems().get("extendSubsystem"); 
 		requires(extendSubsystem);
-		System.out.println("Extend Command Constructor");
-		System.out.println(extendSubsystem.toString());
+//		System.out.println("Extend Command Constructor");
+//		System.out.println(extendSubsystem.toString());
 		
 	}
 

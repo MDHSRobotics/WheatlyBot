@@ -23,6 +23,7 @@ import org.usfirst.frc.team4141.MDRobotBase.sensors.SensorReading;
 import org.usfirst.frc.team4141.robot.OI;
 import org.usfirst.frc.team4141.robot.commands.ArcadeDriveCommand;
 import org.usfirst.frc.team4141.robot.subsystems.DiagnosticsSubsystem;
+import org.usfirst.frc.team4141.robot.subsystems.MDDriveSubsystem;
 import org.usfirst.frc.team4141.robot.subsystems.WebSocketSubsystem;
 
 
@@ -68,11 +69,48 @@ public abstract class MDRobotBase extends IterativeRobot{
 	
 	//register subsystems
     public void add(MDSubsystem subsystem){
-    	debug("adding subsystem "+subsystem.getName());
+    	// debug("adding subsystem "+subsystem.getName());
     	this.subsystems.put(subsystem.getName(),subsystem);
     }
+    
+    // Return hashtable of all subsystems
 	public Hashtable<String, MDSubsystem> getSubsystems() {
 		return subsystems;
+	}
+	
+	// Look up one subsystem in hashtable and return it
+	public MDSubsystem getSubsystem(String subsystemName){
+		
+		if(!getSubsystems().containsKey(subsystemName)){
+			// This subsystem name is not in the hastable so print error and contents of hashtable, then quit
+			log(Level.ERROR, "getSubsystem()", "Subsystem name not found");
+			
+			// Print contents of hashtable
+			String errorString;
+			errorString = "!!! Could not find a subsystem by the name of " + subsystemName;
+			
+			if (subsystems != null) {
+				// get set of subsystem keys
+		        Set<String> setOfSubsystemKeys = subsystems.keySet();
+		        
+				errorString += "\nNumber of subsystems = " + setOfSubsystemKeys.size() + ":\n";
+				
+		        // Loop over keys
+		        for (String key : setOfSubsystemKeys) {
+		    		// Print Subsystem
+		    		errorString += key + "   ";
+		        }
+			}
+			else {
+				errorString += "Warning: subsystems hashtable not defined!";
+			}
+			log(Level.ERROR, "getSubsystem", errorString);
+			System.out.println(errorString);
+			
+			throw new IllegalArgumentException("Subsystem " + subsystemName + " not found");
+		}
+		
+		return getSubsystems().get(subsystemName);
 	}
 	
 	//register sensors
@@ -378,7 +416,6 @@ public abstract class MDRobotBase extends IterativeRobot{
 		else {
 			objectString += "Warning: comanndChooser hashtable not defined!";
 		}
-		objectString += "\n Currently set Auto Command Group is: " + this.getAutoCommand().getName();
 		
 		return objectString;
 	}

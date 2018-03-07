@@ -256,9 +256,8 @@ public abstract class MDSubsystem extends Subsystem {
 	        for (String key : setOfConfigKeys) {
 	    		objectString += "\nConfigSetting #" + i;
 	    		// Print ConfigSetting Information
-	    		ConfigSetting value = configSettings.get(key);
-	    		objectString += "\n  Name = " + key;
-	    		objectString += "\n  Value = " + value;
+	    		ConfigSetting configSetting = configSettings.get(key);
+	    		objectString += configSetting.toJSON();
 	    		
 	    		++i;
 	        }
