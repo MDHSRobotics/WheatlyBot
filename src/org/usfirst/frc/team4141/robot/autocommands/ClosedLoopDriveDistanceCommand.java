@@ -72,7 +72,7 @@ public class ClosedLoopDriveDistanceCommand extends MDCommand {
 	 * @param speed - The speed of the robot in feet per second (only go to the tenths place!)
 	 * @param reverse - Set to false if going forward, but set to true of going backwards
 	 */
-	public ClosedLoopDriveDistanceCommand(MDRobotBase robot, String name, double targetDistanceInFeet, double speedInFTPS, boolean reverse) {
+	public ClosedLoopDriveDistanceCommand(MDRobotBase robot, String name, double targetDistanceInFeet, boolean reverse) {
 		super(robot, name);
 		
 		m_targetDistanceFT = targetDistanceInFeet;

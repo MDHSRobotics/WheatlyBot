@@ -165,9 +165,7 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 			break;
 			
 		case ClosedLoop:
-			// To be done later
-			throw new IllegalArgumentException("Closed Loop drive strategy not yet implemented");
-//			break;
+			addSequential(new ClosedLoopDriveDistanceCommand(getRobot(), commandDescription, distanceToDriveInFeet, false));
 			
 		default:
 			// Raise an error if the drive strategy is not set properly
