@@ -1,7 +1,7 @@
 package org.usfirst.frc.team4141.robot;
 
 //===================================================================== Imported Systems ===================================================================== //
-import java.util.Hashtable;
+//import java.util.Hashtable;
 
 import org.usfirst.frc.team4141.MDRobotBase.MDCommand;
 import org.usfirst.frc.team4141.MDRobotBase.MDCommandGroup;
@@ -9,23 +9,13 @@ import org.usfirst.frc.team4141.MDRobotBase.sensors.MD_BuiltInAccelerometer;
 import org.usfirst.frc.team4141.MDRobotBase.sensors.MD_IMU;
 import org.usfirst.frc.team4141.MDRobotBase.MDRobotBase;
 import org.usfirst.frc.team4141.MDRobotBase.MDSubsystem;
+import org.usfirst.frc.team4141.MDRobotBase.MDTalonSRX;
 import org.usfirst.frc.team4141.MDRobotBase.config.DoubleConfigSetting;
+import org.usfirst.frc.team4141.MDRobotBase.config.IntegerConfigSetting;
 import org.usfirst.frc.team4141.MDRobotBase.config.StringConfigSetting;
-import org.usfirst.frc.team4141.robot.Robot.fieldPosition;
 import org.usfirst.frc.team4141.robot.autocommands.DriveDistanceCommand;
 import org.usfirst.frc.team4141.robot.autocommands.AUTOPosOne_LLL;
-import org.usfirst.frc.team4141.robot.autocommands.AUTOPosOne_LRL;
-import org.usfirst.frc.team4141.robot.autocommands.AUTOPosOne_RLR;
-import org.usfirst.frc.team4141.robot.autocommands.AUTOPosOne_RRR;
-import org.usfirst.frc.team4141.robot.autocommands.AUTOPosThree_LLL;
-import org.usfirst.frc.team4141.robot.autocommands.AUTOPosThree_LRL;
-import org.usfirst.frc.team4141.robot.autocommands.AUTOPosThree_RLR;
 import org.usfirst.frc.team4141.robot.autocommands.AUTOPosThree_RRR;
-import org.usfirst.frc.team4141.robot.autocommands.AUTOPosTwo_LLL;
-import org.usfirst.frc.team4141.robot.autocommands.AUTOPosTwo_LRL;
-import org.usfirst.frc.team4141.robot.autocommands.AUTOPosTwo_RLR;
-import org.usfirst.frc.team4141.robot.autocommands.AUTOPosTwo_RRR;
-import org.usfirst.frc.team4141.robot.commands.ArcadeDriveCommand;
 import org.usfirst.frc.team4141.robot.commands.ClawCommand;
 import org.usfirst.frc.team4141.robot.commands.ExtendCommand;
 import org.usfirst.frc.team4141.robot.commands.MDPrintCommand;
@@ -41,6 +31,7 @@ import org.usfirst.frc.team4141.robot.subsystems.MDDriveSubsystem.Type;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import edu.wpi.first.wpilibj.DriverStation;
 
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Talon;
@@ -71,15 +62,9 @@ public class Robot extends MDRobotBase {
 
 	}
 	
-	public enum fieldPosition {
-		ONE,
-		TWO,
-		THREE
-	}
+
 	
 	// ================================================================================ Robot Configuration ========================================================================== //
-	
-	private fieldPosition startingPosition = fieldPosition.ONE;
 	
 	@Override
 	protected void configureRobot() {		
@@ -117,10 +102,10 @@ public class Robot extends MDRobotBase {
 //		System.out.println("\nMDDrive after adding accelerometer");
 //		System.out.println(driveSubsystem.toString());
 		driveSubsystem.add("IMU", new MD_IMU())
-				.add(MotorPosition.frontLeft, new WPI_TalonSRX(1))
-				.add(MotorPosition.frontRight, new WPI_TalonSRX(3))
-				.add(MotorPosition.rearLeft, new WPI_TalonSRX(2))
-				.add(MotorPosition.rearRight, new WPI_TalonSRX(4))
+				.add(MotorPosition.frontLeft, new MDTalonSRX(1))
+				.add(MotorPosition.frontRight, new MDTalonSRX(3))
+				.add(MotorPosition.rearLeft, new MDTalonSRX(2))
+				.add(MotorPosition.rearRight, new MDTalonSRX(4))
 				//.add("Drive-F", new DoubleConfigSetting(0.0, 1.0, 0.0))
 		 	    //.add("Drive-P", new DoubleConfigSetting(0.0, 1.0, 0.1))
 				//.add("Drive-I", new DoubleConfigSetting(0.0, 1.0, 0.8))
@@ -132,8 +117,8 @@ public class Robot extends MDRobotBase {
 
 // 							These are used for MecanumDrive
 				// ==================================================== //
-/*				.add(MotorPosition.rearLeft, new WPI_TalonSRX(1))
-				.add(MotorPosition.rearRight, new WPI_TalonSRX(2))                               */
+/*				.add(MotorPosition.rearLeft, new MDTalonSRX(1))
+				.add(MotorPosition.rearRight, new MDTalonSRX(2))                               */
 
 //			Enable these if you want to configure PID values within MDConsole
 				// ==================================================== //
@@ -159,21 +144,23 @@ public class Robot extends MDRobotBase {
 /*
  		add(new [SUBSYSTEM_NAME](this, "[subsystemName]")
 	    	.add("scenario1Speed", new DoubleConfigSetting(0.0, 1.0, 0.5))
-	    	.add([SUBSYSTEM NAME.motorName, new WPI_TalonSRX(1))
+	    	.add([SUBSYSTEM NAME.motorName, new MDTalonSRX(1))
 				.configure()
 		);
 */
 		
 			
 				
+				
 		add(new AutonomousSubsystem(this, "autoSubsystem")
-				.add("scenario1Speed", new DoubleConfigSetting(0.0, 1.0, 0.5))
+				.add("delayStartTime", new DoubleConfigSetting(0.0, 15.0, 0.0))
+				.add("startingPosition", new IntegerConfigSetting(1, 3, 1))
 				.configure()
 		);
 		
 		add(new LiftSubsystem(this, "liftSubsystem")
-				.add(LiftSubsystem.liftMotor1, new WPI_TalonSRX(7))
-				.add(LiftSubsystem.liftMotor2, new WPI_TalonSRX(8))
+				.add(LiftSubsystem.liftMotor1, new MDTalonSRX(7))
+				.add(LiftSubsystem.liftMotor2, new MDTalonSRX(8))
 				.add("liftSpeed", new DoubleConfigSetting(0.0, 1.0, 1.0))
 				.add("governor", new DoubleConfigSetting(0.0, 1.0, 1.0)) //Speed Governor
 				.configure()
@@ -181,24 +168,28 @@ public class Robot extends MDRobotBase {
 		
 		ClawSubsystem clawSubsystem = new ClawSubsystem(this, "clawSubsystem");
 		add(clawSubsystem);
-		clawSubsystem.add(ClawSubsystem.clawMotorName, new WPI_TalonSRX(5))
+		clawSubsystem.add(ClawSubsystem.clawMotorName, new MDTalonSRX(5))
 				.add("clawSpeed", new DoubleConfigSetting(0.0, 1.0, 1.0))
 				.add("governor", new DoubleConfigSetting(0.0, 1.0, 1.0)) //Speed Governor
 				.configure();
 		
 		ExtendSubsystem extendSubsystem = new ExtendSubsystem(this, "extendSubsystem");
 		add(extendSubsystem);
-				extendSubsystem.add(ExtendSubsystem.extendclawMotorName, new WPI_TalonSRX(6))
+				extendSubsystem.add(ExtendSubsystem.extendclawMotorName, new MDTalonSRX(6))
 				.add("extendSpeed", new DoubleConfigSetting(0.0, 1.0, 1.0))
 				.add("governor", new DoubleConfigSetting(0.0, 1.0, 1.0)) //Speed Governor
 				.configure();
 				
-		initAutoCommands();
+		initAutoCommands();				// Create all of the possible command groups
+				
+		debug("\n \n \n Done configuring the Robot.");
+		debug("Printing the state of the Robot...");
+		debug(this.toString());
 		
 	}
 		
 		private void initAutoCommands(){
-			MDCommandGroup[] autoCommandArray = new MDCommandGroup[1];
+			MDCommandGroup[] autoCommandArray = new MDCommandGroup[2];
 			//autoCommandArray[0] = new  MDPrintCommand(this,"AutonomousCommand","AutonomousCommand message");
 			autoCommandArray[0] = new  AUTOPosOne_LLL(this,"AUTOPosOne_LLL");
 //			autoCommandArray[1] = new  AUTOPosOne_LRL(this,"AUTOPosOne_LRL");
@@ -213,16 +204,9 @@ public class Robot extends MDRobotBase {
 //			autoCommandArray[8] = new  AUTOPosThree_LLL(this,"AUTOPosThree_LLL");
 //			autoCommandArray[9] = new  AUTOPosThree_LRL(this,"AUTOPosThree_LRL");
 //			autoCommandArray[10] = new  AUTOPosThree_RLR(this,"AUTOPosThree_RLR");
-//			autoCommandArray[11] = new  AUTOPosThree_RRR(this,"AUTOPosThree_RRR");
+			autoCommandArray[1] = new  AUTOPosThree_RRR(this,"AUTOPosThree_RRR");
 
 			setAutonomousCommand(autoCommandArray, "AUTOPosOne_LLL"); 
-			
-
-		
-		debug("\n \n \n Done configuring the Robot.");
-		debug("Printing the state of the Robot...");
-		debug(this.toString());
-
 	}
 	
 // =================================================== Autonomous Configurations ======================================================================== //				
@@ -231,21 +215,32 @@ public class Robot extends MDRobotBase {
 			String commandName = null;
 			String colorAssignment;
 			
+			System.out.println("\n\n========================\n=== Starting Autonomous Mode ===\n=======================");
+
+			// Get the starting position for this match
+			AutonomousSubsystem autoSubsystem = (AutonomousSubsystem) getSubsystem("autoSubsystem");
+			int startingPosition = autoSubsystem.getStartingPosition();
+			System.out.println("Starting Position = " + startingPosition);
+			
 			// Get color assignment for this match
 			colorAssignment = getColorAssignment();
+			System.out.println("Match Color Assignment: " + colorAssignment);
 			
 			switch(startingPosition){
-				case ONE:
-					commandName = "AutoPos" + "One" + "_" + colorAssignment;
+				case 1:
+					commandName = "AUTOPos" + "One" + "_" + colorAssignment;
 					break;
-				case TWO:
-					commandName = "AutoPos" + "Two" + "_" + colorAssignment;
+				case 2:
+					commandName = "AUTOPos" + "Two" + "_" + colorAssignment;
 					break;
-				case THREE:
-					commandName = "AutoPos" + "Three" + "_" + colorAssignment;
+				case 3:
+					commandName = "AUTOPos" + "Three" + "_" + colorAssignment;
 					break;
 			
 			}
+
+			System.out.println("Setting auto command to " + commandName);
+			System.out.flush();
 			
 			setAutoCommand(commandName);
 			
@@ -254,7 +249,7 @@ public class Robot extends MDRobotBase {
 				autonomousCommand.start();
 			}
 			else {
-				debug("autonomousCommand is unexpectedly null");
+				System.out.println("autonomousCommand is unexpectedly null");
 			}
 			
 		}
@@ -263,7 +258,12 @@ public class Robot extends MDRobotBase {
 		private String getColorAssignment(){
 			String matchColorAssignment = new String();
 			// Insert code here to read color assignment from FMS
-			matchColorAssignment = "LLL";
+			String gameMessage = DriverStation.getInstance().getGameSpecificMessage();
+			//make sure to use only the first 3 characters of the game message
+			matchColorAssignment = gameMessage.substring(0,3);
+			
+			System.out.println("Get Color Assignment: " + matchColorAssignment);
+
 			return matchColorAssignment;
 			
 		}
@@ -301,8 +301,8 @@ public class Robot extends MDRobotBase {
 
 
 //add(new ClawSubsystem(this, "clawSubsystem")
-//.add(ClawSubsystem.motorName, new WPI_TalonSRX(2))
-//.add(ClawSubsystem.motorName2, new WPI_TalonSRX(0))
+//.add(ClawSubsystem.motorName, new MDTalonSRX(2))
+//.add(ClawSubsystem.motorName2, new MDTalonSRX(0))
 //.add("clawSpeed", new DoubleConfigSetting(0.0, 1.0, 0.5))
 //.configure()
 //);
