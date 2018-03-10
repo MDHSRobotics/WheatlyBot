@@ -4,6 +4,7 @@ import org.usfirst.frc.team4141.MDRobotBase.MDCommand;
 import org.usfirst.frc.team4141.MDRobotBase.MDRobotBase;
 import org.usfirst.frc.team4141.MDRobotBase.eventmanager.LogNotification.Level;
 import org.usfirst.frc.team4141.robot.subsystems.MDDriveSubsystem;
+import org.usfirst.frc.team4141.robot.subsystems.MDDriveSubsystem.MotorPosition;
 
 import edu.wpi.first.wpilibj.command.Scheduler;
 
@@ -38,8 +39,10 @@ public class ToggleOrientationCommand extends MDCommand {
 	
 	@Override
 	protected void execute() {
-		driveSystem.flip();
-		
+		driveSystem.flip(MotorPosition.frontLeft);
+		driveSystem.flip(MotorPosition.frontRight);
+		driveSystem.flip(MotorPosition.rearLeft);
+		driveSystem.flip(MotorPosition.rearRight);
 	}
 	
 	@Override

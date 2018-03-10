@@ -336,14 +336,14 @@ public class MDDriveSubsystem extends MDSubsystem {
 			//added minus sign
 			double forwardAxisValue = joystick.getRawAxis(1);
 			double forward = (forwardAxisValue)*(1.0-(1.0-governor));
-		  	double rotate = -joystick.getRawAxis(2); //(Changed to accompass shifting w/controller and deadzoned)
+		  	double rotate = joystick.getRawAxis(2); //(Changed to accompass shifting w/controller and deadzoned)
 	  	  //debug("forward = " + forward + ", rotate = " + rotate);
 		  	if(rotate>0){
 		  		System.out.print("turning");
 		  	}
 		  	double[] speeds = interpolator.calculate(forward, rotate);
 		    //debug("left: "+speeds[0]+", right: "+speeds[1]);
-		  	differentialDrive.tankDrive(-speeds[0], -speeds[1]);
+		  	differentialDrive.tankDrive(speeds[0], speeds[1]);
 		}
 	}
 	
@@ -523,10 +523,29 @@ public class MDDriveSubsystem extends MDSubsystem {
 	 * This method calls the robot to flip its motors opposite of 
 	 * its current direction. 
 	 */
-	public void flip() {
-		
+//	private void configureTalonSRX(MotorPosition motorPosition, MotorPosition motorToFollow){
+//		TalonSRX speedController;
+//		speedController = (TalonSRX) get(motorPosition);
+//		if(motorPosition == motorToFollow){
+//			//This is a master
+//			System.out.println("The master is ramping: " + timeInS);
+//			 speedController.configOpenloopRamp(timeInS, 10);
+//		}else{
+//			//this is a slave
+//			System.out.println("The slave is ramping: " + timeInS);
+//			TalonSRX speedControllerToFollow = (TalonSRX) get(motorToFollow);
+//			speedController.follow(speedControllerToFollow);
+//			speedController.configOpenloopRamp(timeInS, 0);
+//		}
+////		((TalonSRX) speedController).configClosedloopRamp(timeInS, 10);
+////		((TalonSRX) speedController).configOpenloopRamp(timeInS, 10);
+//	}
+	public void flip(MotorPosition motorPosition) {
+		TalonSRX speedController;
+		speedController = (TalonSRX) get(motorPosition);
 		if (speed != 0) return;
 		isFlipped = !isFlipped;
+		speedController.setInverted(true);
 		debug("flip. isFlipped now sent to " + isFlipped + ". speed = " + speed);
 	}
 	

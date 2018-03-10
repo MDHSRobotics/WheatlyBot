@@ -5,6 +5,7 @@ import org.usfirst.frc.team4141.MDRobotBase.MDCommand;
 import org.usfirst.frc.team4141.MDRobotBase.MDRobotBase;
 import org.usfirst.frc.team4141.MDRobotBase.MDSubsystem;
 import org.usfirst.frc.team4141.MDRobotBase.eventmanager.LogNotification.Level;
+import org.usfirst.frc.team4141.robot.subsystems.AutonomousSubsystem;
 import org.usfirst.frc.team4141.robot.subsystems.MDDriveSubsystem;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -19,6 +20,7 @@ public class ClosedLoopDriveDistanceCommand extends MDCommand {
 	//WPI_TalonSRX talon = (WPI_TalonSRX)driveSubsystems.getMotors().get(MDDriveSubsystem.MotorPosition.rearLeft.toString());
 	
 	private MDDriveSubsystem driveSubsystem;
+	private AutonomousSubsystem autoSubsystem;
 	//Raw variables are in encoder units (ticks)
 	private double m_targetDistanceFT; 
 	private double m_targetDistanceRaw;
@@ -85,8 +87,10 @@ public class ClosedLoopDriveDistanceCommand extends MDCommand {
 			log(Level.ERROR, "initialize()", "Drive subsystem not found");
 			throw new IllegalArgumentException("Drive Subsystem not found");
 		}
-		driveSubsystem = (MDDriveSubsystem)getRobot().getSubsystems().get("driveSystem"); 
+		driveSubsystem = (MDDriveSubsystem)getRobot().getSubsystem("driveSystem"); 
 		requires(driveSubsystem);
+		autoSubsystem = (AutonomousSubsystem)getRobot().getSubsystem("autoSubsystem"); 
+		requires(autoSubsystem);
 		
 		System.out.println("Closed loop drive distance command has been constructed");
 		

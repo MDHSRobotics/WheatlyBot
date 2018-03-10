@@ -4,13 +4,18 @@ import java.util.Hashtable;
 import java.util.Properties;
 import java.util.Set;
 
+import edu.wpi.cscore.CvSink;
+import edu.wpi.cscore.CvSource;
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 //import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.hal.HALUtil;
 //import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
-
+import org.opencv.core.Mat;
+import org.opencv.imgproc.Imgproc;
 import org.usfirst.frc.team4141.MDRobotBase.config.BooleanConfigSetting;
 import org.usfirst.frc.team4141.MDRobotBase.config.ConfigPreferenceManager;
 import org.usfirst.frc.team4141.MDRobotBase.config.DoubleConfigSetting;
@@ -204,6 +209,26 @@ public abstract class MDRobotBase extends IterativeRobot{
 				 .add("enableWebSockets",new BooleanConfigSetting(true))
 				 .configure()
 		);    	
+		
+		//--------------Camera------------------------------------------------------//
+		 new Thread(() -> {
+             UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+             camera.setResolution(640, 480);
+             
+             CvSink cvSink = CameraServer.getInstance().getVideo();
+             CvSource outputStream = CameraServer.getInstance().putVideo("Blur", 640, 480);
+             
+             Mat source = new Mat();
+             Mat output = new Mat();
+             
+             while(!Thread.interrupted()) {
+                 cvSink.grabFrame(source);
+                 Imgproc.cvtColor(source, output, Imgproc.COLOR_BGR2GRAY);
+                 outputStream.putFrame(output);
+             }
+         }).start();
+		 
+		 //---------------------------------------------------------------------------//
 		debug("about to call configure robot");
 		System.out.println("print ln about to call configure robot");
     	configureRobot();  

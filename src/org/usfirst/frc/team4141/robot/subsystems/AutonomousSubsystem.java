@@ -10,6 +10,10 @@ public class AutonomousSubsystem extends MDSubsystem {
 	private double autoSpeed;
 	private long autoDuration;
 	private MDDriveSubsystem driveSystem;
+	private double P;
+	private double I;
+	private double D;
+	private double F;
 	
 	public enum TypeOfDriveStrategy {
 		Duration,			// Open Loop based on time duration
@@ -20,7 +24,7 @@ public class AutonomousSubsystem extends MDSubsystem {
 	
 	// Strategy to determine how far robot has traveled - 
 	// Change this in the code, not in MDConsole because it must be set when the robot is initialized!
-	private TypeOfDriveStrategy driveStrategy = TypeOfDriveStrategy.ClosedLoop;   
+	private TypeOfDriveStrategy driveStrategy = TypeOfDriveStrategy.Duration;   
 	
 	private double delayStartTime = 0.0;						// Time in seconds to delay the autonomous commands
 	

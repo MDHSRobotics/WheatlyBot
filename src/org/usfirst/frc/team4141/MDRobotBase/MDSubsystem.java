@@ -28,7 +28,7 @@ public abstract class MDSubsystem extends Subsystem {
 	private Hashtable<String,ConfigSetting> configSettings;	
 	private boolean isConfigured = false;
 	private boolean isCore = false;
-	private double timeInS = 2.0;
+	private double timeInS = 1.0;
 	
 	public boolean isCore(){ return isCore;}
 	public void setCore(boolean isCore){this.isCore = isCore;}
