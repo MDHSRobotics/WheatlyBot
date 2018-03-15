@@ -543,9 +543,10 @@ public class MDDriveSubsystem extends MDSubsystem {
 	public void flip(MotorPosition motorPosition) {
 		TalonSRX speedController;
 		speedController = (TalonSRX) get(motorPosition);
+		boolean isInverted = speedController.getInverted();
 		if (speed != 0) return;
-		isFlipped = !isFlipped;
-		speedController.setInverted(true);
+		isInverted = !isInverted;
+		speedController.setInverted(isInverted);
 		debug("flip. isFlipped now sent to " + isFlipped + ". speed = " + speed);
 	}
 	
