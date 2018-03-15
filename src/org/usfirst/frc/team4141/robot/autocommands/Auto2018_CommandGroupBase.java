@@ -335,7 +335,14 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 			
 			addSequential(new IdleCommand(getRobot(), commandDescription));
 		}
+		
+		private void addAutoLiftCommand(String commandDescription, double power, double duration) {
 
+			log("addAutoLiftCommand","Adding AutoLift command " + commandDescription );
+			System.out.println("Adding Lift command " + commandDescription );
+			
+			addSequential(new AutoLiftCommand(getRobot(), commandDescription, power, duration));
+		}
 
 }
 
