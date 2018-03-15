@@ -88,6 +88,11 @@ public class LiftSubsystem extends MDSubsystem {
 //		debug("lift speed is at " + moveSpeed);
 	}
 	
+	public void lift(double duration, double power){
+		liftSpeedController.set(liftSpeed);
+		liftSpeedController2.set(liftSpeed);
+	}
+	
 	/**
 	 * This calls the variable ropeController to go in a negative direction
 	 * which lowers the robot down the rope.
