@@ -145,9 +145,10 @@ public class MDDriveSubsystem extends MDSubsystem {
 		return null;
 	}
 	
-	private void configureTalonSRX(MotorPosition motorPosition, MotorPosition motorToFollow){
+	private void configureTalonSRX(MotorPosition motorPosition, MotorPosition motorToFollow, boolean invert){
 		TalonSRX speedController;
 		speedController = (TalonSRX) get(motorPosition);
+		speedController.setInverted(invert);
 		if(motorPosition == motorToFollow){
 			//This is a master
 			System.out.println("The master is ramping: " + timeInS);
@@ -191,10 +192,10 @@ public class MDDriveSubsystem extends MDSubsystem {
 					throw new IllegalArgumentException("Invalid MDDriveSubsystem TankDrive configuraton, missing motors.");
 				}
 				System.out.println(this.toString());
-				configureTalonSRX(MotorPosition.frontLeft, MotorPosition.rearLeft);			//slave
-				configureTalonSRX(MotorPosition.rearLeft, MotorPosition.rearLeft);			//master
-				configureTalonSRX(MotorPosition.frontRight, MotorPosition.frontRight);		//master
-				configureTalonSRX(MotorPosition.rearRight, MotorPosition.frontRight);		//slave
+				configureTalonSRX(MotorPosition.frontLeft, MotorPosition.rearLeft, false);			//slave
+				configureTalonSRX(MotorPosition.rearLeft, MotorPosition.rearLeft,false);			//master
+				configureTalonSRX(MotorPosition.frontRight, MotorPosition.frontRight,false);		//master
+				configureTalonSRX(MotorPosition.rearRight, MotorPosition.frontRight,false);		//slave
 				differentialDrive = new DifferentialDrive(new MultiSpeedController(new SpeedController[]{get(MotorPosition.rearLeft), get(MotorPosition.frontLeft)}),
 						new MultiSpeedController(new SpeedController[]{get(MotorPosition.rearRight), get(MotorPosition.frontRight)}));
 

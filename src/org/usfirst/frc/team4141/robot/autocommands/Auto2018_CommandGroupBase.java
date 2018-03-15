@@ -9,6 +9,7 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 	
 	private AutonomousSubsystem autoSubsystem;
 	private AutonomousSubsystem.TypeOfDriveStrategy driveStrategy;
+	private boolean basicScenario = true;
 	
 	public Auto2018_CommandGroupBase(MDRobotBase robot, String name) {
 		super(robot, name);
@@ -38,24 +39,50 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 		
 		addSequential(new MDPrintCommand(getRobot(), this.getName(), "Executing command group " + this.getName() ) );
 		
-		// Potentially wait a bit before starting to avoid contact with other alliance robots
-		addWaitCommand("STEP 0: Wait Command");
 		
-		// *****************************************
-		// ****** Insert commands to execute  ******
+		if (basicScenario = true){
+			
+			// Potentially wait a bit before starting to avoid contact with other alliance robots
+			addWaitCommand("STEP 0: Wait Command");
 		
-		addDriveCommand("STEP 1: DriveDistanceCommand", 14., .8);
+			// *****************************************
+			// ****** Insert commands to execute  ******
 		
-		addTurnCommand("STEP 2: TurnCommand", turnAngle, .8);		
-		turnAngle *= (-1.0);  // Flip angle of for next turn
+			addDriveCommand("STEP 1: DriveDistanceCommand", 14., .8);
 		
-		addDriveCommand("STEP 3: DriveDistanceCommand", 1., .5);
+			addTurnCommand("STEP 2: TurnCommand", turnAngle, .8);		
+			turnAngle *= (-1.0);  // Flip angle of for next turn
 		
-		// *****************************************
+			addDriveCommand("STEP 3: DriveDistanceCommand", 1., .5);
 		
-		// When we're all done, just idle until the autonomous session is over
-		addIdleCommand("IDLE......");
+			// *****************************************
 		
+			// When we're all done, just idle until the autonomous session is over
+			addIdleCommand("IDLE......");
+		
+		}
+		else{
+			// Potentially wait a bit before starting to avoid contact with other alliance robots
+			addWaitCommand("STEP 0: Wait Command");
+			
+			// *****************************************
+			// ****** Insert commands to execute  ******
+			
+			addDriveCommand("STEP 1: DriveDistanceCommand", 14., .8);
+			
+			addTurnCommand("STEP 2: TurnCommand", turnAngle, .8);		
+			turnAngle *= (-1.0);  // Flip angle of for next turn
+			
+			addDriveCommand("STEP 3: DriveDistanceCommand", 1., .5);
+			
+			// *****************************************
+		
+			//ADD LIFT CODE HERE
+		
+			// When we're all done, just idle until the autonomous session is over
+			addIdleCommand("IDLE......");
+	
+		}
 	}
 	
 	// The farScenario() method should be called in the constructor of any derived class where 
@@ -74,27 +101,55 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 		
 		addSequential(new MDPrintCommand(getRobot(), this.getName(), "Executing command group " + this.getName() ) );
 
-		// Potentially wait a bit before starting to avoid contact with other alliance robots
-		addWaitCommand("STEP 0: Wait Command");
+		if (basicScenario = true){
+			
+			// Potentially wait a bit before starting to avoid contact with other alliance robots
+			addWaitCommand("STEP 0: Wait Command");
 		
-		// *****************************************
-		// ****** Insert commands to execute  ******
+			// *****************************************
+			// ****** Insert commands to execute  ******
 		
-		addDriveCommand("STEP 1: DriveDistanceCommand", 19., .8);
+			addDriveCommand("STEP 1: DriveDistanceCommand", 19., .8);
 		
-		addTurnCommand("STEP 2: TurnCommand", turnAngle, .8);		
+			addTurnCommand("STEP 2: TurnCommand", turnAngle, .8);		
 		
-		addDriveCommand("STEP 3: DriveDistanceCommand", 2., .8);
+			addDriveCommand("STEP 3: DriveDistanceCommand", 2., .8);
 		
-		addTurnCommand("STEP 4: TurnCommand", turnAngle, .8);	
+			addTurnCommand("STEP 4: TurnCommand", turnAngle, .8);	
 		
-		addDriveCommand("STEP 5: DriveDistanceCommand", 1., .8);
+			addDriveCommand("STEP 5: DriveDistanceCommand", 1., .8);
 		
-		// *****************************************		
+			// *****************************************		
 		
-		// When we're all done, just idle until the autonomous session is over
-		addIdleCommand("IDLE......");
+			// When we're all done, just idle until the autonomous session is over
+			addIdleCommand("IDLE......");
 		
+		}
+		else{
+			// Potentially wait a bit before starting to avoid contact with other alliance robots
+			addWaitCommand("STEP 0: Wait Command");
+			
+			// *****************************************
+			// ****** Insert commands to execute  ******
+			
+			addDriveCommand("STEP 1: DriveDistanceCommand", 19., .8);
+			
+			addTurnCommand("STEP 2: TurnCommand", turnAngle, .8);		
+			
+			addDriveCommand("STEP 3: DriveDistanceCommand", 2., .8);
+			
+			addTurnCommand("STEP 4: TurnCommand", turnAngle, .8);	
+			
+			addDriveCommand("STEP 5: DriveDistanceCommand", 1., .8);
+			
+			// *****************************************		
+			
+			//ADD LIFT CODE HERE
+		
+			// When we're all done, just idle until the autonomous session is over
+			addIdleCommand("IDLE......");
+		
+		}
 	}	
 	
 	// The midScenario() method should be called in the constructor of any derived class where 
@@ -114,30 +169,63 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 		
 		addSequential(new MDPrintCommand(getRobot(), this.getName(), "Executing command group " + this.getName() ) );
 	
-		// Potentially wait a bit before starting to avoid contact with other alliance robots
-		addWaitCommand("STEP 0: Wait Command");
+		if(basicScenario = true){
 		
-		// *****************************************
-		// ****** Insert commands to execute  ******
+			// Potentially wait a bit before starting to avoid contact with other alliance robots
+			addWaitCommand("STEP 0: Wait Command");
 		
-		addDriveCommand("STEP 1: DriveDistanceCommand", 7., .8);
+			// *****************************************
+			// ****** Insert commands to execute  ******
 		
-		addTurnCommand("STEP 2: TurnCommand", turnAngle, .8);		
+			addDriveCommand("STEP 1: DriveDistanceCommand", 7., .8);
 		
-		addDriveCommand("STEP 3: DriveDistanceCommand", latDistance, .8);
+			addTurnCommand("STEP 2: TurnCommand", turnAngle, .8);		
 		
-		addTurnCommand("STEP 4: TurnCommand", -turnAngle, .8);	
+			addDriveCommand("STEP 3: DriveDistanceCommand", latDistance, .8);
 		
-		addDriveCommand("STEP 5: DriveDistanceCommand", 7., .8);
+			addTurnCommand("STEP 4: TurnCommand", -turnAngle, .8);	
 		
-		addTurnCommand("STEP 6: TurnCommand", -turnAngle, .8);	
+			addDriveCommand("STEP 5: DriveDistanceCommand", 7., .8);
 		
-		addDriveCommand("STEP 7: DriveDistanceCommand", 1., .8);
+			addTurnCommand("STEP 6: TurnCommand", -turnAngle, .8);	
 		
-		// *****************************************		
+			addDriveCommand("STEP 7: DriveDistanceCommand", 1., .8);
+		
+			// *****************************************		
 				
-		// When we're all done, just idle until the autonomous session is over
-		addIdleCommand("IDLE......");
+			// When we're all done, just idle until the autonomous session is over
+			addIdleCommand("IDLE......");
+		
+		}
+		else{
+			// Potentially wait a bit before starting to avoid contact with other alliance robots
+			addWaitCommand("STEP 0: Wait Command");
+			
+			// *****************************************
+			// ****** Insert commands to execute  ******
+			
+			addDriveCommand("STEP 1: DriveDistanceCommand", 7., .8);
+			
+			addTurnCommand("STEP 2: TurnCommand", turnAngle, .8);		
+			
+			addDriveCommand("STEP 3: DriveDistanceCommand", latDistance, .8);
+			
+			addTurnCommand("STEP 4: TurnCommand", -turnAngle, .8);	
+			
+			addDriveCommand("STEP 5: DriveDistanceCommand", 7., .8);
+			
+			addTurnCommand("STEP 6: TurnCommand", -turnAngle, .8);	
+			
+			addDriveCommand("STEP 7: DriveDistanceCommand", 1., .8);
+			
+			// *****************************************		
+					
+			//ADD LIFT CODE HERE
+			
+			// When we're all done, just idle until the autonomous session is over
+			addIdleCommand("IDLE......");
+			
+		}
 		
 	}		
 	
