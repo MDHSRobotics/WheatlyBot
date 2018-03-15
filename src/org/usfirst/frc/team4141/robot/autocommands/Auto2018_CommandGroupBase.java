@@ -44,20 +44,14 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 		// *****************************************
 		// ****** Insert commands to execute  ******
 		
+		addDriveCommand("STEP 1: DriveDistanceCommand", 14., .8);
 		
-		addDriveCommand("STEP 1: DriveDistanceCommand", 10., .5);
-		
-		addTurnCommand("STEP 2: TurnCommand", 180, .5);
-		
-		addDriveCommand("STEP 3: DriveDistanceCommand", 10., .5);
-		
-		addTurnCommand("STEP 4: TurnCommand", turnAngle, .5);		
+		addTurnCommand("STEP 2: TurnCommand", turnAngle, .8);		
 		turnAngle *= (-1.0);  // Flip angle of for next turn
 		
-		addDriveCommand("STEP 5: DriveDistanceCommand", 10., .5);
+		addDriveCommand("STEP 3: DriveDistanceCommand", 1., .5);
 		
 		// *****************************************
-
 		
 		// When we're all done, just idle until the autonomous session is over
 		addIdleCommand("IDLE......");
@@ -86,11 +80,15 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 		// *****************************************
 		// ****** Insert commands to execute  ******
 		
+		addDriveCommand("STEP 1: DriveDistanceCommand", 19., .8);
 		
+		addTurnCommand("STEP 2: TurnCommand", turnAngle, .8);		
 		
+		addDriveCommand("STEP 3: DriveDistanceCommand", 2., .8);
 		
+		addTurnCommand("STEP 4: TurnCommand", turnAngle, .8);	
 		
-		
+		addDriveCommand("STEP 5: DriveDistanceCommand", 1., .8);
 		
 		// *****************************************		
 		
@@ -110,7 +108,9 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 	protected void midScenario(boolean headLeft) {
 		
 		double turnAngle = 90.0;
+		double latDistance = 6.0; //lateral distance the bot moves in Pos #2
 		if (headLeft) turnAngle *= (-1.0);  // Flip angle of first turn if starting at position #3
+		if (headLeft) latDistance = 10;
 		
 		addSequential(new MDPrintCommand(getRobot(), this.getName(), "Executing command group " + this.getName() ) );
 	
@@ -120,11 +120,19 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 		// *****************************************
 		// ****** Insert commands to execute  ******
 		
+		addDriveCommand("STEP 1: DriveDistanceCommand", 7., .8);
 		
+		addTurnCommand("STEP 2: TurnCommand", turnAngle, .8);		
 		
+		addDriveCommand("STEP 3: DriveDistanceCommand", latDistance, .8);
 		
+		addTurnCommand("STEP 4: TurnCommand", -turnAngle, .8);	
 		
+		addDriveCommand("STEP 5: DriveDistanceCommand", 7., .8);
 		
+		addTurnCommand("STEP 6: TurnCommand", -turnAngle, .8);	
+		
+		addDriveCommand("STEP 7: DriveDistanceCommand", 1., .8);
 		
 		// *****************************************		
 				
@@ -242,3 +250,6 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 
 
 }
+
+
+
