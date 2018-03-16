@@ -27,7 +27,7 @@ public class WaitCommand extends MDCommand {
 	 * @param robot - the robot object
 	 * @param name - name of this WaitCommand
 	 */
-	public WaitCommand(MDRobotBase robot, String name) {
+	public WaitCommand(MDRobotBase robot, String name, double waitTime) {
 		super(robot, name);
 		
 		autoSubsystem = (AutonomousSubsystem) robot.getSubsystem("autoSubsystem");
@@ -42,14 +42,12 @@ public class WaitCommand extends MDCommand {
 	
 		m_elapsedTime = 0.;
 		m_timer = new Timer();
+		m_waitTime = waitTime;
 	}
 
 	// Initialize is called when the command first starts
 	 
 	protected void initialize() {
-		// Get the amount of time to wait from the config setting in Autonomous Subsystem		
-		m_waitTime = autoSubsystem.getDelayStartTime();
-		
 		counter = 0;
 		m_elapsedTime = 0.;
 		m_timer.reset();

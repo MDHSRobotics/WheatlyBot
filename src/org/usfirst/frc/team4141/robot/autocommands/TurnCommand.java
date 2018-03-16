@@ -21,7 +21,7 @@ public class TurnCommand extends MDCommand {
 	private double m_angularVelocity;			        // Angular velocity (degrees/second) at current power setting
 	private boolean m_turningRight;						// True if turning right; False if turning left 
 	
-	private double angularVelocityAtFullPower = 70;     // Angular velocity (degrees/second) at full power - THIS IS A GUESS - CHECK IT!!
+	private double angularVelocityAtFullPower = 48.0;     // Angular velocity (degrees/second) at full power - THIS IS A GUESS - CHECK IT!!
 	
 	private MDDriveSubsystem driveSubsystem;
 	

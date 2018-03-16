@@ -27,13 +27,13 @@ import org.usfirst.frc.team4141.robot.autocommands.AUTOPosTwo_LRL;
 import org.usfirst.frc.team4141.robot.autocommands.AUTOPosTwo_RLR;
 import org.usfirst.frc.team4141.robot.autocommands.AUTOPosTwo_RRR;
 import org.usfirst.frc.team4141.robot.commands.ClawCommand;
-import org.usfirst.frc.team4141.robot.commands.ExtendCommand;
+//import org.usfirst.frc.team4141.robot.commands.ExtendCommand;
 import org.usfirst.frc.team4141.robot.commands.MDPrintCommand;
 import org.usfirst.frc.team4141.robot.commands.LiftCommand;
 import org.usfirst.frc.team4141.robot.subsystems.AutonomousSubsystem;
 import org.usfirst.frc.team4141.robot.subsystems.ClawSubsystem;
 import org.usfirst.frc.team4141.robot.subsystems.CoreSubsystem;
-import org.usfirst.frc.team4141.robot.subsystems.ExtendSubsystem;
+//import org.usfirst.frc.team4141.robot.subsystems.ExtendSubsystem;
 import org.usfirst.frc.team4141.robot.subsystems.LiftSubsystem;
 import org.usfirst.frc.team4141.robot.subsystems.MDDriveSubsystem;
 import org.usfirst.frc.team4141.robot.subsystems.MDDriveSubsystem.MotorPosition;
@@ -64,8 +64,8 @@ public class Robot extends MDRobotBase {
 
 		LiftCommand liftCommand = new LiftCommand(this);
 		liftCommand.start();
-		ExtendCommand extendCommand = new ExtendCommand(this);
-		extendCommand.start();
+//		ExtendCommand extendCommand = new ExtendCommand(this);
+//		extendCommand.start();
 		ClawCommand clawCommand = new ClawCommand(this);
 		clawCommand.start();
 
@@ -169,8 +169,8 @@ public class Robot extends MDRobotBase {
 		);
 		
 		add(new LiftSubsystem(this, "liftSubsystem")
-				.add(LiftSubsystem.liftMotor1, new MDTalonSRX(7))
-				.add(LiftSubsystem.liftMotor2, new MDTalonSRX(8))
+				.add(LiftSubsystem.liftMotor1, new MDTalonSRX(5))
+				.add(LiftSubsystem.liftMotor2, new MDTalonSRX(6))
 				.add("liftSpeed", new DoubleConfigSetting(0.0, 1.0, 1.0))
 				.add("governor", new DoubleConfigSetting(0.0, 1.0, 1.0)) //Speed Governor
 				.configure()
@@ -178,18 +178,18 @@ public class Robot extends MDRobotBase {
 		
 		ClawSubsystem clawSubsystem = new ClawSubsystem(this, "clawSubsystem");
 		add(clawSubsystem);
-		clawSubsystem.add(ClawSubsystem.clawMotorName, new MDTalonSRX(5))
+		clawSubsystem.add(ClawSubsystem.clawMotorName, new MDTalonSRX(7))
 				.add("clawSpeed", new DoubleConfigSetting(0.0, 1.0, 1.0))
 				.add("governor", new DoubleConfigSetting(0.0, 1.0, 1.0)) //Speed Governor
 				.configure();
 		
-		ExtendSubsystem extendSubsystem = new ExtendSubsystem(this, "extendSubsystem");
-		add(extendSubsystem);
-				extendSubsystem.add(ExtendSubsystem.extendclawMotorName, new MDTalonSRX(6))
-				.add("extendSpeed", new DoubleConfigSetting(0.0, 1.0, 1.0))
-				.add("governor", new DoubleConfigSetting(0.0, 1.0, 1.0)) //Speed Governor
-				.configure();
-				
+//		ExtendSubsystem extendSubsystem = new ExtendSubsystem(this, "extendSubsystem");
+//		add(extendSubsystem);
+//				extendSubsystem.add(ExtendSubsystem.extendclawMotorName, new MDTalonSRX(6))
+//				.add("extendSpeed", new DoubleConfigSetting(0.0, 1.0, 1.0))
+//				.add("governor", new DoubleConfigSetting(0.0, 1.0, 1.0)) //Speed Governor
+//				.configure();
+//				
 		initAutoCommands();				// Create all of the possible command groups
 				
 		debug("\n \n \n Done configuring the Robot.");

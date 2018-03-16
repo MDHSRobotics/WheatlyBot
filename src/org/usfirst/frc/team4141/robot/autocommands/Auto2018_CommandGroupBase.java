@@ -10,6 +10,7 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 	private AutonomousSubsystem autoSubsystem;
 	private AutonomousSubsystem.TypeOfDriveStrategy driveStrategy;
 	private boolean basicScenario = true;
+	private double m_delayTime;
 	
 	public Auto2018_CommandGroupBase(MDRobotBase robot, String name) {
 		super(robot, name);
@@ -17,6 +18,9 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 		autoSubsystem = (AutonomousSubsystem) robot.getSubsystem("autoSubsystem");
 		
 		driveStrategy = autoSubsystem.getDriveStrategy();
+		// Get the amount of time to wait from the config setting in Autonomous Subsystem		
+		m_delayTime = autoSubsystem.getDelayStartTime();
+				
 		
 		log(name,"Creating command group " + name + " with drive strategy of " + driveStrategy.toString());
 		System.out.println("\nCreating command group " + name + " with drive strategy of " + driveStrategy.toString());		
@@ -43,16 +47,19 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 		if (basicScenario = true){
 			
 			// Potentially wait a bit before starting to avoid contact with other alliance robots
-			addWaitCommand("STEP 0: Wait Command");
+			addWaitCommand("STEP 0: Wait Command", m_delayTime);
 		
 			// *****************************************
 			// ****** Insert commands to execute  ******
 		
 			addDriveCommand("STEP 1: DriveDistanceCommand", 14., .8);
 		
-			addTurnCommand("STEP 2: TurnCommand", turnAngle, .8);		
+			addWaitCommand("Wait Command", 2.0);
+			
+			addTurnCommand("STEP 2: TurnCommand", turnAngle, 0.8);		
 			turnAngle *= (-1.0);  // Flip angle of for next turn
-		
+			addWaitCommand("Wait Command", 15.0);
+		//=====================================================================================================//
 			addDriveCommand("STEP 3: DriveDistanceCommand", 1., .5);
 		
 			// *****************************************
@@ -63,15 +70,19 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 		}
 		else{
 			// Potentially wait a bit before starting to avoid contact with other alliance robots
-			addWaitCommand("STEP 0: Wait Command");
+			addWaitCommand("STEP 0: Wait Command", m_delayTime);
 			
 			// *****************************************
 			// ****** Insert commands to execute  ******
 			
 			addDriveCommand("STEP 1: DriveDistanceCommand", 14., .8);
 			
+			addWaitCommand("Wait Command", 0.10);
+			
 			addTurnCommand("STEP 2: TurnCommand", turnAngle, .8);		
 			turnAngle *= (-1.0);  // Flip angle of for next turn
+			
+			addWaitCommand("Wait Command", 0.10);
 			
 			addDriveCommand("STEP 3: DriveDistanceCommand", 1., .5);
 			
@@ -104,18 +115,24 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 		if (basicScenario = true){
 			
 			// Potentially wait a bit before starting to avoid contact with other alliance robots
-			addWaitCommand("STEP 0: Wait Command");
+			addWaitCommand("STEP 0: Wait Command", m_delayTime);
 		
 			// *****************************************
 			// ****** Insert commands to execute  ******
 		
-			addDriveCommand("STEP 1: DriveDistanceCommand", 19., .8);
+//			addDriveCommand("STEP 1: DriveDistanceCommand", 19., .8);
+
+			addDriveCommand("STEP 1: DriveDistanceCommand", 14., .8);
+			addWaitCommand("Wait Command", 2.0);
 		
-			addTurnCommand("STEP 2: TurnCommand", turnAngle, .8);		
+			addTurnCommand("STEP 2: TurnCommand", turnAngle, 0.8);	
+			addWaitCommand("Wait Command", 15.0);
 		
 			addDriveCommand("STEP 3: DriveDistanceCommand", 2., .8);
+			addWaitCommand("Wait Command", 0.10);
 		
 			addTurnCommand("STEP 4: TurnCommand", turnAngle, .8);	
+			addWaitCommand("Wait Command", 0.10);
 		
 			addDriveCommand("STEP 5: DriveDistanceCommand", 1., .8);
 		
@@ -127,18 +144,22 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 		}
 		else{
 			// Potentially wait a bit before starting to avoid contact with other alliance robots
-			addWaitCommand("STEP 0: Wait Command");
+			addWaitCommand("STEP 0: Wait Command", m_delayTime);
 			
 			// *****************************************
 			// ****** Insert commands to execute  ******
 			
 			addDriveCommand("STEP 1: DriveDistanceCommand", 19., .8);
+			addWaitCommand("Wait Command", 0.10);
 			
-			addTurnCommand("STEP 2: TurnCommand", turnAngle, .8);		
+			addTurnCommand("STEP 2: TurnCommand", turnAngle, .8);	
+			addWaitCommand("Wait Command", 0.10);
 			
 			addDriveCommand("STEP 3: DriveDistanceCommand", 2., .8);
+			addWaitCommand("Wait Command", 0.10);
 			
 			addTurnCommand("STEP 4: TurnCommand", turnAngle, .8);	
+			addWaitCommand("Wait Command", 0.10);
 			
 			addDriveCommand("STEP 5: DriveDistanceCommand", 1., .8);
 			
@@ -172,22 +193,28 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 		if(basicScenario = true){
 		
 			// Potentially wait a bit before starting to avoid contact with other alliance robots
-			addWaitCommand("STEP 0: Wait Command");
+			addWaitCommand("STEP 0: Wait Command", m_delayTime);
 		
 			// *****************************************
 			// ****** Insert commands to execute  ******
 		
 			addDriveCommand("STEP 1: DriveDistanceCommand", 7., .8);
+			addWaitCommand("Wait Command", 0.10);
 		
 			addTurnCommand("STEP 2: TurnCommand", turnAngle, .8);		
+			addWaitCommand("Wait Command", 15.0);
 		
 			addDriveCommand("STEP 3: DriveDistanceCommand", latDistance, .8);
+			addWaitCommand("Wait Command", 0.10);
 		
 			addTurnCommand("STEP 4: TurnCommand", -turnAngle, .8);	
+			addWaitCommand("Wait Command", 0.10);
 		
 			addDriveCommand("STEP 5: DriveDistanceCommand", 7., .8);
+			addWaitCommand("Wait Command", 0.10);
 		
 			addTurnCommand("STEP 6: TurnCommand", -turnAngle, .8);	
+			addWaitCommand("Wait Command", 0.10);
 		
 			addDriveCommand("STEP 7: DriveDistanceCommand", 1., .8);
 		
@@ -199,22 +226,28 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 		}
 		else{
 			// Potentially wait a bit before starting to avoid contact with other alliance robots
-			addWaitCommand("STEP 0: Wait Command");
+			addWaitCommand("STEP 0: Wait Command", m_delayTime);
 			
 			// *****************************************
 			// ****** Insert commands to execute  ******
 			
 			addDriveCommand("STEP 1: DriveDistanceCommand", 7., .8);
+			addWaitCommand("Wait Command", 0.10);
 			
 			addTurnCommand("STEP 2: TurnCommand", turnAngle, .8);		
+			addWaitCommand("Wait Command", 0.10);
 			
 			addDriveCommand("STEP 3: DriveDistanceCommand", latDistance, .8);
+			addWaitCommand("Wait Command", 0.10);
 			
 			addTurnCommand("STEP 4: TurnCommand", -turnAngle, .8);	
+			addWaitCommand("Wait Command", 0.10);
 			
 			addDriveCommand("STEP 5: DriveDistanceCommand", 7., .8);
+			addWaitCommand("Wait Command", 0.10);
 			
 			addTurnCommand("STEP 6: TurnCommand", -turnAngle, .8);	
+			addWaitCommand("Wait Command", 0.10);
 			
 			addDriveCommand("STEP 7: DriveDistanceCommand", 1., .8);
 			
@@ -318,13 +351,13 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 		//		commandDescription: description for this command - e.g. "STEP 0: Wait"
 		
 		
-		private void addWaitCommand(String commandDescription) {			
+		private void addWaitCommand(String commandDescription, double waitTime) {			
 			
 			// Log what we're doing
 			log("addWaitCommand","Adding Wait command " + commandDescription );
 			System.out.println("Adding Wait command " + commandDescription );
 			
-			addSequential(new WaitCommand(getRobot(), commandDescription));
+			addSequential(new WaitCommand(getRobot(), commandDescription, waitTime));
 		}
 		
 		private void addIdleCommand(String commandDescription) {			

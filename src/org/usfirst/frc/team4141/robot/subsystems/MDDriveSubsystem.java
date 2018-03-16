@@ -193,9 +193,9 @@ public class MDDriveSubsystem extends MDSubsystem {
 				}
 				System.out.println(this.toString());
 				configureTalonSRX(MotorPosition.frontLeft, MotorPosition.rearLeft, false);			//slave
-				configureTalonSRX(MotorPosition.rearLeft, MotorPosition.rearLeft,false);			//master
-				configureTalonSRX(MotorPosition.frontRight, MotorPosition.frontRight,false);		//master
-				configureTalonSRX(MotorPosition.rearRight, MotorPosition.frontRight,false);		//slave
+				configureTalonSRX(MotorPosition.rearLeft, MotorPosition.rearLeft, false);			//master
+				configureTalonSRX(MotorPosition.frontRight, MotorPosition.frontRight, false);		//master
+				configureTalonSRX(MotorPosition.rearRight, MotorPosition.frontRight, false);		//slave
 				differentialDrive = new DifferentialDrive(new MultiSpeedController(new SpeedController[]{get(MotorPosition.rearLeft), get(MotorPosition.frontLeft)}),
 						new MultiSpeedController(new SpeedController[]{get(MotorPosition.rearRight), get(MotorPosition.frontRight)}));
 
@@ -337,14 +337,14 @@ public class MDDriveSubsystem extends MDSubsystem {
 			//added minus sign
 			double forwardAxisValue = joystick.getRawAxis(1);
 			double forward = (forwardAxisValue)*(1.0-(1.0-governor));
-		  	double rotate = joystick.getRawAxis(2); //(Changed to accompass shifting w/controller and deadzoned)
+		  	double rotate = -joystick.getRawAxis(2); //(Changed to accompass shifting w/controller and deadzoned)
 	  	  //debug("forward = " + forward + ", rotate = " + rotate);
 		  	if(rotate>0){
 		  		System.out.print("turning");
 		  	}
 		  	double[] speeds = interpolator.calculate(forward, rotate);
 		    //debug("left: "+speeds[0]+", right: "+speeds[1]);
-		  	differentialDrive.tankDrive(speeds[0], speeds[1]);
+		  	differentialDrive.tankDrive(-speeds[0], -speeds[1]);
 		}
 	}
 	

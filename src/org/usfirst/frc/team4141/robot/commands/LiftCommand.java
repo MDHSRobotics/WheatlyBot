@@ -71,6 +71,7 @@ public class LiftCommand extends MDCommand {
 	 */
 	protected void execute() {
 		if (liftSubsystem!=null)liftSubsystem.lift(xbox);
+//		log(Level.DEBUG,"execute()","Clawing");
 //		log(Level.DEBUG,"execute()","Lifting");
 	}
 	
