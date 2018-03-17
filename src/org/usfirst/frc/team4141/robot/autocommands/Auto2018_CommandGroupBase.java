@@ -19,7 +19,7 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 	double kLiftPower = .8;
 	double kMaintainLiftPower = .15;
 	double kClawPower = .5;
-	double kWaitBetweenMoves = 1.5;
+	double kWaitBetweenMoves = 2.0;
 	
 	public Auto2018_CommandGroupBase(MDRobotBase robot, String name) {
 		super(robot, name);
@@ -53,22 +53,46 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 		addSequential(new MDPrintCommand(getRobot(), this.getName(), "Executing command group " + this.getName() ) );	
 		
 		if (basicScenario){
-			
 			// Potentially wait a bit before starting to avoid contact with other alliance robots
 			addWaitCommand("STEP 0: Wait Command", m_delayTime);	
 		
 			addDriveCommand("STEP 1: DriveDistanceCommand", 14., kDrivePowerHigh);		
 				addWaitCommand("Wait Command", kWaitBetweenMoves);
+				
+			addAutoLiftCommand("STEP 2: AutoLiftCommand", 0.7, kLiftPower);
+			addParallelMaintainCommand("STEP 2b: Parallel Lift Command", 15., kMaintainLiftPower);
+				addWaitCommand("Wait Command", 0.5);
+			 
+			addTurnCommand("STEP 3: TurnCommand", turnAngle, kTurnPower);		
+			turnAngle *= (-1.0);  // Flip angle of for next turn		
+			addWaitCommand("Wait Command", 1.5);
+			 
+			addDriveCommand("STEP 4: DriveDistanceCommand", 4., .70);
 			
-			addTurnCommand("STEP 2: TurnCommand", turnAngle, kTurnPower);		
-			turnAngle *= (-1.0);  // Flip angle of for next turn			
+			addAutoClawCommand("STEP 5: AutoClawCommand", 0.4, kClawPower);
 				addWaitCommand("Wait Command", 15.0);
  
-			addDriveCommand("STEP 3: DriveDistanceCommand", 1., kDrivePowerLow);
+			addDriveCommand("STEP 6: DriveDistanceCommand", 1., kDrivePowerLow);
 				addWaitCommand("Wait Command", kWaitBetweenMoves);
 		
 			// When we're all done, just idle until the autonomous session is over
 			addIdleCommand("IDLE......");
+//			
+//			// Potentially wait a bit before starting to avoid contact with other alliance robots
+//			addWaitCommand("STEP 0: Wait Command", m_delayTime);	
+//		
+//			addDriveCommand("STEP 1: DriveDistanceCommand", 14., kDrivePowerHigh);		
+//				addWaitCommand("Wait Command", kWaitBetweenMoves);
+//			
+//			addTurnCommand("STEP 2: TurnCommand", turnAngle, kTurnPower);		
+//			turnAngle *= (-1.0);  // Flip angle of for next turn			
+//				addWaitCommand("Wait Command", 15.0);
+// 
+//			addDriveCommand("STEP 3: DriveDistanceCommand", 1., kDrivePowerLow);
+//				addWaitCommand("Wait Command", kWaitBetweenMoves);
+//		
+//			// When we're all done, just idle until the autonomous session is over
+//			addIdleCommand("IDLE......");
 		
 		}
 		else{
@@ -87,7 +111,7 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 				
 			addAutoLiftCommand("STEP 4: AutoLiftCommand", 2., kLiftPower);
 				
-			addParallelLiftCommand("STEP 4b: Parallel Lift Command", 15., kMaintainLiftPower);
+			addParallelMaintainCommand("STEP 4b: Parallel Lift Command", 15., kMaintainLiftPower);
 			
 			addTurnCommand("STEP 5: TurnCommand", turnAngle, kTurnPower);
 				addWaitCommand("Wait Command", kWaitBetweenMoves);
@@ -168,7 +192,7 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 			
 			addAutoLiftCommand("STEP 6: AutoLiftCommand", 2., kLiftPower);
 			
-			addParallelLiftCommand("STEP 6b: Parallel Lift Command", 15., kMaintainLiftPower);
+			addParallelMaintainCommand("STEP 4b: Parallel Lift Command", 15., kMaintainLiftPower);
 			
 			addTurnCommand("STEP 7: TurnCommand", turnAngle, kTurnPower);	
 				addWaitCommand("Wait Command", kWaitBetweenMoves);
@@ -260,7 +284,7 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 			addAutoLiftCommand("STEP 6: AutoLiftCommand", 2., kLiftPower);
 				addWaitCommand("Wait Command", kWaitBetweenMoves);
 			
-			addParallelLiftCommand("STEP 6b: Parallel Lift Command", 15., kMaintainLiftPower);
+				addParallelMaintainCommand("STEP 4b: Parallel Lift Command", 15., kMaintainLiftPower);
 				addWaitCommand("Wait Command", kWaitBetweenMoves);
 			
 			addTurnCommand("STEP 6: TurnCommand", -turnAngle, kTurnPower);	
@@ -394,7 +418,7 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 			log("addAutoLiftCommand","Adding AutoLift command " + commandDescription );
 			System.out.println("Adding Lift command " + commandDescription );
 			
-			addSequential(new AutoLiftCommand(getRobot(), commandDescription, power, duration));
+			addSequential(new AutoLiftCommand(getRobot(), commandDescription, duration, power));
 		}
 
 		private void addAutoClawCommand(String commandDescription, double duration,  double power) {
@@ -404,12 +428,12 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 			addSequential(new AutoClawCommand(getRobot(), commandDescription, duration, power));
 		}
 		
-		private void addParallelLiftCommand(String commandDescription, double duration, double power) {
+		private void addParallelMaintainCommand(String commandDescription, double duration, double power) {
 
-			log("addAutoLiftCommand","Adding in Parallel AutoLift command " + commandDescription );
-			System.out.println("Adding in Parallel Lift command " + commandDescription );
+			log("addMaintainCommand","Adding in Parallel Maintain command " + commandDescription );
+			System.out.println("Adding in Parallel Maintain command " + commandDescription );
 			
-			addParallel(new AutoLiftCommand(getRobot(), commandDescription, power, duration));
+			addParallel(new MaintainCommand(getRobot(), commandDescription, duration, power));
 		}
 
 }

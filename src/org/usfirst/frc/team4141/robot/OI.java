@@ -9,6 +9,7 @@ import org.usfirst.frc.team4141.MDRobotBase.OIBase;
 import org.usfirst.frc.team4141.MDRobotBase.RioHID;
 import org.usfirst.frc.team4141.robot.autocommands.AUTOPosOne_LLL;
 import org.usfirst.frc.team4141.robot.autocommands.DriveDistanceCommand;
+import org.usfirst.frc.team4141.robot.autocommands.MaintainCommand;
 import org.usfirst.frc.team4141.robot.autocommands.TurnCommand;
 // Commands
 //import org.usfirst.frc.team4141.robot.commands.ExtendCommand;
@@ -91,6 +92,7 @@ public class OI extends OIBase{
 //				.whileHeld("4",4,new CloseClaw(getRobot(),"CloseClaw"))
 //				.whileHeld("1",1,new ExtendCommand(getRobot(),"ExtendCommand"))
 //				.whileHeld("2",2,new RetractCommand(getRobot(),"RetractCommand"))
+				.whileHeld("1",1,new MaintainCommand(getRobot(), "MaintainCommand", 0.15, 0.15))
 				.configure()
 			);
 
