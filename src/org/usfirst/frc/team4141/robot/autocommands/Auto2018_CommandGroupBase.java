@@ -19,7 +19,7 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 	double kLiftPower = .8;
 	double kMaintainLiftPower = .15;
 	double kClawPower = .5;
-	double kWaitBetweenMoves = 1.0;
+	double kWaitBetweenMoves = 1.5;
 	
 	public Auto2018_CommandGroupBase(MDRobotBase robot, String name) {
 		super(robot, name);
@@ -128,7 +128,7 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 		
 //			addDriveCommand("STEP 1: DriveDistanceCommand", 19., kDrivePowerHigh);
 
-			addDriveCommand("STEP 1: DriveDistanceCommand", 14., kDrivePowerHigh);
+			addDriveCommand("STEP 1: DriveDistanceCommand", 18., kDrivePowerHigh);
 				addWaitCommand("Wait Command", kWaitBetweenMoves);
 		
 			addTurnCommand("STEP 2: TurnCommand", turnAngle, kTurnPower);	
