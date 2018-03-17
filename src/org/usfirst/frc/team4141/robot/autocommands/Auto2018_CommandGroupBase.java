@@ -54,7 +54,7 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 		
 			addDriveCommand("STEP 1: DriveDistanceCommand", 14., .8);
 		
-			addWaitCommand("Wait Command", 2.0);
+			addWaitCommand("Wait Command", 1.0);
 			
 			addTurnCommand("STEP 2: TurnCommand", turnAngle, 0.8);		
 			turnAngle *= (-1.0);  // Flip angle of for next turn
@@ -123,7 +123,7 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 //			addDriveCommand("STEP 1: DriveDistanceCommand", 19., .8);
 
 			addDriveCommand("STEP 1: DriveDistanceCommand", 14., .8);
-			addWaitCommand("Wait Command", 2.0);
+			addWaitCommand("Wait Command", 1.0);
 		
 			addTurnCommand("STEP 2: TurnCommand", turnAngle, 0.8);	
 			addWaitCommand("Wait Command", 15.0);
