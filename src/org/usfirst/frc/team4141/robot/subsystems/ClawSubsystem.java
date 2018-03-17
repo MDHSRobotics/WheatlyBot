@@ -76,6 +76,10 @@ public class ClawSubsystem extends MDSubsystem {
 //		clawSpeedController.set(clawSpeed);
 	}
 	
+	public void autoClaw(double power){
+		clawSpeedController.set(power);
+	}
+	
 	/**
 	 * This calls the variable ropeController to halt its speed to 0.
 	 */
