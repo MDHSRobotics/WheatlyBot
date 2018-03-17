@@ -57,16 +57,15 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 			// Potentially wait a bit before starting to avoid contact with other alliance robots
 			addWaitCommand("STEP 0: Wait Command", m_delayTime);	
 		
-			addDriveCommand("STEP 1: DriveDistanceCommand", 14., kDrivePowerHigh);
-		
-			addWaitCommand("Wait Command", kWaitBetweenMoves);
+			addDriveCommand("STEP 1: DriveDistanceCommand", 14., kDrivePowerHigh);		
+				addWaitCommand("Wait Command", kWaitBetweenMoves);
 			
 			addTurnCommand("STEP 2: TurnCommand", turnAngle, kTurnPower);		
-			turnAngle *= (-1.0);  // Flip angle of for next turn
-			
-			addWaitCommand("Wait Command", 15.0);
+			turnAngle *= (-1.0);  // Flip angle of for next turn			
+				addWaitCommand("Wait Command", 15.0);
  
 			addDriveCommand("STEP 3: DriveDistanceCommand", 1., kDrivePowerLow);
+				addWaitCommand("Wait Command", kWaitBetweenMoves);
 		
 			// When we're all done, just idle until the autonomous session is over
 			addIdleCommand("IDLE......");
@@ -78,18 +77,23 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 			addWaitCommand("STEP 0: Wait Command", m_delayTime);	
 			
 			addDriveCommand("STEP 1: DriveDistanceCommand", 2., kDrivePowerHigh);
+				addWaitCommand("Wait Command", kWaitBetweenMoves);
 			
 			addDriveCommand("STEP 2: DriveDistanceCommand", -2., kDrivePowerHigh);
+				addWaitCommand("Wait Command", kWaitBetweenMoves);
 			
 			addDriveCommand("STEP 3: DriveDistanceCommand", 14., kDrivePowerHigh);
-			
+				addWaitCommand("Wait Command", kWaitBetweenMoves);
+				
 			addAutoLiftCommand("STEP 4: AutoLiftCommand", 2., kLiftPower);
-			
+				
 			addParallelLiftCommand("STEP 4b: Parallel Lift Command", 15., kMaintainLiftPower);
 			
 			addTurnCommand("STEP 5: TurnCommand", turnAngle, kTurnPower);
+				addWaitCommand("Wait Command", kWaitBetweenMoves);
 			
 			addDriveCommand("STEP 6: DriveDistanceCommand", 1., kDrivePowerLow);
+				addWaitCommand("Wait Command", kWaitBetweenMoves);
 			
 			addAutoClawCommand("STEP 7: AutoClawCommand", 1., kClawPower);
 			
@@ -125,16 +129,16 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 //			addDriveCommand("STEP 1: DriveDistanceCommand", 19., kDrivePowerHigh);
 
 			addDriveCommand("STEP 1: DriveDistanceCommand", 14., kDrivePowerHigh);
-			addWaitCommand("Wait Command", kWaitBetweenMoves);
+				addWaitCommand("Wait Command", kWaitBetweenMoves);
 		
 			addTurnCommand("STEP 2: TurnCommand", turnAngle, kTurnPower);	
-			addWaitCommand("Wait Command", 15.0);
+				addWaitCommand("Wait Command", 15.0);
 		
 			addDriveCommand("STEP 3: DriveDistanceCommand", 2., kDrivePowerHigh);
-			addWaitCommand("Wait Command", kWaitBetweenMoves);
+				addWaitCommand("Wait Command", kWaitBetweenMoves);
 		
 			addTurnCommand("STEP 4: TurnCommand", turnAngle, kTurnPower);	
-			addWaitCommand("Wait Command", kWaitBetweenMoves);
+				addWaitCommand("Wait Command", kWaitBetweenMoves);
 		
 			addDriveCommand("STEP 5: DriveDistanceCommand", 1., kDrivePowerHigh);		
 		
@@ -148,22 +152,29 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 			addWaitCommand("STEP 0: Wait Command", m_delayTime);	
 			
 			addDriveCommand("STEP 1: DriveDistanceCommand", 2., kDrivePowerHigh);
+				addWaitCommand("Wait Command", kWaitBetweenMoves);
 			
 			addDriveCommand("STEP 2: DriveDistanceCommand", -2., kDrivePowerHigh);
+				addWaitCommand("Wait Command", kWaitBetweenMoves);
 			
 			addDriveCommand("STEP 3: DriveDistanceCommand", 19., kDrivePowerHigh);
+				addWaitCommand("Wait Command", kWaitBetweenMoves);
 		
-			addTurnCommand("STEP 4: TurnCommand", turnAngle, kTurnPower);		
+			addTurnCommand("STEP 4: TurnCommand", turnAngle, kTurnPower);
+				addWaitCommand("Wait Command", kWaitBetweenMoves);
 		
 			addDriveCommand("STEP 5: DriveDistanceCommand", 13., kDrivePowerHigh);
+				addWaitCommand("Wait Command", kWaitBetweenMoves);
 			
 			addAutoLiftCommand("STEP 6: AutoLiftCommand", 2., kLiftPower);
 			
 			addParallelLiftCommand("STEP 6b: Parallel Lift Command", 15., kMaintainLiftPower);
 			
 			addTurnCommand("STEP 7: TurnCommand", turnAngle, kTurnPower);	
-		
+				addWaitCommand("Wait Command", kWaitBetweenMoves);
+			
 			addDriveCommand("STEP 8: DriveDistanceCommand", 2., kDrivePowerLow);
+				addWaitCommand("Wait Command", kWaitBetweenMoves);
 			
 			addAutoClawCommand("STEP 9: AutoClawCommand", 1., kClawPower);
 		
@@ -197,22 +208,22 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 			addWaitCommand("STEP 0: Wait Command", m_delayTime);
 		
 			addDriveCommand("STEP 1: DriveDistanceCommand", 7., kDrivePowerHigh);
-			addWaitCommand("Wait Command", kWaitBetweenMoves);
+				addWaitCommand("Wait Command", kWaitBetweenMoves);
 		
 			addTurnCommand("STEP 2: TurnCommand", turnAngle, kTurnPower);		
-			addWaitCommand("Wait Command", 15.0);
+				addWaitCommand("Wait Command", 15.0);
 		
 			addDriveCommand("STEP 3: DriveDistanceCommand", latDistance, kDrivePowerHigh);
-			addWaitCommand("Wait Command", kWaitBetweenMoves);
+				addWaitCommand("Wait Command", kWaitBetweenMoves);
 		
 			addTurnCommand("STEP 4: TurnCommand", -turnAngle, kTurnPower);	
-			addWaitCommand("Wait Command", kWaitBetweenMoves);
+				addWaitCommand("Wait Command", kWaitBetweenMoves);
 		
 			addDriveCommand("STEP 5: DriveDistanceCommand", 7., kDrivePowerHigh);
-			addWaitCommand("Wait Command", kWaitBetweenMoves);
+				addWaitCommand("Wait Command", kWaitBetweenMoves);
 		
 			addTurnCommand("STEP 6: TurnCommand", -turnAngle, kTurnPower);	
-			addWaitCommand("Wait Command", kWaitBetweenMoves);
+				addWaitCommand("Wait Command", kWaitBetweenMoves);
 		
 			addDriveCommand("STEP 7: DriveDistanceCommand", 1., kDrivePowerHigh);	
 				
@@ -226,30 +237,43 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 			addWaitCommand("STEP 0: Wait Command", m_delayTime);
 			
 			addDriveCommand("STEP 1: DriveDistanceCommand", 2., kDrivePowerHigh);
+				addWaitCommand("Wait Command", kWaitBetweenMoves);
 			
 			addDriveCommand("STEP 2: DriveDistanceCommand", -2., kDrivePowerHigh);
+				addWaitCommand("Wait Command", kWaitBetweenMoves);
 				
 			addDriveCommand("STEP 1: DriveDistanceCommand", 7., kDrivePowerHigh);
+				addWaitCommand("Wait Command", kWaitBetweenMoves);
 			
-			addTurnCommand("STEP 2: TurnCommand", turnAngle, kTurnPower);		
+			addTurnCommand("STEP 2: TurnCommand", turnAngle, kTurnPower);
+				addWaitCommand("Wait Command", kWaitBetweenMoves);
 			
 			addDriveCommand("STEP 3: DriveDistanceCommand", latDistance, kDrivePowerHigh);
+				addWaitCommand("Wait Command", kWaitBetweenMoves);
 			
 			addTurnCommand("STEP 4: TurnCommand", -turnAngle, kTurnPower);	
+				addWaitCommand("Wait Command", kWaitBetweenMoves);
 			
 			addDriveCommand("STEP 5: DriveDistanceCommand", 7., kDrivePowerHigh);
+				addWaitCommand("Wait Command", kWaitBetweenMoves);
 			
 			addAutoLiftCommand("STEP 6: AutoLiftCommand", 2., kLiftPower);
+				addWaitCommand("Wait Command", kWaitBetweenMoves);
 			
 			addParallelLiftCommand("STEP 6b: Parallel Lift Command", 15., kMaintainLiftPower);
+				addWaitCommand("Wait Command", kWaitBetweenMoves);
 			
 			addTurnCommand("STEP 6: TurnCommand", -turnAngle, kTurnPower);	
+				addWaitCommand("Wait Command", kWaitBetweenMoves);
 			
 			addDriveCommand("STEP 7: DriveDistanceCommand", 1., kDrivePowerLow);
+				addWaitCommand("Wait Command", kWaitBetweenMoves);
 			
 			addAutoClawCommand("STEP 9: AutoClawCommand", 1., kClawPower);
+				addWaitCommand("Wait Command", kWaitBetweenMoves);
 			
 			addDriveCommand("STEP 7: DriveDistanceCommand", -1., kDrivePowerHigh);
+				addWaitCommand("Wait Command", kWaitBetweenMoves);
 			
 			// When we're all done, just idle until the autonomous session is over
 			addIdleCommand("IDLE......");
