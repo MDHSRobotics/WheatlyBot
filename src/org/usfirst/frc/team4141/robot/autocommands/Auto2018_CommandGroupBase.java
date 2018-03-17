@@ -41,13 +41,12 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 		double turnAngle = 90.0;
 		if (startingPosition == 3) turnAngle *= (-1.0);  // Flip angle of first turn if starting at position #3
 		
-		addSequential(new MDPrintCommand(getRobot(), this.getName(), "Executing command group " + this.getName() ) );
+		addSequential(new MDPrintCommand(getRobot(), this.getName(), "Executing command group " + this.getName() ) );	
 		
-		
-		if (basicScenario = true){
+		if (basicScenario){
 			
 			// Potentially wait a bit before starting to avoid contact with other alliance robots
-			addWaitCommand("STEP 0: Wait Command", m_delayTime);
+			addWaitCommand("STEP 0: Wait Command", m_delayTime);	
 		
 			// *****************************************
 			// ****** Insert commands to execute  ******
@@ -69,26 +68,32 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 		
 		}
 		else{
+			
 			// Potentially wait a bit before starting to avoid contact with other alliance robots
-			addWaitCommand("STEP 0: Wait Command", m_delayTime);
+			addWaitCommand("STEP 0: Wait Command", m_delayTime);	
 			
 			// *****************************************
 			// ****** Insert commands to execute  ******
 			
-			addDriveCommand("STEP 1: DriveDistanceCommand", 14., .8);
+			addDriveCommand("STEP 1: DriveDistanceCommand", 2., .8);
 			
-			addWaitCommand("Wait Command", 0.10);
+			addDriveCommand("STEP 2: DriveDistanceCommand", -2., .8);
 			
-			addTurnCommand("STEP 2: TurnCommand", turnAngle, .8);		
-			turnAngle *= (-1.0);  // Flip angle of for next turn
+			addDriveCommand("STEP 3: DriveDistanceCommand", 14., .8);
 			
-			addWaitCommand("Wait Command", 0.10);
+			addAutoLiftCommand("STEP 4: AutoLiftCommand", 2., .8);
 			
-			addDriveCommand("STEP 3: DriveDistanceCommand", 1., .5);
+			addParallelLiftCommand("STEP 4b: Parallel Lift Command", 15., .15);
+			
+			addTurnCommand("STEP 5: TurnCommand", turnAngle, .5);
+			
+			addDriveCommand("STEP 6: DriveDistanceCommand", 1., .5);
+			
+			addAutoClawCommand("STEP 7: AutoClawCommand", 1., .5);
+			
+			addDriveCommand("STEP 8: DriveDistanceCommand", -1., .5);
 			
 			// *****************************************
-		
-			//ADD LIFT CODE HERE
 		
 			// When we're all done, just idle until the autonomous session is over
 			addIdleCommand("IDLE......");
@@ -111,12 +116,12 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 		if (startingPosition == 3) turnAngle *= (-1.0);  // Flip angle of first turn if starting at position #3
 		
 		addSequential(new MDPrintCommand(getRobot(), this.getName(), "Executing command group " + this.getName() ) );
-
-		if (basicScenario = true){
+		
+		if (basicScenario){
 			
 			// Potentially wait a bit before starting to avoid contact with other alliance robots
-			addWaitCommand("STEP 0: Wait Command", m_delayTime);
-		
+			addWaitCommand("STEP 0: Wait Command", m_delayTime);	
+	
 			// *****************************************
 			// ****** Insert commands to execute  ******
 		
@@ -143,34 +148,36 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 		
 		}
 		else{
+			
 			// Potentially wait a bit before starting to avoid contact with other alliance robots
-			addWaitCommand("STEP 0: Wait Command", m_delayTime);
+			addWaitCommand("STEP 0: Wait Command", m_delayTime);	
 			
-			// *****************************************
-			// ****** Insert commands to execute  ******
+			addDriveCommand("STEP 1: DriveDistanceCommand", 2., .8);
 			
-			addDriveCommand("STEP 1: DriveDistanceCommand", 19., .8);
-			addWaitCommand("Wait Command", 0.10);
+			addDriveCommand("STEP 2: DriveDistanceCommand", -2., .8);
 			
-			addTurnCommand("STEP 2: TurnCommand", turnAngle, .8);	
-			addWaitCommand("Wait Command", 0.10);
+			addDriveCommand("STEP 3: DriveDistanceCommand", 19., .8);
+		
+			addTurnCommand("STEP 4: TurnCommand", turnAngle, .8);		
+		
+			addDriveCommand("STEP 5: DriveDistanceCommand", 13., .8);
 			
-			addDriveCommand("STEP 3: DriveDistanceCommand", 2., .8);
-			addWaitCommand("Wait Command", 0.10);
+			addAutoLiftCommand("STEP 6: AutoLiftCommand", 2., .8);
 			
-			addTurnCommand("STEP 4: TurnCommand", turnAngle, .8);	
-			addWaitCommand("Wait Command", 0.10);
+			addParallelLiftCommand("STEP 6b: Parallel Lift Command", 15., .15);
 			
-			addDriveCommand("STEP 5: DriveDistanceCommand", 1., .8);
+			addTurnCommand("STEP 7: TurnCommand", turnAngle, .5);	
+		
+			addDriveCommand("STEP 8: DriveDistanceCommand", 2., .5);
 			
-			// *****************************************		
+			addAutoClawCommand("STEP 9: AutoClawCommand", 1., .5);
 			
-			//ADD LIFT CODE HERE
 		
 			// When we're all done, just idle until the autonomous session is over
 			addIdleCommand("IDLE......");
 		
 		}
+
 	}	
 	
 	// The midScenario() method should be called in the constructor of any derived class where 
@@ -189,12 +196,12 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 		if (headLeft) latDistance = 10;
 		
 		addSequential(new MDPrintCommand(getRobot(), this.getName(), "Executing command group " + this.getName() ) );
-	
-		if(basicScenario = true){
 		
+		if(basicScenario){
+			
 			// Potentially wait a bit before starting to avoid contact with other alliance robots
 			addWaitCommand("STEP 0: Wait Command", m_delayTime);
-		
+
 			// *****************************************
 			// ****** Insert commands to execute  ******
 		
@@ -225,35 +232,40 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 		
 		}
 		else{
+			
 			// Potentially wait a bit before starting to avoid contact with other alliance robots
 			addWaitCommand("STEP 0: Wait Command", m_delayTime);
 			
 			// *****************************************
 			// ****** Insert commands to execute  ******
 			
+			addDriveCommand("STEP 1: DriveDistanceCommand", 2., .8);
+			
+			addDriveCommand("STEP 2: DriveDistanceCommand", -2., .8);
+				
 			addDriveCommand("STEP 1: DriveDistanceCommand", 7., .8);
-			addWaitCommand("Wait Command", 0.10);
 			
 			addTurnCommand("STEP 2: TurnCommand", turnAngle, .8);		
-			addWaitCommand("Wait Command", 0.10);
 			
 			addDriveCommand("STEP 3: DriveDistanceCommand", latDistance, .8);
-			addWaitCommand("Wait Command", 0.10);
 			
 			addTurnCommand("STEP 4: TurnCommand", -turnAngle, .8);	
-			addWaitCommand("Wait Command", 0.10);
 			
 			addDriveCommand("STEP 5: DriveDistanceCommand", 7., .8);
-			addWaitCommand("Wait Command", 0.10);
 			
-			addTurnCommand("STEP 6: TurnCommand", -turnAngle, .8);	
-			addWaitCommand("Wait Command", 0.10);
+			addAutoLiftCommand("STEP 6: AutoLiftCommand", 2., .8);
 			
-			addDriveCommand("STEP 7: DriveDistanceCommand", 1., .8);
+			addParallelLiftCommand("STEP 6b: Parallel Lift Command", 15., .15);
 			
-			// *****************************************		
-					
-			//ADD LIFT CODE HERE
+			addTurnCommand("STEP 6: TurnCommand", -turnAngle, .5);	
+			
+			addDriveCommand("STEP 7: DriveDistanceCommand", 1., .5);
+			
+			addAutoClawCommand("STEP 9: AutoClawCommand", 1., .5);
+			
+			addDriveCommand("STEP 7: DriveDistanceCommand", -1., .8);
+			
+			// *****************************************
 			
 			// When we're all done, just idle until the autonomous session is over
 			addIdleCommand("IDLE......");
@@ -369,12 +381,27 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 			addSequential(new IdleCommand(getRobot(), commandDescription));
 		}
 		
-		private void addAutoLiftCommand(String commandDescription, double power, double duration) {
+		private void addAutoLiftCommand(String commandDescription, double duration, double power) {
 
 			log("addAutoLiftCommand","Adding AutoLift command " + commandDescription );
 			System.out.println("Adding Lift command " + commandDescription );
 			
 			addSequential(new AutoLiftCommand(getRobot(), commandDescription, power, duration));
+		}
+
+		private void addAutoClawCommand(String commandDescription, double duration,  double power) {
+			log("addAutoClawCommand","Adding AutoLift command " + commandDescription );
+			System.out.println("Adding Lift command " + commandDescription );
+			
+			addSequential(new AutoClawCommand(getRobot(), commandDescription, duration, power));
+		}
+		
+		private void addParallelLiftCommand(String commandDescription, double duration, double power) {
+
+			log("addAutoLiftCommand","Adding in Parallel AutoLift command " + commandDescription );
+			System.out.println("Adding in Parallel Lift command " + commandDescription );
+			
+			addParallel(new AutoLiftCommand(getRobot(), commandDescription, power, duration));
 		}
 
 }

@@ -3,7 +3,7 @@ package org.usfirst.frc.team4141.robot.autocommands;
 import org.usfirst.frc.team4141.MDRobotBase.MDCommand;
 import org.usfirst.frc.team4141.MDRobotBase.MDRobotBase;
 import org.usfirst.frc.team4141.MDRobotBase.eventmanager.LogNotification.Level;
-import org.usfirst.frc.team4141.robot.subsystems.LiftSubsystem;
+import org.usfirst.frc.team4141.robot.subsystems.ClawSubsystem;
 
 import edu.wpi.first.wpilibj.Timer;
 
@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.Timer;
  * 
  * @see RopeSubsystem
  */
-public class AutoLiftCommand extends MDCommand {
+public class AutoClawCommand extends MDCommand {
 	
 	private double m_elapsedTime;				// Time (in seconds) that this command has executed			// True if moving forward; False if moving backward
 	private Timer m_timer; 						// Timer for this command
@@ -25,7 +25,7 @@ public class AutoLiftCommand extends MDCommand {
 	private double m_power;
 	private double m_duration;
 	
-	private LiftSubsystem liftSubsystem;
+	private ClawSubsystem clawSubsystem;
 	
 	// ------------------------------------------------ //
 	
@@ -39,14 +39,14 @@ public class AutoLiftCommand extends MDCommand {
 	 * @param name the default name used after the string in the constructor
 	 * @return true if the ropeSubsystem is found, false if not.
 	 */
-	public AutoLiftCommand(MDRobotBase robot, String name, double duration, double power) {
+	public AutoClawCommand(MDRobotBase robot, String name,  double duration, double power) {
 		super(robot, name);
 		if(!getRobot().getSubsystems().containsKey("liftSubsystem")){
 			log(Level.ERROR, "initialize()", "lift subsystem not found");
 			throw new IllegalArgumentException("lift Subsystem not found");
 		}
-		liftSubsystem = (LiftSubsystem)getRobot().getSubsystem("liftSubsystem"); 
-		requires(liftSubsystem);
+		clawSubsystem = (ClawSubsystem)getRobot().getSubsystem("clawSubsystem"); 
+		requires(clawSubsystem);
 		
 		m_power = power;
 		m_duration = duration;
@@ -82,10 +82,10 @@ public class AutoLiftCommand extends MDCommand {
 		m_elapsedTime = m_timer.get();							// Return number of seconds since the timer was started
 		
 		if (++counter >= 50) {
-			System.out.println("Executing Lift Command: Elapsed time= " + m_elapsedTime + "; Target duration= " + m_duration);
+			System.out.println("Executing Claw Command: Elapsed time= " + m_elapsedTime + "; Target duration= " + m_duration);
 			counter = 0;
 		}
-		liftSubsystem.autoLift(m_power);
+		clawSubsystem.autoClaw(m_power);
 //		log(Level.DEBUG,"execute()","Lifting");
 	}
 	
@@ -96,7 +96,7 @@ public class AutoLiftCommand extends MDCommand {
 	@Override
 		protected void end() {
 		super.end();
-		liftSubsystem.stop();
+		clawSubsystem.stop();
 			
 		}
 }
