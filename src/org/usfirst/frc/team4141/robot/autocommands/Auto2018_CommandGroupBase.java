@@ -11,6 +11,7 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 	private AutonomousSubsystem.TypeOfDriveStrategy driveStrategy;
 	private boolean basicScenario = true;
 	private double m_delayTime;
+	private int stepNum = 0;
 	
 	// CONSTANTS
 	double kDrivePowerHigh = .8;
@@ -23,6 +24,8 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 	
 	public Auto2018_CommandGroupBase(MDRobotBase robot, String name) {
 		super(robot, name);
+		
+		stepNum = 0;
 
 		autoSubsystem = (AutonomousSubsystem) robot.getSubsystem("autoSubsystem");
 		
@@ -55,52 +58,52 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 		if (basicScenario){
 			
 			// Potentially wait a bit before starting to avoid contact with other alliance robots
-			addWaitCommand("STEP 0: Wait Command", m_delayTime);	
+			addWaitCommand(m_delayTime);	
 		
-			addDriveCommand("STEP 1: DriveDistanceCommand", 14., kDrivePowerHigh);		
-				addWaitCommand("Wait Command", kWaitBetweenMoves);
+			addDriveCommand(14., kDrivePowerHigh);		
+				addWaitCommand(kWaitBetweenMoves);
 			
-			addTurnCommand("STEP 2: TurnCommand", turnAngle, kTurnPower);		
+			addTurnCommand(turnAngle, kTurnPower);		
 			turnAngle *= (-1.0);  // Flip angle of for next turn			
-				addWaitCommand("Wait Command", 15.0);
+				addWaitCommand(15.0);
  
-			addDriveCommand("STEP 3: DriveDistanceCommand", 1., kDrivePowerLow);
-				addWaitCommand("Wait Command", kWaitBetweenMoves);
+			addDriveCommand(1., kDrivePowerLow);
+				addWaitCommand(kWaitBetweenMoves);
 		
 			// When we're all done, just idle until the autonomous session is over
-			addIdleCommand("IDLE......");
+			addIdleCommand();
 		
 		}
 		else{
 			
 			// Potentially wait a bit before starting to avoid contact with other alliance robots
-			addWaitCommand("STEP 0: Wait Command", m_delayTime);	
+			addWaitCommand(m_delayTime);	
 			
-			addDriveCommand("STEP 1: DriveDistanceCommand", 2., kDrivePowerHigh);
-				addWaitCommand("Wait Command", kWaitBetweenMoves);
+			addDriveCommand(2., kDrivePowerHigh);
+				addWaitCommand(kWaitBetweenMoves);
 			
-			addDriveCommand("STEP 2: DriveDistanceCommand", -2., kDrivePowerHigh);
-				addWaitCommand("Wait Command", kWaitBetweenMoves);
+			addDriveCommand(-2., kDrivePowerHigh);
+				addWaitCommand(kWaitBetweenMoves);
 			
-			addDriveCommand("STEP 3: DriveDistanceCommand", 14., kDrivePowerHigh);
-				addWaitCommand("Wait Command", kWaitBetweenMoves);
+			addDriveCommand(14., kDrivePowerHigh);
+				addWaitCommand(kWaitBetweenMoves);
 				
-			addAutoLiftCommand("STEP 4: AutoLiftCommand", 2., kLiftPower);
+			addAutoLiftCommand(2., kLiftPower);
 				
-			addParallelLiftCommand("STEP 4b: Parallel Lift Command", 15., kMaintainLiftPower);
+			addParallelLiftCommand(15., kMaintainLiftPower);
 			
-			addTurnCommand("STEP 5: TurnCommand", turnAngle, kTurnPower);
-				addWaitCommand("Wait Command", kWaitBetweenMoves);
+			addTurnCommand(turnAngle, kTurnPower);
+				addWaitCommand(kWaitBetweenMoves);
 			
-			addDriveCommand("STEP 6: DriveDistanceCommand", 1., kDrivePowerLow);
-				addWaitCommand("Wait Command", kWaitBetweenMoves);
+			addDriveCommand(1., kDrivePowerLow);
+				addWaitCommand(kWaitBetweenMoves);
 			
-			addAutoClawCommand("STEP 7: AutoClawCommand", 1., kClawPower);
+			addAutoClawCommand(1., kClawPower);
 			
-			addDriveCommand("STEP 8: DriveDistanceCommand", -1., kDrivePowerLow);
+			addDriveCommand(-1., kDrivePowerLow);
 		
 			// When we're all done, just idle until the autonomous session is over
-			addIdleCommand("IDLE......");
+			addIdleCommand();
 	
 		}
 	}
@@ -124,62 +127,62 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 		if (basicScenario){
 			
 			// Potentially wait a bit before starting to avoid contact with other alliance robots
-			addWaitCommand("STEP 0: Wait Command", m_delayTime);	
+			addWaitCommand(m_delayTime);	
 		
-//			addDriveCommand("STEP 1: DriveDistanceCommand", 19., kDrivePowerHigh);
+//			addDriveCommand(19., kDrivePowerHigh);
 
-			addDriveCommand("STEP 1: DriveDistanceCommand", 14., kDrivePowerHigh);
-				addWaitCommand("Wait Command", kWaitBetweenMoves);
+			addDriveCommand(14., kDrivePowerHigh);
+				addWaitCommand(kWaitBetweenMoves);
 		
-			addTurnCommand("STEP 2: TurnCommand", turnAngle, kTurnPower);	
-				addWaitCommand("Wait Command", 15.0);
+			addTurnCommand(turnAngle, kTurnPower);	
+				addWaitCommand(15.0);
 		
-			addDriveCommand("STEP 3: DriveDistanceCommand", 2., kDrivePowerHigh);
-				addWaitCommand("Wait Command", kWaitBetweenMoves);
+			addDriveCommand(2., kDrivePowerHigh);
+				addWaitCommand(kWaitBetweenMoves);
 		
-			addTurnCommand("STEP 4: TurnCommand", turnAngle, kTurnPower);	
-				addWaitCommand("Wait Command", kWaitBetweenMoves);
+			addTurnCommand(turnAngle, kTurnPower);	
+				addWaitCommand(kWaitBetweenMoves);
 		
-			addDriveCommand("STEP 5: DriveDistanceCommand", 1., kDrivePowerHigh);		
+			addDriveCommand(1., kDrivePowerHigh);		
 		
 			// When we're all done, just idle until the autonomous session is over
-			addIdleCommand("IDLE......");
+			addIdleCommand();
 		
 		}
 		else{
 			
 			// Potentially wait a bit before starting to avoid contact with other alliance robots
-			addWaitCommand("STEP 0: Wait Command", m_delayTime);	
+			addWaitCommand(m_delayTime);	
 			
-			addDriveCommand("STEP 1: DriveDistanceCommand", 2., kDrivePowerHigh);
-				addWaitCommand("Wait Command", kWaitBetweenMoves);
+			addDriveCommand(2., kDrivePowerHigh);
+				addWaitCommand(kWaitBetweenMoves);
 			
-			addDriveCommand("STEP 2: DriveDistanceCommand", -2., kDrivePowerHigh);
-				addWaitCommand("Wait Command", kWaitBetweenMoves);
+			addDriveCommand(-2., kDrivePowerHigh);
+				addWaitCommand(kWaitBetweenMoves);
 			
-			addDriveCommand("STEP 3: DriveDistanceCommand", 19., kDrivePowerHigh);
-				addWaitCommand("Wait Command", kWaitBetweenMoves);
+			addDriveCommand(19., kDrivePowerHigh);
+				addWaitCommand(kWaitBetweenMoves);
 		
-			addTurnCommand("STEP 4: TurnCommand", turnAngle, kTurnPower);
-				addWaitCommand("Wait Command", kWaitBetweenMoves);
+			addTurnCommand(turnAngle, kTurnPower);
+				addWaitCommand(kWaitBetweenMoves);
 		
-			addDriveCommand("STEP 5: DriveDistanceCommand", 13., kDrivePowerHigh);
-				addWaitCommand("Wait Command", kWaitBetweenMoves);
+			addDriveCommand(13., kDrivePowerHigh);
+				addWaitCommand(kWaitBetweenMoves);
 			
-			addAutoLiftCommand("STEP 6: AutoLiftCommand", 2., kLiftPower);
+			addAutoLiftCommand(2., kLiftPower);
 			
-			addParallelLiftCommand("STEP 6b: Parallel Lift Command", 15., kMaintainLiftPower);
+			addParallelLiftCommand(15., kMaintainLiftPower);
 			
-			addTurnCommand("STEP 7: TurnCommand", turnAngle, kTurnPower);	
-				addWaitCommand("Wait Command", kWaitBetweenMoves);
+			addTurnCommand(turnAngle, kTurnPower);	
+				addWaitCommand(kWaitBetweenMoves);
 			
-			addDriveCommand("STEP 8: DriveDistanceCommand", 2., kDrivePowerLow);
-				addWaitCommand("Wait Command", kWaitBetweenMoves);
+			addDriveCommand(2., kDrivePowerLow);
+				addWaitCommand(kWaitBetweenMoves);
 			
-			addAutoClawCommand("STEP 9: AutoClawCommand", 1., kClawPower);
+			addAutoClawCommand(1., kClawPower);
 		
 			// When we're all done, just idle until the autonomous session is over
-			addIdleCommand("IDLE......");
+			addIdleCommand();
 		
 		}
 
@@ -205,78 +208,78 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 		if(basicScenario){
 			
 			// Potentially wait a bit before starting to avoid contact with other alliance robots
-			addWaitCommand("STEP 0: Wait Command", m_delayTime);
+			addWaitCommand(m_delayTime);
 		
-			addDriveCommand("STEP 1: DriveDistanceCommand", 7., kDrivePowerHigh);
-				addWaitCommand("Wait Command", kWaitBetweenMoves);
+			addDriveCommand(7., kDrivePowerHigh);
+				addWaitCommand(kWaitBetweenMoves);
 		
-			addTurnCommand("STEP 2: TurnCommand", turnAngle, kTurnPower);		
-				addWaitCommand("Wait Command", 15.0);
+			addTurnCommand(turnAngle, kTurnPower);		
+				addWaitCommand(15.0);
 		
-			addDriveCommand("STEP 3: DriveDistanceCommand", latDistance, kDrivePowerHigh);
-				addWaitCommand("Wait Command", kWaitBetweenMoves);
+			addDriveCommand(latDistance, kDrivePowerHigh);
+				addWaitCommand(kWaitBetweenMoves);
 		
-			addTurnCommand("STEP 4: TurnCommand", -turnAngle, kTurnPower);	
-				addWaitCommand("Wait Command", kWaitBetweenMoves);
+			addTurnCommand(-turnAngle, kTurnPower);	
+				addWaitCommand(kWaitBetweenMoves);
 		
-			addDriveCommand("STEP 5: DriveDistanceCommand", 7., kDrivePowerHigh);
-				addWaitCommand("Wait Command", kWaitBetweenMoves);
+			addDriveCommand(7., kDrivePowerHigh);
+				addWaitCommand(kWaitBetweenMoves);
 		
-			addTurnCommand("STEP 6: TurnCommand", -turnAngle, kTurnPower);	
-				addWaitCommand("Wait Command", kWaitBetweenMoves);
+			addTurnCommand(-turnAngle, kTurnPower);	
+				addWaitCommand(kWaitBetweenMoves);
 		
-			addDriveCommand("STEP 7: DriveDistanceCommand", 1., kDrivePowerHigh);	
+			addDriveCommand(1., kDrivePowerHigh);	
 				
 			// When we're all done, just idle until the autonomous session is over
-			addIdleCommand("IDLE......");
+			addIdleCommand();
 		
 		}
 		else{
 			
 			// Potentially wait a bit before starting to avoid contact with other alliance robots
-			addWaitCommand("STEP 0: Wait Command", m_delayTime);
+			addWaitCommand(m_delayTime);
 			
-			addDriveCommand("STEP 1: DriveDistanceCommand", 2., kDrivePowerHigh);
-				addWaitCommand("Wait Command", kWaitBetweenMoves);
+			addDriveCommand(2., kDrivePowerHigh);
+				addWaitCommand(kWaitBetweenMoves);
 			
-			addDriveCommand("STEP 2: DriveDistanceCommand", -2., kDrivePowerHigh);
-				addWaitCommand("Wait Command", kWaitBetweenMoves);
+			addDriveCommand(-2., kDrivePowerHigh);
+				addWaitCommand(kWaitBetweenMoves);
 				
-			addDriveCommand("STEP 1: DriveDistanceCommand", 7., kDrivePowerHigh);
-				addWaitCommand("Wait Command", kWaitBetweenMoves);
+			addDriveCommand(7., kDrivePowerHigh);
+				addWaitCommand(kWaitBetweenMoves);
 			
-			addTurnCommand("STEP 2: TurnCommand", turnAngle, kTurnPower);
-				addWaitCommand("Wait Command", kWaitBetweenMoves);
+			addTurnCommand(turnAngle, kTurnPower);
+				addWaitCommand(kWaitBetweenMoves);
 			
-			addDriveCommand("STEP 3: DriveDistanceCommand", latDistance, kDrivePowerHigh);
-				addWaitCommand("Wait Command", kWaitBetweenMoves);
+			addDriveCommand(latDistance, kDrivePowerHigh);
+				addWaitCommand(kWaitBetweenMoves);
 			
-			addTurnCommand("STEP 4: TurnCommand", -turnAngle, kTurnPower);	
-				addWaitCommand("Wait Command", kWaitBetweenMoves);
+			addTurnCommand(-turnAngle, kTurnPower);	
+				addWaitCommand(kWaitBetweenMoves);
 			
-			addDriveCommand("STEP 5: DriveDistanceCommand", 7., kDrivePowerHigh);
-				addWaitCommand("Wait Command", kWaitBetweenMoves);
+			addDriveCommand(7., kDrivePowerHigh);
+				addWaitCommand(kWaitBetweenMoves);
 			
-			addAutoLiftCommand("STEP 6: AutoLiftCommand", 2., kLiftPower);
-				addWaitCommand("Wait Command", kWaitBetweenMoves);
+			addAutoLiftCommand(2., kLiftPower);
+				addWaitCommand(kWaitBetweenMoves);
 			
-			addParallelLiftCommand("STEP 6b: Parallel Lift Command", 15., kMaintainLiftPower);
-				addWaitCommand("Wait Command", kWaitBetweenMoves);
+			addParallelLiftCommand(15., kMaintainLiftPower);
+				addWaitCommand(kWaitBetweenMoves);
 			
-			addTurnCommand("STEP 6: TurnCommand", -turnAngle, kTurnPower);	
-				addWaitCommand("Wait Command", kWaitBetweenMoves);
+			addTurnCommand(-turnAngle, kTurnPower);	
+				addWaitCommand(kWaitBetweenMoves);
 			
-			addDriveCommand("STEP 7: DriveDistanceCommand", 1., kDrivePowerLow);
-				addWaitCommand("Wait Command", kWaitBetweenMoves);
+			addDriveCommand(1., kDrivePowerLow);
+				addWaitCommand(kWaitBetweenMoves);
 			
-			addAutoClawCommand("STEP 9: AutoClawCommand", 1., kClawPower);
-				addWaitCommand("Wait Command", kWaitBetweenMoves);
+			addAutoClawCommand(1., kClawPower);
+				addWaitCommand(kWaitBetweenMoves);
 			
-			addDriveCommand("STEP 7: DriveDistanceCommand", -1., kDrivePowerHigh);
-				addWaitCommand("Wait Command", kWaitBetweenMoves);
+			addDriveCommand(-1., kDrivePowerHigh);
+				addWaitCommand(kWaitBetweenMoves);
 			
 			// When we're all done, just idle until the autonomous session is over
-			addIdleCommand("IDLE......");
+			addIdleCommand();
 			
 		}
 		
@@ -290,31 +293,33 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 	//		b) Open Loop Encoder, whereby the encoder is checked periodically to determine the distance traveled
 	//		c) Closed Loop, whereby the encoder is instructed how to travel
 	// Arguments:
-	//		commandDescription: description for this command - e.g. "STEP3: Drive 10 feet"
 	//		distanceToTravelInFeet: how far to travel expressed in feet (negative implies to travel backwards)
 	//		speed: how fast to travel. The value depends on the type of drive distance strategy:
 	//			- Duration: power rating (0.0 to 1.0)
 	//			- Open Loop Encoder: power rating (0.0 to 1.0)
 	//			- Closed Loop: velocity in feet per second
-	private void addDriveCommand(String commandDescription, double distanceToDriveInFeet, double speed) {
+	private void addDriveCommand(double distanceToDriveInFeet, double speed) {
 		
+		++stepNum;
+		String commandName = "STEP " + stepNum + ": DriveDistance";
+
 		// Log what we're doing
-		log("addDriveCommand","Adding Drive command " + commandDescription + " for " + distanceToDriveInFeet + " ft. at speed " + speed);
-		System.out.println("Adding Drive command " + commandDescription + " for " + distanceToDriveInFeet + " ft. at speed " + speed);
+		log("addDriveCommand","Adding Drive command " + commandName + " for " + distanceToDriveInFeet + " ft. at speed " + speed);
+		System.out.println("Adding Drive command " + commandName + " for " + distanceToDriveInFeet + " ft. at speed " + speed);
 
 		switch (driveStrategy) {
 		
 		case Duration:
-			addSequential(new DriveDistanceCommand(getRobot(), commandDescription, distanceToDriveInFeet, speed));
+			addSequential(new DriveDistanceCommand(getRobot(), commandName, distanceToDriveInFeet, speed));
 			break;
 			
 		case Simulate:
 			// Just print the command that would be executed if we weren't in Simulate mode
-			addSequential(new MDPrintCommand(getRobot(), commandDescription, "Drive for a distance of " + distanceToDriveInFeet + " ft. at speed " + speed));
+			addSequential(new MDPrintCommand(getRobot(), commandName, "Drive for a distance of " + distanceToDriveInFeet + " ft. at speed " + speed));
 			break;
 			
 		case ClosedLoop:
-			addSequential(new ClosedLoopDriveDistanceCommand(getRobot(), commandDescription, distanceToDriveInFeet, false));
+			addSequential(new ClosedLoopDriveDistanceCommand(getRobot(), commandName, distanceToDriveInFeet, false));
 			
 		default:
 			// Raise an error if the drive strategy is not set properly
@@ -330,27 +335,29 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 		//		b) Open Loop Encoder, whereby the encoder is checked periodically to determine the angle turned
 		//		c) Closed Loop, whereby the encoder is instructed how to travel
 		// Arguments:
-		//		commandDescription: description for this command - e.g. "STEP3: Turn 90 degrees"
 		//		angle: number degrees to turn (positive to right; negative to left)
 		//		speed: how fast to travel. The value depends on the type of drive strategy:
 		//			- Duration: power rating (0.0 to 1.0)
 		//			- Open Loop Encoder: power rating (0.0 to 1.0)
 		//			- Closed Loop: velocity in feet per second
-		private void addTurnCommand(String commandDescription, double angle, double speed) {
+		private void addTurnCommand(double angle, double speed) {
+			
+			++stepNum;
+			String commandName = "STEP " + stepNum + ": Turn";
 			
 			// Log what we're doing
-			log("addTurnCommand","Adding Turn command " + commandDescription + " for " + angle + " degrees at speed " + speed);
-			System.out.println("Adding Turn command " + commandDescription + " for " + angle + " degrees at speed " + speed);
+			log("addTurnCommand","Adding Turn command " + commandName + " for " + angle + " degrees at speed " + speed);
+			System.out.println("Adding Turn command " + commandName + " for " + angle + " degrees at speed " + speed);
 			
 			switch (driveStrategy) {
 			
 			case Duration:
-				addSequential(new TurnCommand(getRobot(), commandDescription, angle, speed));
+				addSequential(new TurnCommand(getRobot(), commandName, angle, speed));
 				break;
 				
 			case Simulate:
 				// Just print the command that would be executed if we weren't in Simulate mode
-				addSequential(new MDPrintCommand(getRobot(), commandDescription, "Turn for " + angle + " degrees at speed " + speed));
+				addSequential(new MDPrintCommand(getRobot(), commandName, "Turn for " + angle + " degrees at speed " + speed));
 				break;
 				
 			case ClosedLoop:
@@ -368,48 +375,63 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 		//		1. Creates a new Wait command
 		//		2. Adds it as a sequential command to the current command group
 		// Arguments:
-		//		commandDescription: description for this command - e.g. "STEP 0: Wait"
+		//		waitTime - time to wait (in seconds)
 		
 		
-		private void addWaitCommand(String commandDescription, double waitTime) {			
+		private void addWaitCommand(double waitTime) {
+			
+			String commandName = " WAIT";
 			
 			// Log what we're doing
-			log("addWaitCommand","Adding Wait command " + commandDescription );
-			System.out.println("Adding Wait command " + commandDescription );
+			log("addWaitCommand","Adding Wait command " + commandName);
+			System.out.println("Adding Wait command " + commandName );
 			
-			addSequential(new WaitCommand(getRobot(), commandDescription, waitTime));
+			addSequential(new WaitCommand(getRobot(), commandName, waitTime));
 		}
 		
-		private void addIdleCommand(String commandDescription) {			
+		private void addIdleCommand() {			
+			
+			++stepNum;			
+			String commandName = "STEP " + stepNum + ": Idling ...";
 			
 			// Log what we're doing
-			log("addIdleCommand","Adding Idle command " + commandDescription );
-			System.out.println("Adding Idle command " + commandDescription );
+			log("addIdleCommand","Adding Idle command " + commandName );
+			System.out.println("Adding Idle command " + commandName );
 			
-			addSequential(new IdleCommand(getRobot(), commandDescription));
+			addSequential(new IdleCommand(getRobot(), commandName));
 		}
 		
-		private void addAutoLiftCommand(String commandDescription, double duration, double power) {
-
-			log("addAutoLiftCommand","Adding AutoLift command " + commandDescription );
-			System.out.println("Adding Lift command " + commandDescription );
+		private void addAutoLiftCommand(double duration, double power) {
 			
-			addSequential(new AutoLiftCommand(getRobot(), commandDescription, power, duration));
+			++stepNum;	
+			String commandName = "STEP " + stepNum + ": Lift";
+
+			log("addAutoLiftCommand","Adding AutoLift command " + commandName );
+			System.out.println("Adding Lift command " + commandName );
+			
+			addSequential(new AutoLiftCommand(getRobot(), commandName, power, duration));
 		}
 
-		private void addAutoClawCommand(String commandDescription, double duration,  double power) {
-			log("addAutoClawCommand","Adding AutoLift command " + commandDescription );
-			System.out.println("Adding Lift command " + commandDescription );
+		private void addAutoClawCommand(double duration,  double power) {
 			
-			addSequential(new AutoClawCommand(getRobot(), commandDescription, duration, power));
+			++stepNum;
+			String commandName = "STEP " + stepNum + ": Claw";
+
+			log("addAutoClawCommand","Adding AutoLift command " + commandName );
+			System.out.println("Adding Lift command " + commandName );
+			
+			addSequential(new AutoClawCommand(getRobot(), commandName, duration, power));
 		}
 		
-		private void addParallelLiftCommand(String commandDescription, double duration, double power) {
-
-			log("addAutoLiftCommand","Adding in Parallel AutoLift command " + commandDescription );
-			System.out.println("Adding in Parallel Lift command " + commandDescription );
+		private void addParallelLiftCommand(double duration, double power) {
 			
-			addParallel(new AutoLiftCommand(getRobot(), commandDescription, power, duration));
+			++stepNum;
+			String commandName = "STEP " + stepNum + ": Parallel Lift";
+
+			log("addAutoLiftCommand","Adding in Parallel AutoLift command " + commandName );
+			System.out.println("Adding in Parallel Lift command " + commandName );
+			
+			addParallel(new AutoLiftCommand(getRobot(), commandName, power, duration));
 		}
 
 }
