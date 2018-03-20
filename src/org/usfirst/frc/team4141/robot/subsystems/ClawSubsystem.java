@@ -54,7 +54,7 @@ public class ClawSubsystem extends MDSubsystem {
 	 */
 	public ClawSubsystem(MDRobotBase robot, String name) {
 		super(robot, name);
-		System.out.println("\n \n \n \n \n \n \n \n \n Constructing claw subsystem " + name);
+		// System.out.println("\n \n \n \n \n \n \n \n \n Constructing claw subsystem " + name);
 	}
 	
 	// ------------------------------------------------ //
