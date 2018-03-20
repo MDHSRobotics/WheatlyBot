@@ -9,7 +9,9 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 	
 	private AutonomousSubsystem autoSubsystem;
 	private AutonomousSubsystem.TypeOfDriveStrategy driveStrategy;
-	private boolean basicScenario = true;
+	private boolean basicScenario_Near = false;
+	private boolean basicScenario_Far = true;
+	private boolean basicScenario_Mid = true;
 	private double m_delayTime;
 	private int stepNum = 0;
 	
@@ -55,11 +57,30 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 		
 		addSequential(new MDPrintCommand(getRobot(), this.getName(), "Executing command group " + this.getName() ) );	
 		
-		if (basicScenario){
+		if (basicScenario_Near){
+		
+//			// Potentially wait a bit before starting to avoid contact with other alliance robots
+			addWaitCommand(m_delayTime);	
+		
+			addDriveCommand(14., kDrivePowerHigh);		
+				addWaitCommand(kWaitBetweenMoves);
+			
+			addTurnCommand(turnAngle, kTurnPower);		
+			turnAngle *= (-1.0);  // Flip angle of for next turn			
+				addWaitCommand(15.0);
+ 
+			addDriveCommand(1., kDrivePowerLow);
+				addWaitCommand(kWaitBetweenMoves);
+		
+			// When we're all done, just idle until the autonomous session is over
+			addIdleCommand();
+		
+		}
+		else{
+			
 			// Potentially wait a bit before starting to avoid contact with other alliance robots
 			addWaitCommand(m_delayTime);	
 		
-
 			addDriveCommand(14., kDrivePowerHigh);		
 				addWaitCommand(kWaitBetweenMoves);
 				
@@ -69,7 +90,7 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 			 
 			addTurnCommand(turnAngle, kTurnPower);		
 			turnAngle *= (-1.0);  // Flip angle of for next turn		
-			addWaitCommand(1.5);
+				addWaitCommand(1.5);
 			 
 			addDriveCommand(4., .70);
 			
@@ -78,54 +99,6 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
  
 			addDriveCommand(1., kDrivePowerLow);
 				addWaitCommand(kWaitBetweenMoves);
-		
-			// When we're all done, just idle until the autonomous session is over
-			addIdleCommand();
-//			
-//			// Potentially wait a bit before starting to avoid contact with other alliance robots
-//			addWaitCommand("STEP 0: Wait Command", m_delayTime);	
-//		
-//			addDriveCommand("STEP 1: DriveDistanceCommand", 14., kDrivePowerHigh);		
-//				addWaitCommand("Wait Command", kWaitBetweenMoves);
-//			
-//			addTurnCommand("STEP 2: TurnCommand", turnAngle, kTurnPower);		
-//			turnAngle *= (-1.0);  // Flip angle of for next turn			
-//				addWaitCommand("Wait Command", 15.0);
-// 
-//			addDriveCommand("STEP 3: DriveDistanceCommand", 1., kDrivePowerLow);
-//				addWaitCommand("Wait Command", kWaitBetweenMoves);
-//		
-//			// When we're all done, just idle until the autonomous session is over
-//			addIdleCommand("IDLE......");
-		
-		}
-		else{
-			
-			// Potentially wait a bit before starting to avoid contact with other alliance robots
-			addWaitCommand(m_delayTime);	
-			
-			addDriveCommand(2., kDrivePowerHigh);
-				addWaitCommand(kWaitBetweenMoves);
-			
-			addDriveCommand(-2., kDrivePowerHigh);
-				addWaitCommand(kWaitBetweenMoves);
-			
-			addDriveCommand(14., kDrivePowerHigh);
-				addWaitCommand(kWaitBetweenMoves);
-				
-			addAutoLiftCommand(2., kLiftPower);
-				
-			addParallelMaintainCommand(15., kMaintainLiftPower);
-			
-			addTurnCommand(turnAngle, kTurnPower);
-				addWaitCommand(kWaitBetweenMoves);
-			
-			addDriveCommand(1., kDrivePowerLow);
-				addWaitCommand(kWaitBetweenMoves);
-			
-			addAutoClawCommand(1., kClawPower);
-			
-			addDriveCommand(-1., kDrivePowerLow);
 		
 			// When we're all done, just idle until the autonomous session is over
 			addIdleCommand();
@@ -149,7 +122,7 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 		
 		addSequential(new MDPrintCommand(getRobot(), this.getName(), "Executing command group " + this.getName() ) );
 		
-		if (basicScenario){
+		if (basicScenario_Far){
 			
 			// Potentially wait a bit before starting to avoid contact with other alliance robots
 			addWaitCommand(m_delayTime);	
@@ -230,7 +203,7 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 		
 		addSequential(new MDPrintCommand(getRobot(), this.getName(), "Executing command group " + this.getName() ) );
 		
-		if(basicScenario){
+		if(basicScenario_Mid){
 			
 			// Potentially wait a bit before starting to avoid contact with other alliance robots
 			addWaitCommand(m_delayTime);
@@ -461,6 +434,3 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 		}
 
 }
-
-
-
