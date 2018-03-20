@@ -22,7 +22,7 @@ public class ArcadeDriveCommand extends MDCommand {
 //		System.out.flush();
 		MDSubsystem sys = subsystems.get("driveSystem");
 //		System.out.println("in arcade drive command" + sys.toString());
-//		requires(sys);
+		requires(sys);
 		driveSys = (MDDriveSubsystem)sys;
     }
 	
