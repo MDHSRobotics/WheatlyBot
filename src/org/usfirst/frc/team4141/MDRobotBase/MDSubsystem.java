@@ -234,8 +234,18 @@ public abstract class MDSubsystem extends Subsystem {
 	    		// Print Sensor Information
 	    		Sensor sensor = sensors.get(key);
 	    		objectString += "\n  Name = " + sensor.getName();
+	    		objectString += "\n  Class = " + sensor.getClass().toString();
 	    		objectString += "\n  Subsystem = " + sensor.getSubsystemObject().getName();
-	    		
+	    		SensorReading[] readings = sensor.getReadings();
+	    		if (readings != null) {
+		    		if (readings.length > 0) {
+			    		for (int r=0; r<readings.length; ++r) {
+			    			SensorReading reading = readings[r];
+			    			if (reading != null)
+			    				objectString += "\n Reading #" + r + " = " + reading.toJSON();
+			    		}	
+		    		}
+	    		}
 	    		++i;
 	        }
 	        objectString += "\nEnd of sensors";

@@ -584,6 +584,9 @@ public class MDDriveSubsystem extends MDSubsystem {
 	public void gyroReset() {
 		resettingGyro = true;
 	    gyroResetStart = (new Date()).getTime();
+	    
+	    // Reset IMU call was missing - WH???
+	    // imu.reset();
 	}
 
 	/**
