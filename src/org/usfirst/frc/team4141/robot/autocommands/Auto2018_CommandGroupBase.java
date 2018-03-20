@@ -48,9 +48,13 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 	//    b) we start in position #3 and our alliance color is on the right side of the switch
 	// The sequence of command is basically the same in both situations, with the only difference
 	// being whether the first turn is to the left or to the right.
-	// The input argument to this method specifies whether we're starting in position #1 or #3
+	// The input arguments
+	//		startingPosition - starting in position #1 or #3
+	//		scaleOnOurSide - True/False depending on whether the scale color on our side is the same as our Alliance color
+	//						 (Note that since this is the near scenario, the switch color on our side is by definition the same as our Alliance color)
+
 	
-	protected void nearScenario(int startingPosition) {
+	protected void nearScenario(int startingPosition, boolean scaleOnOurSide) {
 		
 		double turnAngle = 90.0;
 		if (startingPosition == 3) turnAngle *= (-1.0);  // Flip angle of first turn if starting at position #3
@@ -113,9 +117,12 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 	//    b) we start in position #3 and our alliance color is on the left side of the switch
 	// The sequence of command is basically the same in both situations, with the only difference
 	// being whether the first turn is to the left or to the right.
-	// The input argument to this method specifies whether we're starting in position #1 or #3
+	// The input arguments:
+	//		startingPosition - starting in position #1 or #3
+	//		scaleOnOurSide - True/False depending on whether the scale color on our side is the same as our Alliance color
+	//						 (Note that since this is the far scenario, the switch color on our side is by definition not the same as our Alliance color)
 	
-	protected void farScenario(int startingPosition) {
+	protected void farScenario(int startingPosition, boolean scaleOnOurSide) {
 		
 		double turnAngle = 90.0;
 		if (startingPosition == 3) turnAngle *= (-1.0);  // Flip angle of first turn if starting at position #3
@@ -188,18 +195,18 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 	
 	// The midScenario() method should be called in the constructor of any derived class where 
 	// we are starting in position #2
-	// The input argument says whether or not to head for the switch on the left sid; that is:
-	//    a) headLeft = TRUE if our alliance color is on the left side of the switch - OR -
-	//    b) headLeft = FALSE if our alliance color is on the right side of the switch
+	// The input argument:
+	//		switchOnLeft - whether or not our alliance color is on the left side of the switch
+	//		scaleOnLeft - whether or not our alliance color is on the left side of the scale
 	// The sequence of command is basically the same in both situations, with the only difference
 	// being whether the first turn is to the left or to the right.
 	
-	protected void midScenario(boolean headLeft) {
+	protected void midScenario(boolean switchOnLeft, boolean scaleOnLeft) {
 		
 		double turnAngle = 90.0;
 		double latDistance = 6.0; //lateral distance the bot moves in Pos #2
-		if (headLeft) turnAngle *= (-1.0);  // Flip angle of first turn if starting at position #3
-		if (headLeft) latDistance = 10;
+		if (switchOnLeft) turnAngle *= (-1.0);  // Flip angle of first turn if starting at position #3
+		if (switchOnLeft) latDistance = 10;
 		
 		addSequential(new MDPrintCommand(getRobot(), this.getName(), "Executing command group " + this.getName() ) );
 		
