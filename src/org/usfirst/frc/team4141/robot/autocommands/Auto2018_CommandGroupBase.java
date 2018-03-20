@@ -434,7 +434,7 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 			log("addAutoLiftCommand","Adding AutoLift command " + commandName );
 			System.out.println("Adding Lift command " + commandName );
 			
-			addSequential(new AutoLiftCommand(getRobot(), commandName, power, duration));
+			addSequential(new AutoLiftCommand(getRobot(), commandName, duration, power));
 		}
 
 		private void addAutoClawCommand(double duration,  double power) {
@@ -456,7 +456,7 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 			log("addMaintainCommand","Adding in Parallel Maintain command " + commandName );
 			System.out.println("Adding in Parallel Maintain command " + commandName );
 			
-			addParallel(new AutoMaintainCommand(getRobot(), commandName, power, duration));
+			addParallel(new MaintainCommand(getRobot(), commandName, duration, power));
 
 		}
 
