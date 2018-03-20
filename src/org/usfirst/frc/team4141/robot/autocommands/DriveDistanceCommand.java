@@ -19,7 +19,7 @@ public class DriveDistanceCommand extends MDCommand {
 	
 	private int counter;
 	
-	private double velocityAtFullPower = 11;     // Velocity (feet/second) at full power - THIS IS A GUESS - CHECK IT!!
+	private double velocityAtFullPower = 11.5;     // Velocity (feet/second) at full power - THIS IS A GUESS - CHECK IT!!
 	
 	private MDDriveSubsystem driveSubsystem;
 	

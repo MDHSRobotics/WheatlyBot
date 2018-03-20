@@ -4,6 +4,7 @@ import org.usfirst.frc.team4141.MDRobotBase.MDCommand;
 import org.usfirst.frc.team4141.MDRobotBase.MDRobotBase;
 import org.usfirst.frc.team4141.MDRobotBase.eventmanager.LogNotification.Level;
 import org.usfirst.frc.team4141.robot.subsystems.LiftSubsystem;
+import org.usfirst.frc.team4141.robot.subsystems.MDDriveSubsystem;
 
 import edu.wpi.first.wpilibj.Timer;
 
@@ -26,6 +27,7 @@ public class AutoLiftCommand extends MDCommand {
 	private double m_duration;
 	
 	private LiftSubsystem liftSubsystem;
+	private MDDriveSubsystem driveSubsystem;		// Needed to keep talking to drive to avoid Motor Safety errors
 	
 	// ------------------------------------------------ //
 	
@@ -48,6 +50,9 @@ public class AutoLiftCommand extends MDCommand {
 		liftSubsystem = (LiftSubsystem)getRobot().getSubsystem("liftSubsystem"); 
 		requires(liftSubsystem);
 		
+		driveSubsystem = (MDDriveSubsystem)getRobot().getSubsystems().get("driveSystem"); 
+		requires(driveSubsystem);
+		
 		m_power = power;
 		m_duration = duration;
 		m_timer = new Timer();
@@ -63,6 +68,8 @@ public class AutoLiftCommand extends MDCommand {
 		m_elapsedTime = 0.;
 		m_timer.reset();
 		m_timer.start();
+		System.out.println("Starting " + this.getName() + "; Power = " + m_power + " percent" + "Target Duration= " + m_duration);
+
 	}
 	/**
 	 * The robot does not stop the procedure until it is told by the driver.
@@ -70,7 +77,10 @@ public class AutoLiftCommand extends MDCommand {
 	 * @return false because the command never ends by itself.
 	 */
 	protected boolean isFinished() {
-		if (m_elapsedTime >= m_duration) return true;
+		if (m_elapsedTime >= m_duration) {
+			System.out.println("Finished " + this.getName()+ "; Power = " + m_power + "Elapsed time = " + m_elapsedTime);
+			return true;
+		}
 		else return false;
 	}
 	
@@ -87,6 +97,7 @@ public class AutoLiftCommand extends MDCommand {
 		}
 		liftSubsystem.autoLift(m_power);
 //		log(Level.DEBUG,"execute()","Lifting");
+		driveSubsystem.stop();   // Make sure that we continue to be stopped
 	}
 	
 	/**
