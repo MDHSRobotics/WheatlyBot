@@ -338,6 +338,9 @@ public class MDDriveSubsystem extends MDSubsystem {
 			double forwardAxisValue = joystick.getRawAxis(1);
 			double forward = (forwardAxisValue)*(1.0-(1.0-governor));
 		  	double rotate = -joystick.getRawAxis(2); //(Changed to accompass shifting w/controller and deadzoned)
+		  	if(isFlipped){
+		  		forward = -forward;
+		  	}
 	  	  //debug("forward = " + forward + ", rotate = " + rotate);
 		  	if(rotate>0){
 		  		System.out.print("turning");
@@ -541,13 +544,9 @@ public class MDDriveSubsystem extends MDSubsystem {
 ////		((TalonSRX) speedController).configClosedloopRamp(timeInS, 10);
 ////		((TalonSRX) speedController).configOpenloopRamp(timeInS, 10);
 //	}
-	public void flip(MotorPosition motorPosition) {
-		TalonSRX speedController;
-		speedController = (TalonSRX) get(motorPosition);
-		boolean isInverted = speedController.getInverted();
+	public void flip() {
 		if (speed != 0) return;
-		isInverted = !isInverted;
-		speedController.setInverted(isInverted);
+		isFlipped = !isFlipped;
 		debug("flip. isFlipped now sent to " + isFlipped + ". speed = " + speed);
 	}
 	

@@ -39,10 +39,7 @@ public class ToggleOrientationCommand extends MDCommand {
 	
 	@Override
 	protected void execute() {
-		driveSystem.flip(MotorPosition.frontLeft);
-		driveSystem.flip(MotorPosition.frontRight);
-		driveSystem.flip(MotorPosition.rearLeft);
-		driveSystem.flip(MotorPosition.rearRight);
+		driveSystem.flip();
 	}
 	
 	@Override
