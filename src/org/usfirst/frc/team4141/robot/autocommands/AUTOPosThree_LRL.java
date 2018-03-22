@@ -7,10 +7,8 @@ public class AUTOPosThree_LRL extends Auto2018_CommandGroupBase {
 
 	public AUTOPosThree_LRL(MDRobotBase robot, String name) {
 		super(robot, name);
-		
-		// The switch color is on the opposite side => use Far scenario
-		// But the scale color is on our side => so pass in true as 2nd argument
-		farScenario(3, true);
+
+		sideToNearScale(3);
 
 	}
 	

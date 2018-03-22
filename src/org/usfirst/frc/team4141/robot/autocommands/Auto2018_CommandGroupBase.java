@@ -9,9 +9,6 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 	
 	private AutonomousSubsystem autoSubsystem;
 	private AutonomousSubsystem.TypeOfDriveStrategy driveStrategy;
-	private boolean basicScenario_Near = false;
-	private boolean basicScenario_Far = true;
-	private boolean basicScenario_Mid = true;
 	private double m_delayTime;
 	private int stepNum = 0;
 	
@@ -41,7 +38,74 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 		
 	}
 	
-	// The nearScenario() method should be called in the constructor of any derived class where 
+	// The sideToCrossLine() method should be called in the constructor of any derived class where 
+	// we just want to cross the auto line from a side starting position. It doesn't matter
+	// what the color assignments are.
+	// The input arguments
+	//		startingPosition - starting in position #1 or #3
+
+	
+	protected void sideToCrossLine(int startingPosition) {
+		
+		addSequential(new MDPrintCommand(getRobot(), this.getName(), "Executing command group " + this.getName() ) );	
+	
+		// Potentially wait a bit before starting to avoid contact with other alliance robots
+		addWaitCommand(m_delayTime);	
+	
+		addDriveCommand(14., kDrivePowerHigh);		
+			addWaitCommand(kWaitBetweenMoves);
+		
+			// When we're all done, just idle until the autonomous session is over
+		addIdleCommand();
+
+	}
+	
+	// The sideToNearScale() method should be called in the constructor of any derived class where 
+	// our alliance color is on the side of the switch nearest our start position.
+	// That is, when:
+	//    a) we start in position #1 and our alliance color is on the left side of the scale - OR -
+	//    b) we start in position #3 and our alliance color is on the right side of the scale
+	// The sequence of command is basically the same in both situations, with the only difference
+	// being whether the first turn is to the left or to the right.
+	// The input arguments
+	//		startingPosition - starting in position #1 or #3
+
+	
+	protected void sideToNearScale(int startingPosition) {
+		
+		double turnAngle = 90.0;
+		if (startingPosition == 3) turnAngle *= (-1.0);  // Flip angle of first turn if starting at position #3
+		
+		addSequential(new MDPrintCommand(getRobot(), this.getName(), "Executing command group " + this.getName() ) );	
+	
+		// Potentially wait a bit before starting to avoid contact with other alliance robots
+		addWaitCommand(m_delayTime);	
+	
+		addDriveCommand(18., kDrivePowerHigh);		
+			addWaitCommand(kWaitBetweenMoves);
+			
+		addAutoLiftCommand(0.7, kLiftPower);
+		addParallelMaintainCommand(15., kMaintainLiftPower);
+			addWaitCommand(0.5);
+		 
+		addTurnCommand(turnAngle, kTurnPower);		
+		turnAngle *= (-1.0);  // Flip angle of for next turn		
+			addWaitCommand(1.5);
+			 
+		addDriveCommand(4., .70);
+		
+		addAutoClawCommand(0.4, kClawPower);
+			addWaitCommand(15.0);
+ 
+		addDriveCommand(1., kDrivePowerLow);
+			addWaitCommand(kWaitBetweenMoves);
+		
+			// When we're all done, just idle until the autonomous session is over
+		addIdleCommand();
+
+	}
+	
+	// The sideToNearSwitch() method should be called in the constructor of any derived class where 
 	// our alliance color is on the side of the switch nearest our start position.
 	// That is, when:
 	//    a) we start in position #1 and our alliance color is on the left side of the switch - OR -
@@ -50,243 +114,176 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 	// being whether the first turn is to the left or to the right.
 	// The input arguments
 	//		startingPosition - starting in position #1 or #3
-	//		scaleOnOurSide - True/False depending on whether the scale color on our side is the same as our Alliance color
-	//						 (Note that since this is the near scenario, the switch color on our side is by definition the same as our Alliance color)
 
 	
-	protected void nearScenario(int startingPosition, boolean scaleOnOurSide) {
+	protected void sideToNearSwitch(int startingPosition) {
 		
 		double turnAngle = 90.0;
 		if (startingPosition == 3) turnAngle *= (-1.0);  // Flip angle of first turn if starting at position #3
 		
 		addSequential(new MDPrintCommand(getRobot(), this.getName(), "Executing command group " + this.getName() ) );	
-		
-		if (basicScenario_Near){
-		
-//			// Potentially wait a bit before starting to avoid contact with other alliance robots
-			addWaitCommand(m_delayTime);	
-		
-			addDriveCommand(14., kDrivePowerHigh);		
-				addWaitCommand(kWaitBetweenMoves);
-			
-			addTurnCommand(turnAngle, kTurnPower);		
-			turnAngle *= (-1.0);  // Flip angle of for next turn			
-				addWaitCommand(15.0);
- 
-			addDriveCommand(1., kDrivePowerLow);
-				addWaitCommand(kWaitBetweenMoves);
-		
-			// When we're all done, just idle until the autonomous session is over
-			addIdleCommand();
-		
-		}
-		else{
-			
-			// Potentially wait a bit before starting to avoid contact with other alliance robots
-			addWaitCommand(m_delayTime);	
-		
-			addDriveCommand(14., kDrivePowerHigh);		
-				addWaitCommand(kWaitBetweenMoves);
-				
-			addAutoLiftCommand(0.7, kLiftPower);
-			addParallelMaintainCommand(15., kMaintainLiftPower);
-				addWaitCommand(0.5);
-			 
-			addTurnCommand(turnAngle, kTurnPower);		
-			turnAngle *= (-1.0);  // Flip angle of for next turn		
-				addWaitCommand(1.5);
-			 
-			addDriveCommand(4., .70);
-			
-			addAutoClawCommand(0.4, kClawPower);
-				addWaitCommand(15.0);
- 
-			addDriveCommand(1., kDrivePowerLow);
-				addWaitCommand(kWaitBetweenMoves);
-		
-			// When we're all done, just idle until the autonomous session is over
-			addIdleCommand();
 	
-		}
+		// Potentially wait a bit before starting to avoid contact with other alliance robots
+		addWaitCommand(m_delayTime);	
+	
+		addDriveCommand(14., kDrivePowerHigh);		
+			addWaitCommand(kWaitBetweenMoves);
+			
+		addAutoLiftCommand(0.7, kLiftPower);
+		addParallelMaintainCommand(15., kMaintainLiftPower);
+			addWaitCommand(0.5);
+		 
+		addTurnCommand(turnAngle, kTurnPower);		
+		turnAngle *= (-1.0);  // Flip angle of for next turn		
+			addWaitCommand(1.5);
+			 
+		addDriveCommand(4., .70);
+		
+		addAutoClawCommand(0.4, kClawPower);
+			addWaitCommand(15.0);
+ 
+		addDriveCommand(1., kDrivePowerLow);
+			addWaitCommand(kWaitBetweenMoves);
+		
+			// When we're all done, just idle until the autonomous session is over
+		addIdleCommand();
+
 	}
 	
-	// The farScenario() method should be called in the constructor of any derived class where 
-	// our alliance color is on the opposite side of the switch nearest our start position.
+	// The sideToFarScale() method should be called in the constructor of any derived class where 
+	// our alliance color is on the opposite side of the scale nearest our start position.
 	// That is, when:
-	//    a) we start in position #1 and our alliance color is on the right side of the switch - OR -
-	//    b) we start in position #3 and our alliance color is on the left side of the switch
+	//    a) we start in position #1 and our alliance color is on the right side of the scale - OR -
+	//    b) we start in position #3 and our alliance color is on the left side of the scale
 	// The sequence of command is basically the same in both situations, with the only difference
 	// being whether the first turn is to the left or to the right.
 	// The input arguments:
 	//		startingPosition - starting in position #1 or #3
-	//		scaleOnOurSide - True/False depending on whether the scale color on our side is the same as our Alliance color
-	//						 (Note that since this is the far scenario, the switch color on our side is by definition not the same as our Alliance color)
 	
-	protected void farScenario(int startingPosition, boolean scaleOnOurSide) {
+	protected void sideToFarScale(int startingPosition) {
 		
 		double turnAngle = 90.0;
 		if (startingPosition == 3) turnAngle *= (-1.0);  // Flip angle of first turn if starting at position #3
 		
 		addSequential(new MDPrintCommand(getRobot(), this.getName(), "Executing command group " + this.getName() ) );
-		
-		if (basicScenario_Far){
+
 			
-			// Potentially wait a bit before starting to avoid contact with other alliance robots
-			addWaitCommand(m_delayTime);	
-		
+		// Potentially wait a bit before starting to avoid contact with other alliance robots
+		addWaitCommand(m_delayTime);	
+	
 //			addDriveCommand(19., kDrivePowerHigh);
 
-			addDriveCommand(18., kDrivePowerHigh);
-				addWaitCommand(kWaitBetweenMoves);
-		
-			addTurnCommand(turnAngle, kTurnPower);	
-				addWaitCommand(15.0);
-		
-			addDriveCommand(2., kDrivePowerHigh);
-				addWaitCommand(kWaitBetweenMoves);
-		
-			addTurnCommand(turnAngle, kTurnPower);	
-				addWaitCommand(kWaitBetweenMoves);
-		
-			addDriveCommand(1., kDrivePowerHigh);		
-		
-			// When we're all done, just idle until the autonomous session is over
-			addIdleCommand();
-		
-		}
-		else{
-			
-			// Potentially wait a bit before starting to avoid contact with other alliance robots
-			addWaitCommand(m_delayTime);	
-			
-			addDriveCommand(2., kDrivePowerHigh);
-				addWaitCommand(kWaitBetweenMoves);
-			
-			addDriveCommand(-2., kDrivePowerHigh);
-				addWaitCommand(kWaitBetweenMoves);
-			
-			addDriveCommand(19., kDrivePowerHigh);
-				addWaitCommand(kWaitBetweenMoves);
-		
-			addTurnCommand(turnAngle, kTurnPower);
-				addWaitCommand(kWaitBetweenMoves);
-		
-			addDriveCommand(13., kDrivePowerHigh);
-				addWaitCommand(kWaitBetweenMoves);
-			
-			addAutoLiftCommand(2., kLiftPower);
-			
-			addParallelMaintainCommand(15., kMaintainLiftPower);
-			
-			addTurnCommand(turnAngle, kTurnPower);	
-				addWaitCommand(kWaitBetweenMoves);
-			
-			addDriveCommand(2., kDrivePowerLow);
-				addWaitCommand(kWaitBetweenMoves);
-			
-			addAutoClawCommand(1., kClawPower);
-		
-			// When we're all done, just idle until the autonomous session is over
-			addIdleCommand();
-		
-		}
+		addDriveCommand(18., kDrivePowerHigh);
+			addWaitCommand(kWaitBetweenMoves);
+	
+		addTurnCommand(turnAngle, kTurnPower);	
+			addWaitCommand(15.0);
+	
+		addDriveCommand(2., kDrivePowerHigh);
+			addWaitCommand(kWaitBetweenMoves);
+	
+		addTurnCommand(turnAngle, kTurnPower);	
+			addWaitCommand(kWaitBetweenMoves);
+	
+		addDriveCommand(1., kDrivePowerHigh);		
+	
+		// When we're all done, just idle until the autonomous session is over
+		addIdleCommand();
 
 	}	
 	
-	// The midScenario() method should be called in the constructor of any derived class where 
+	// The midToRightSwitch() method should be called in the constructor of any derived class where 
 	// we are starting in position #2
-	// The input argument:
-	//		switchOnLeft - whether or not our alliance color is on the left side of the switch
-	//		scaleOnLeft - whether or not our alliance color is on the left side of the scale
-	// The sequence of command is basically the same in both situations, with the only difference
-	// being whether the first turn is to the left or to the right.
 	
-	protected void midScenario(boolean switchOnLeft, boolean scaleOnLeft) {
-		
-		double turnAngle = 90.0;
-		double latDistance = 6.0; //lateral distance the bot moves in Pos #2
-		if (switchOnLeft) turnAngle *= (-1.0);  // Flip angle of first turn if starting at position #3
-		if (switchOnLeft) latDistance = 10;
+	protected void midToRightSwitch() {
 		
 		addSequential(new MDPrintCommand(getRobot(), this.getName(), "Executing command group " + this.getName() ) );
+			
+		// Potentially wait a bit before starting to avoid contact with other alliance robots
+		addWaitCommand(m_delayTime);
 		
-		if(basicScenario_Mid){
-			
-			// Potentially wait a bit before starting to avoid contact with other alliance robots
-			addWaitCommand(m_delayTime);
+		addDriveCommand(2., kDrivePowerHigh);
+			addWaitCommand(kWaitBetweenMoves);
 		
-			addDriveCommand(7., kDrivePowerHigh);
-				addWaitCommand(kWaitBetweenMoves);
+		addDriveCommand(-2., kDrivePowerHigh);
+			addWaitCommand(kWaitBetweenMoves);
+			
+		addDriveCommand(7., kDrivePowerHigh);
+			addWaitCommand(kWaitBetweenMoves);
 		
-			addTurnCommand(turnAngle, kTurnPower);		
-				addWaitCommand(15.0);
+		addAutoLiftCommand(2., kLiftPower);
+			addWaitCommand(kWaitBetweenMoves);
 		
-			addDriveCommand(latDistance, kDrivePowerHigh);
-				addWaitCommand(kWaitBetweenMoves);
+		addParallelMaintainCommand(15., kMaintainLiftPower);
+			addWaitCommand(kWaitBetweenMoves);
+			
+		addDriveCommand(5., kDrivePowerHigh);
+			addWaitCommand(kWaitBetweenMoves);
 		
-			addTurnCommand(-turnAngle, kTurnPower);	
-				addWaitCommand(kWaitBetweenMoves);
+		addAutoClawCommand(1., kClawPower);
+			addWaitCommand(kWaitBetweenMoves);
 		
-			addDriveCommand(7., kDrivePowerHigh);
-				addWaitCommand(kWaitBetweenMoves);
+		addDriveCommand(-1., kDrivePowerHigh);
+			addWaitCommand(kWaitBetweenMoves);
 		
-			addTurnCommand(-turnAngle, kTurnPower);	
-				addWaitCommand(kWaitBetweenMoves);
+		// When we're all done, just idle until the autonomous session is over
+		addIdleCommand();
+			
+	}	
+	
+	// The midToLeftSwitch() method should be called in the constructor of any derived class where 
+	// we are starting in position #2
+	
+	protected void midToLeftSwitch() {
 		
-			addDriveCommand(1., kDrivePowerHigh);	
-				
-			// When we're all done, just idle until the autonomous session is over
-			addIdleCommand();
+		double turnAngle = 90.0;
 		
-		}
-		else{
+		addSequential(new MDPrintCommand(getRobot(), this.getName(), "Executing command group " + this.getName() ) );
 			
-			// Potentially wait a bit before starting to avoid contact with other alliance robots
-			addWaitCommand(m_delayTime);
+		// Potentially wait a bit before starting to avoid contact with other alliance robots
+		addWaitCommand(m_delayTime);
+		
+		addDriveCommand(2., kDrivePowerHigh);
+			addWaitCommand(kWaitBetweenMoves);
+		
+		addDriveCommand(-2., kDrivePowerHigh);
+			addWaitCommand(kWaitBetweenMoves);
 			
-			addDriveCommand(2., kDrivePowerHigh);
-				addWaitCommand(kWaitBetweenMoves);
-			
-			addDriveCommand(-2., kDrivePowerHigh);
-				addWaitCommand(kWaitBetweenMoves);
-				
-			addDriveCommand(7., kDrivePowerHigh);
-				addWaitCommand(kWaitBetweenMoves);
-			
-			addTurnCommand(turnAngle, kTurnPower);
-				addWaitCommand(kWaitBetweenMoves);
-			
-			addDriveCommand(latDistance, kDrivePowerHigh);
-				addWaitCommand(kWaitBetweenMoves);
-			
-			addTurnCommand(-turnAngle, kTurnPower);	
-				addWaitCommand(kWaitBetweenMoves);
-			
-			addDriveCommand(7., kDrivePowerHigh);
-				addWaitCommand(kWaitBetweenMoves);
-			
-			addAutoLiftCommand(2., kLiftPower);
-				addWaitCommand(kWaitBetweenMoves);
-			
-			addParallelMaintainCommand(15., kMaintainLiftPower);
-				addWaitCommand(kWaitBetweenMoves);
+		addDriveCommand(7., kDrivePowerHigh);
+			addWaitCommand(kWaitBetweenMoves);
+		
+		addTurnCommand(turnAngle, kTurnPower);
+			addWaitCommand(kWaitBetweenMoves);
+		
+		addDriveCommand(10., kDrivePowerHigh);
+			addWaitCommand(kWaitBetweenMoves);
+		
+		addTurnCommand(-turnAngle, kTurnPower);	
+			addWaitCommand(kWaitBetweenMoves);
+		
+		addDriveCommand(7., kDrivePowerHigh);
+			addWaitCommand(kWaitBetweenMoves);
+		
+		addAutoLiftCommand(2., kLiftPower);
+			addWaitCommand(kWaitBetweenMoves);
+		
+		addParallelMaintainCommand(15., kMaintainLiftPower);
+			addWaitCommand(kWaitBetweenMoves);
 
-			addTurnCommand(-turnAngle, kTurnPower);	
-				addWaitCommand(kWaitBetweenMoves);
-			
-			addDriveCommand(1., kDrivePowerLow);
-				addWaitCommand(kWaitBetweenMoves);
-			
-			addAutoClawCommand(1., kClawPower);
-				addWaitCommand(kWaitBetweenMoves);
-			
-			addDriveCommand(-1., kDrivePowerHigh);
-				addWaitCommand(kWaitBetweenMoves);
-			
-			// When we're all done, just idle until the autonomous session is over
-			addIdleCommand();
-			
-		}
+		addTurnCommand(-turnAngle, kTurnPower);	
+			addWaitCommand(kWaitBetweenMoves);
+		
+		addDriveCommand(1., kDrivePowerLow);
+			addWaitCommand(kWaitBetweenMoves);
+		
+		addAutoClawCommand(1., kClawPower);
+			addWaitCommand(kWaitBetweenMoves);
+		
+		addDriveCommand(-1., kDrivePowerHigh);
+			addWaitCommand(kWaitBetweenMoves);
+		
+		// When we're all done, just idle until the autonomous session is over
+		addIdleCommand();
 		
 	}		
 	
@@ -332,7 +329,7 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 		}
 	}
 		
-		// addSequentialTurnCommand() method does two things:
+		// addTurnCommand() method does two things:
 		//		1. Creates a new turn command
 		//		2. Adds it as a sequential command to the current command group
 		// There different types of turn commands:
