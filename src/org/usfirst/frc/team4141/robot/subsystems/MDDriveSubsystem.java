@@ -619,7 +619,8 @@ public class MDDriveSubsystem extends MDSubsystem {
 		String objectString;
 		objectString = super.toString();
 		objectString += "\n Drive Type =" + type;
-		objectString += "\n Differential Drive: Name = " + differentialDrive.getName() + "; Descrip = " + differentialDrive.getDescription() + "; IsSafetyEnabled = " + differentialDrive.isSafetyEnabled();
+		if (differentialDrive != null)
+			objectString += "\n Differential Drive: Name = " + differentialDrive.getName() + "; Descrip = " + differentialDrive.getDescription() + "; IsSafetyEnabled = " + differentialDrive.isSafetyEnabled();
 		return objectString;
 	}
 
