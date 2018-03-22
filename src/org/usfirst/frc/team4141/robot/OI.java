@@ -92,7 +92,7 @@ public class OI extends OIBase{
 //				.whileHeld("4",4,new CloseClaw(getRobot(),"CloseClaw"))
 //				.whileHeld("1",1,new ExtendCommand(getRobot(),"ExtendCommand"))
 //				.whileHeld("2",2,new RetractCommand(getRobot(),"RetractCommand"))
-				.whileHeld("1",1,new MaintainCommand(getRobot(), "MaintainCommand", 0.15, 0.15))
+				.whileHeld("1",1,new MaintainCommand(getRobot(), "MaintainCommand", 90.0, 0.15))
 				.configure()
 			);
 

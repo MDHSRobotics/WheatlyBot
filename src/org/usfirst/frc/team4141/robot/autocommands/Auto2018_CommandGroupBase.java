@@ -17,9 +17,12 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 	double kDrivePowerLow = .5;
 	double kTurnPower = .8;
 	double kLiftPower = .8;
+	double kLiftToScaleDuration = .9;
+	double kLiftToSwitchDuration = .7;
 	double kMaintainLiftPower = .15;
 	double kClawPower = .5;
 	double kWaitBetweenMoves = 2.0;
+	double kWaitBetweenMovesShort = 1.0;
 	
 	public Auto2018_CommandGroupBase(MDRobotBase robot, String name) {
 		super(robot, name);
@@ -81,25 +84,23 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 		// Potentially wait a bit before starting to avoid contact with other alliance robots
 		addWaitCommand(m_delayTime);	
 	
-		addDriveCommand(18., kDrivePowerHigh);		
-			addWaitCommand(kWaitBetweenMoves);
+		addDriveCommand(26.0+2./12., kDrivePowerHigh);		
+			addWaitCommand(kWaitBetweenMovesShort);
 			
-		addAutoLiftCommand(0.7, kLiftPower);
+		addAutoLiftCommand(kLiftToScaleDuration, kLiftPower);
 		addParallelMaintainCommand(15., kMaintainLiftPower);
 			addWaitCommand(0.5);
 		 
 		addTurnCommand(turnAngle, kTurnPower);		
-		turnAngle *= (-1.0);  // Flip angle of for next turn		
-			addWaitCommand(1.5);
-			 
-		addDriveCommand(4., .70);
+			addWaitCommand(0.5);
+			
+		//TODO TEMP STOP
+		addWaitCommand(15.0);
 		
 		addAutoClawCommand(0.4, kClawPower);
-			addWaitCommand(15.0);
- 
-		addDriveCommand(1., kDrivePowerLow);
-			addWaitCommand(kWaitBetweenMoves);
+		addWaitCommand(kWaitBetweenMovesShort);
 		
+		addDriveCommand(-3.0, 0.5);
 			// When we're all done, just idle until the autonomous session is over
 		addIdleCommand();
 
@@ -126,24 +127,25 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 		// Potentially wait a bit before starting to avoid contact with other alliance robots
 		addWaitCommand(m_delayTime);	
 	
-		addDriveCommand(14., kDrivePowerHigh);		
-			addWaitCommand(kWaitBetweenMoves);
+		addDriveCommand(13.+2./12., kDrivePowerHigh);		
+			addWaitCommand(kWaitBetweenMovesShort);
 			
-		addAutoLiftCommand(0.7, kLiftPower);
+		addAutoLiftCommand(kLiftToSwitchDuration, kLiftPower);
 		addParallelMaintainCommand(15., kMaintainLiftPower);
 			addWaitCommand(0.5);
 		 
 		addTurnCommand(turnAngle, kTurnPower);		
-		turnAngle *= (-1.0);  // Flip angle of for next turn		
-			addWaitCommand(1.5);
+			addWaitCommand(kWaitBetweenMovesShort);
 			 
-		addDriveCommand(4., .70);
+		addDriveCommand(4., .50);
+
+		//TODO TEMP STOP
+		addWaitCommand(15.0);
 		
 		addAutoClawCommand(0.4, kClawPower);
-			addWaitCommand(15.0);
- 
-		addDriveCommand(1., kDrivePowerLow);
-			addWaitCommand(kWaitBetweenMoves);
+		addWaitCommand(kWaitBetweenMovesShort);
+
+		addDriveCommand(-3., .5);
 		
 			// When we're all done, just idle until the autonomous session is over
 		addIdleCommand();
@@ -171,22 +173,17 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 		// Potentially wait a bit before starting to avoid contact with other alliance robots
 		addWaitCommand(m_delayTime);	
 	
-//			addDriveCommand(19., kDrivePowerHigh);
+		addDriveCommand(18.+2./12., kDrivePowerHigh);
+			addWaitCommand(kWaitBetweenMoves);
+	
+		addTurnCommand(turnAngle, kTurnPower);
+		addWaitCommand(kWaitBetweenMoves);
+		
+		//TODO TEMP STOP
+		addWaitCommand(15.0);
+	
+		addDriveCommand(14., kDrivePowerHigh);
 
-		addDriveCommand(18., kDrivePowerHigh);
-			addWaitCommand(kWaitBetweenMoves);
-	
-		addTurnCommand(turnAngle, kTurnPower);	
-			addWaitCommand(15.0);
-	
-		addDriveCommand(2., kDrivePowerHigh);
-			addWaitCommand(kWaitBetweenMoves);
-	
-		addTurnCommand(turnAngle, kTurnPower);	
-			addWaitCommand(kWaitBetweenMoves);
-	
-		addDriveCommand(1., kDrivePowerHigh);		
-	
 		// When we're all done, just idle until the autonomous session is over
 		addIdleCommand();
 
@@ -202,29 +199,17 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 		// Potentially wait a bit before starting to avoid contact with other alliance robots
 		addWaitCommand(m_delayTime);
 		
-		addDriveCommand(2., kDrivePowerHigh);
-			addWaitCommand(kWaitBetweenMoves);
+		addAutoLiftCommand(kLiftToSwitchDuration, kLiftPower);
+			addParallelMaintainCommand(15., kMaintainLiftPower);
+			addWaitCommand(kWaitBetweenMovesShort);
 		
-		addDriveCommand(-2., kDrivePowerHigh);
-			addWaitCommand(kWaitBetweenMoves);
-			
-		addDriveCommand(7., kDrivePowerHigh);
-			addWaitCommand(kWaitBetweenMoves);
+		addDriveCommand(8+10./12., .60);
+			addWaitCommand(kWaitBetweenMovesShort);
 		
-		addAutoLiftCommand(2., kLiftPower);
-			addWaitCommand(kWaitBetweenMoves);
+		addAutoClawCommand(0.4, kClawPower);
+			addWaitCommand(kWaitBetweenMovesShort);
 		
-		addParallelMaintainCommand(15., kMaintainLiftPower);
-			addWaitCommand(kWaitBetweenMoves);
-			
-		addDriveCommand(5., kDrivePowerHigh);
-			addWaitCommand(kWaitBetweenMoves);
-		
-		addAutoClawCommand(1., kClawPower);
-			addWaitCommand(kWaitBetweenMoves);
-		
-		addDriveCommand(-1., kDrivePowerHigh);
-			addWaitCommand(kWaitBetweenMoves);
+		addDriveCommand(-3., .60);
 		
 		// When we're all done, just idle until the autonomous session is over
 		addIdleCommand();
@@ -243,45 +228,45 @@ public class Auto2018_CommandGroupBase extends MDCommandGroup {
 		// Potentially wait a bit before starting to avoid contact with other alliance robots
 		addWaitCommand(m_delayTime);
 		
-		addDriveCommand(2., kDrivePowerHigh);
-			addWaitCommand(kWaitBetweenMoves);
-		
-		addDriveCommand(-2., kDrivePowerHigh);
-			addWaitCommand(kWaitBetweenMoves);
-			
-		addDriveCommand(7., kDrivePowerHigh);
-			addWaitCommand(kWaitBetweenMoves);
-		
-		addTurnCommand(turnAngle, kTurnPower);
-			addWaitCommand(kWaitBetweenMoves);
-		
-		addDriveCommand(10., kDrivePowerHigh);
-			addWaitCommand(kWaitBetweenMoves);
-		
-		addTurnCommand(-turnAngle, kTurnPower);	
-			addWaitCommand(kWaitBetweenMoves);
-		
-		addDriveCommand(7., kDrivePowerHigh);
-			addWaitCommand(kWaitBetweenMoves);
-		
-		addAutoLiftCommand(2., kLiftPower);
-			addWaitCommand(kWaitBetweenMoves);
-		
-		addParallelMaintainCommand(15., kMaintainLiftPower);
-			addWaitCommand(kWaitBetweenMoves);
-
-		addTurnCommand(-turnAngle, kTurnPower);	
-			addWaitCommand(kWaitBetweenMoves);
-		
-		addDriveCommand(1., kDrivePowerLow);
-			addWaitCommand(kWaitBetweenMoves);
-		
-		addAutoClawCommand(1., kClawPower);
-			addWaitCommand(kWaitBetweenMoves);
-		
-		addDriveCommand(-1., kDrivePowerHigh);
-			addWaitCommand(kWaitBetweenMoves);
-		
+//		addDriveCommand(2., kDrivePowerHigh);
+//			addWaitCommand(kWaitBetweenMoves);
+//		
+//		addDriveCommand(-2., kDrivePowerHigh);
+//			addWaitCommand(kWaitBetweenMoves);
+//			
+//		addDriveCommand(7., kDrivePowerHigh);
+//			addWaitCommand(kWaitBetweenMoves);
+//		
+//		addTurnCommand(turnAngle, kTurnPower);
+//			addWaitCommand(kWaitBetweenMoves);
+//		
+//		addDriveCommand(10., kDrivePowerHigh);
+//			addWaitCommand(kWaitBetweenMoves);
+//		
+//		addTurnCommand(-turnAngle, kTurnPower);	
+//			addWaitCommand(kWaitBetweenMoves);
+//		
+//		addDriveCommand(7., kDrivePowerHigh);
+//			addWaitCommand(kWaitBetweenMoves);
+//		
+//		addAutoLiftCommand(2., kLiftPower);
+//			addWaitCommand(kWaitBetweenMoves);
+//		
+//		addParallelMaintainCommand(15., kMaintainLiftPower);
+//			addWaitCommand(kWaitBetweenMoves);
+//
+//		addTurnCommand(-turnAngle, kTurnPower);	
+//			addWaitCommand(kWaitBetweenMoves);
+//		
+//		addDriveCommand(1., kDrivePowerLow);
+//			addWaitCommand(kWaitBetweenMoves);
+//		
+//		addAutoClawCommand(1., kClawPower);
+//			addWaitCommand(kWaitBetweenMoves);
+//		
+//		addDriveCommand(-1., kDrivePowerHigh);
+//			addWaitCommand(kWaitBetweenMoves);
+//		
 		// When we're all done, just idle until the autonomous session is over
 		addIdleCommand();
 		

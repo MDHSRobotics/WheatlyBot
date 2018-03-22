@@ -3,6 +3,7 @@ package org.usfirst.frc.team4141.robot.subsystems;
 import org.usfirst.frc.team4141.MDRobotBase.MDRobotBase;
 import org.usfirst.frc.team4141.MDRobotBase.MDSubsystem;
 import org.usfirst.frc.team4141.MDRobotBase.config.ConfigSetting;
+import org.usfirst.frc.team4141.robot.commands.LiftCommand;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SpeedController;
@@ -150,7 +151,7 @@ public class LiftSubsystem extends MDSubsystem {
 	 */
 	@Override
 	protected void initDefaultCommand() {
-
+		setDefaultCommand(new LiftCommand(getRobot()));
 	}
 
 
