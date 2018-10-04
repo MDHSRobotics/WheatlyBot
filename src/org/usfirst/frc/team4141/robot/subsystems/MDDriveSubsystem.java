@@ -67,20 +67,12 @@ public class MDDriveSubsystem extends MDSubsystem {
 	private double encoderDistance; // <--- Placeholder
 	private MDDriveSubsystem driveSystem;
 	private TankDriveInterpolator interpolator = new TankDriveInterpolator();
-//	TalonSRX talon = new TalonSRX(1);
-	
-//	CANTalon talon =  MDDriveSubsystem.TalonPosition.frontLeft;
 	
 //	private double F=0.0;
 //	private double P=0.0;
 //	private double I=0.1;
 //	private double D=0.0;
 //	private double rpm=1.0;
-//	rearLeftTalon.setPID(p, i, d, f);//chapter 12
-//	private CANTalon rearRightTalon;
-//	private CANTalon frontLeftTalon;
-//	private CANTalon frontRightTalon;
-//	private CANTalon rearLeftTalon;
 
 	
 	// ------------------------------------------------ //
@@ -198,8 +190,9 @@ public class MDDriveSubsystem extends MDSubsystem {
 				configureTalonSRX(MotorPosition.rearRight, MotorPosition.frontRight, false);		//slave
 				differentialDrive = new DifferentialDrive(new MultiSpeedController(new SpeedController[]{get(MotorPosition.rearLeft), get(MotorPosition.frontLeft)}),
 						new MultiSpeedController(new SpeedController[]{get(MotorPosition.rearRight), get(MotorPosition.frontRight)}));
-
+			
 			}
+			System.out.println("Governor:" + governor);
 			
 //			if(getSolenoids()==null 
 //					|| !getSolenoids().containsKey(rightShiftSolenoidName) || !(getSolenoids().get(rightShiftSolenoidName) instanceof Solenoid)) {
@@ -338,6 +331,7 @@ public class MDDriveSubsystem extends MDSubsystem {
 			double forwardAxisValue = joystick.getRawAxis(1);
 			double forward = (forwardAxisValue)*(1.0-(1.0-governor));
 		  	double rotate = -joystick.getRawAxis(2); //(Changed to accompass shifting w/controller and deadzoned)
+		  	System.out.println("MDDriveSubsystem has run" + " forwardAxisValue: " + forwardAxisValue + " forward: " + forward + " rotate value: " + rotate);
 		  	if(isFlipped){
 		  		forward = -forward;
 		  	}
@@ -348,6 +342,7 @@ public class MDDriveSubsystem extends MDSubsystem {
 		  	double[] speeds = interpolator.calculate(forward, rotate);
 		    //debug("left: "+speeds[0]+", right: "+speeds[1]);
 		  	differentialDrive.tankDrive(-speeds[0], -speeds[1]);
+		  	System.out.println("Your two speeds are: " + -speeds[0] + " and " + -speeds[1]);
 		}
 	}
 	

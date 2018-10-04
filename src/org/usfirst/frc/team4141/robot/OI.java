@@ -20,9 +20,6 @@ import org.usfirst.frc.team4141.robot.commands.ClawCommand;
 import org.usfirst.frc.team4141.robot.commands.LiftCommand;
 import org.usfirst.frc.team4141.robot.commands.ToggleOrientationCommand;
 
-// ===================================================================== Unused Imports ===================================================================== //
-// import org.usfirst.frc.team4141.robot.commands.MDMoveCommand;
-// import org.usfirst.frc.team4141.robot.commands.MDMoveCommand.Direction;
 
 
 /**
@@ -64,21 +61,6 @@ public class OI extends OIBase{
 */
 		
 		add(new MDJoystick(getRobot(), "joystick", 0)
-
-			//.whenPressed("rightBumper",5,new MDPrintCommand(getRobot(),"Right Bumper Command","Right Bumper Command message"))
-			//.whileHeld("leftBumper",6,new MDPrintCommand(getRobot(),"Left Bumper Command","Left Bumper Command message"))
-		    //the following commands are test move commands useful in testing drive configuration and set up
-		    //comment out and replace as needed
-			//.whenPressed("X",1,new MDMoveCommand(getRobot(),"left command",Direction.left))
-			//.whenPressed("A",2,new MDMoveCommand(getRobot(),"reverse command",Direction.reverse))
-			//.whenPressed("B",3,new MDMoveCommand(getRobot(),"right command",Direction.right))
-			//.whenPressed("Y",4,new MDMoveCommand(getRobot(),"forward command",Direction.forward))
-//			.whileHeld("5",5,new RiseCommand(getRobot(),"RiseCommand"))
-//			.whileHeld("3",3,new LowerCommand(getRobot(),"LowerCommand"))
-//			.whileHeld("6",6,new OpenClaw(getRobot(),"OpenClaw"))
-//			.whileHeld("4",4,new CloseClaw(getRobot(),"CloseClaw"))
-//			.whileHeld("1",1,new ExtendCommand(getRobot(),"ExtendCommand"))
-//			.whileHeld("2",2,new RetractCommand(getRobot(),"RetractCommand"))
 			.whenPressed("5",5,new ToggleOrientationCommand(getRobot(), "ToggleOrientationCommand"))
 			.whenPressed("8",8,new DriveDistanceCommand(getRobot(), "DriveDistanceCommand", 10.0 , 1.0))
 			.whenPressed("7",7,new TurnCommand(getRobot(), "TurnCommand", 90.0 , 1.0))
@@ -86,13 +68,6 @@ public class OI extends OIBase{
 		);
 		
 		add(new MDJoystick(getRobot(), "xbox", 1)
-//				.whileHeld("5",5,new RiseCommand(getRobot(),"RiseCommand"))
-//				.whileHeld("6",6,new LowerCommand(getRobot(),"LowerCommand"))
-//				.whileHeld("3",3,new OpenClaw(getRobot(),"OpenClaw"))
-//				.whileHeld("4",4,new CloseClaw(getRobot(),"CloseClaw"))
-//				.whileHeld("1",1,new ExtendCommand(getRobot(),"ExtendCommand"))
-//				.whileHeld("2",2,new RetractCommand(getRobot(),"RetractCommand"))
-				.whileHeld("1",1,new MaintainCommand(getRobot(), "MaintainCommand", 90.0, 0.15))
 				.configure()
 			);
 
@@ -109,22 +84,9 @@ public class OI extends OIBase{
 //          We add commands here that will show up as buttons in the MDConsole
 		// ==================================================================== //
 		add(new ConsoleOI(getRobot())
-				.whileHeld("LiftCommand",5,new LiftCommand(getRobot()))
-				.whileHeld("ClawCommand",3,new ClawCommand(getRobot()))
-//				.whileHeld("ExtendCommand",1,new ExtendCommand(getRobot()))
 				.configure()
 			);		
 		
+	
 	}
-
 }  
-
-
-// ========================================== Unused Code ========================================== //
-
-// .whenPressed("X",1,new MDMoveCommand(getRobot(),"left command",Direction.left))
-// .whenPressed("A",2,new MDMoveCommand(getRobot(),"reverse command",Direction.reverse))
-// .whenPressed("B",3,new MDMoveCommand(getRobot(),"right command",Direction.right))
-// .whenPressed("Y",4,new MDMoveCommand(getRobot(),"forward command",Direction.forward))
-// .whenPressed("rightBumper",5,new MDPrintCommand(getRobot(),"Right Bumper Command","Right Bumper Command message"))
-// .whileHeld("leftBumper",6,new MDPrintCommand(getRobot(),"Left Bumper Command","Left Bumper Command message"))
