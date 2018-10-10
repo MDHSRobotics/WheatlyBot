@@ -26,6 +26,7 @@ import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class MDDriveSubsystem extends MDSubsystem {
@@ -327,10 +328,19 @@ public class MDDriveSubsystem extends MDSubsystem {
 		default:
 		 // double rightTriggerValue = joystick.getRawAxis(3);
 		 //	double leftTriggerValue = -joystick.getRawAxis(2);
-			//added minus sign
+		//added minus sign
+			double deadThreshold = 0.05;
+			
+			double rotate = -joystick.getRawAxis(2); //(Changed to accompass shifting w/controller and deadzoned)
+			SmartDashboard.putNumber("Raw Z Axis", rotate);
+			if(rotate < deadThreshold && rotate > -deadThreshold) rotate = 0.0;
+			
 			double forwardAxisValue = joystick.getRawAxis(1);
+			SmartDashboard.putNumber("Raw Y Axis", forwardAxisValue);
+			if(forwardAxisValue < deadThreshold && forwardAxisValue > -deadThreshold) forwardAxisValue = 0.0;
+			
 			double forward = (forwardAxisValue)*(1.0-(1.0-governor));
-		  	double rotate = -joystick.getRawAxis(2); //(Changed to accompass shifting w/controller and deadzoned)
+		  	
 		  	System.out.println("MDDriveSubsystem has run" + " forwardAxisValue: " + forwardAxisValue + " forward: " + forward + " rotate value: " + rotate);
 		  	if(isFlipped){
 		  		forward = -forward;
@@ -340,6 +350,8 @@ public class MDDriveSubsystem extends MDSubsystem {
 		  		System.out.print("turning");
 		  	}
 		  	double[] speeds = interpolator.calculate(forward, rotate);
+		  	SmartDashboard.putNumber("Speed Left", speeds[0]);
+		  	SmartDashboard.putNumber("Speed Right", speeds[1]);
 		    //debug("left: "+speeds[0]+", right: "+speeds[1]);
 		  	differentialDrive.tankDrive(-speeds[0], -speeds[1]);
 		  	System.out.println("Your two speeds are: " + -speeds[0] + " and " + -speeds[1]);

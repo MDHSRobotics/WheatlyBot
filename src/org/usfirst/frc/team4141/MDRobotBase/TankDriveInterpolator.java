@@ -1,5 +1,7 @@
 package org.usfirst.frc.team4141.MDRobotBase;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class TankDriveInterpolator {
 	private double a;
 	private double b;
@@ -23,10 +25,12 @@ public class TankDriveInterpolator {
 		this.b = b;
 	}
 	private double R(double forward, double rotate) {
+		SmartDashboard.putNumber("Const A", a);
 		return forward - b*rotate + forward*rotate*(b-a-1);
 	}
 
 	private double L(double forward, double rotate) {
+		SmartDashboard.putNumber("Const B", b);
 		return forward+b*rotate*(1-forward);
 	}
 	
