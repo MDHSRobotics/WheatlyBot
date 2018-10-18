@@ -7,17 +7,9 @@ import org.usfirst.frc.team4141.MDRobotBase.MDJoystick;
 import org.usfirst.frc.team4141.MDRobotBase.MDRobotBase;
 import org.usfirst.frc.team4141.MDRobotBase.OIBase;
 import org.usfirst.frc.team4141.MDRobotBase.RioHID;
-import org.usfirst.frc.team4141.robot.autocommands.AUTOPosOne_LLL;
 import org.usfirst.frc.team4141.robot.autocommands.DriveDistanceCommand;
-import org.usfirst.frc.team4141.robot.autocommands.MaintainCommand;
 import org.usfirst.frc.team4141.robot.autocommands.TurnCommand;
-// Commands
-//import org.usfirst.frc.team4141.robot.commands.ExtendCommand;
-//import org.usfirst.frc.team4141.robot.commands.MDMoveCommand;
-//import org.usfirst.frc.team4141.robot.commands.MDMoveCommand.Direction;
 import org.usfirst.frc.team4141.robot.commands.MDPrintCommand;
-import org.usfirst.frc.team4141.robot.commands.ClawCommand;
-import org.usfirst.frc.team4141.robot.commands.LiftCommand;
 import org.usfirst.frc.team4141.robot.commands.ToggleOrientationCommand;
 
 
