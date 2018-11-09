@@ -4,6 +4,7 @@ import org.usfirst.frc.team4141.MDRobotBase.MDRobotBase;
 import org.usfirst.frc.team4141.MDRobotBase.MDSubsystem;
 import org.usfirst.frc.team4141.MDRobotBase.config.ConfigSetting;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SpeedController;
 
@@ -23,6 +24,9 @@ public class GearSubsystem extends MDSubsystem {
 	public static String gearMotorName="gearSpeedController";
 	private double governor = 1.0;
 	
+	public DigitalInput limitSwitchOne = new DigitalInput(1);
+	public DigitalInput limitSwitchTwo = new DigitalInput(2);
+
 	// ------------------------------------------------ //
 	
 	/**
@@ -66,8 +70,14 @@ public class GearSubsystem extends MDSubsystem {
 		//The following lines are temporary, the speed needs to be adjusted 
 		double defaultSpeed = gearSpeed;
 		double adjustedSpeed = (defaultSpeed)*(1.0-(1.0-governor));
-		gearSpeedController.set(adjustedSpeed);
-//		debug("lift speed is at " + upwardSpeed);
+		
+		if(limitSwitchTwo.get() == true) {
+			while(limitSwitchOne.get() == false) gearSpeedController.set(adjustedSpeed);
+		}
+		else {
+			while(limitSwitchTwo.get() == false) gearSpeedController.set(-adjustedSpeed);
+		}
+		
 	}
 	
 	/**

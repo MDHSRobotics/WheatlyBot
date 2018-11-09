@@ -18,6 +18,7 @@ import org.usfirst.frc.team4141.MDRobotBase.config.StringConfigSetting;
 import org.usfirst.frc.team4141.robot.commands.MDPrintCommand;
 import org.usfirst.frc.team4141.robot.subsystems.AutonomousSubsystem;
 import org.usfirst.frc.team4141.robot.subsystems.CoreSubsystem;
+import org.usfirst.frc.team4141.robot.subsystems.GearSubsystem;
 import org.usfirst.frc.team4141.robot.subsystems.MDDriveSubsystem;
 import org.usfirst.frc.team4141.robot.subsystems.MDDriveSubsystem.MotorPosition;
 import org.usfirst.frc.team4141.robot.subsystems.MDDriveSubsystem.Type;
@@ -110,6 +111,9 @@ public class Robot extends MDRobotBase {
 				.configure()
 		);
 				
+		add(new GearSubsystem(this, "gearSubsystem")
+				.add(GearSubsystem.gearMotorName, new MDTalonSRX(5))
+				.configure());
 				
 		debug("\n \n \n Done configuring the Robot.");
 		debug("Printing the state of the Robot...");
@@ -122,4 +126,3 @@ public class Robot extends MDRobotBase {
 		}
 	
 }
-

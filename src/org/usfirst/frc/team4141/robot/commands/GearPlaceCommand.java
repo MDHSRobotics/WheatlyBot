@@ -6,6 +6,8 @@ import org.usfirst.frc.team4141.MDRobotBase.MDRobotBase;
 import org.usfirst.frc.team4141.MDRobotBase.eventmanager.LogNotification.Level;
 import org.usfirst.frc.team4141.robot.subsystems.GearSubsystem;
 
+import edu.wpi.first.wpilibj.DigitalInput;
+
 
 /**
  * RopeRiseCommand is a command class based off the MDCommand.
@@ -53,6 +55,10 @@ public class GearPlaceCommand extends MDCommand {
 		xbox = getRobot().getOi().getJoysticks().get("xbox");
 		}
 	
+	protected void execute() {
+		gearSubsystem.gearPlace();
+	}
+
 	/**
 	 * The robot does not stop the procedure until it is told by the driver.
 	 * 
