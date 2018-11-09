@@ -19,6 +19,7 @@ import org.usfirst.frc.team4141.robot.commands.MDPrintCommand;
 import org.usfirst.frc.team4141.robot.subsystems.AutonomousSubsystem;
 import org.usfirst.frc.team4141.robot.subsystems.CoreSubsystem;
 import org.usfirst.frc.team4141.robot.subsystems.GearSubsystem;
+import org.usfirst.frc.team4141.robot.subsystems.LiftSubsystem;
 import org.usfirst.frc.team4141.robot.subsystems.MDDriveSubsystem;
 import org.usfirst.frc.team4141.robot.subsystems.MDDriveSubsystem.MotorPosition;
 import org.usfirst.frc.team4141.robot.subsystems.MDDriveSubsystem.Type;
@@ -112,8 +113,16 @@ public class Robot extends MDRobotBase {
 		);
 				
 		add(new GearSubsystem(this, "gearSubsystem")
-				.add(GearSubsystem.gearMotorName, new MDTalonSRX(5))
+				.add(GearSubsystem.gearMotorName, new MDTalonSRX(7))
 				.configure());
+		
+		add(new LiftSubsystem(this, "liftSubsystem")
+				.add(LiftSubsystem.liftMotor1, new MDTalonSRX(5))
+				.add(LiftSubsystem.liftMotor2, new MDTalonSRX(6))
+				.add("liftSpeed", new DoubleConfigSetting(0.0, 1.0, 1.0))
+				.add("governor", new DoubleConfigSetting(0.0, 1.0, 1.0)) //Speed Governor
+				.configure()
+		);
 				
 		debug("\n \n \n Done configuring the Robot.");
 		debug("Printing the state of the Robot...");
