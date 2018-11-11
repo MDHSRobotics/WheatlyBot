@@ -24,18 +24,10 @@ public class DriveFromWallCommand extends MDCommand {
 	
 	public DriveFromWallCommand(MDRobotBase robot, String name) {
 		super(robot, name);
-		if(!getRobot().getSubsystems().containsKey("autoSubsystem")) {
-			log(Level.ERROR, "initialize()",  "Autonomous Subsystem not found");
-			throw new IllegalArgumentException("Autonomous Subsystem not found");
-		}
-		if(!getRobot().getSubsystems().containsKey("driveSystem")) {
-			log(Level.ERROR, "initialize()",  "Drive Subsystem not found");
-			throw new IllegalArgumentException("Drive Subsystem not found");
-		}
 		
-		autoSubsystem = (AutonomousSubsystem)getRobot().getSubsystems().get("autoSubsystem");
+		autoSubsystem = (AutonomousSubsystem)getRobot().getSubsystem("autoSubsystem");
 		requires(autoSubsystem);
-		driveSubsystem = (MDDriveSubsystem)getRobot().getSubsystems().get("driveSystem");
+		driveSubsystem = (MDDriveSubsystem)getRobot().getSubsystem("driveSystem");
 		requires(driveSubsystem);
 		
 		

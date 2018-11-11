@@ -40,11 +40,7 @@ public class DriveDistanceCommand extends MDCommand {
 		super(robot, name);
 		
 		// Make sure that the Drive Subsystem is active
-		if(!getRobot().getSubsystems().containsKey("driveSystem")){
-			log(Level.ERROR, "initialize()", "Drive subsystem not found");
-			throw new IllegalArgumentException("Drive Subsystem not found");
-		}
-		driveSubsystem = (MDDriveSubsystem)getRobot().getSubsystems().get("driveSystem"); 
+		driveSubsystem = (MDDriveSubsystem)getRobot().getSubsystem("driveSystem"); 
 		requires(driveSubsystem);
 		
 		m_targetDistanceInFeet = targetDistanceInFeet;

@@ -42,11 +42,7 @@ public class TurnCommand extends MDCommand {
 	public TurnCommand(MDRobotBase robot, String name, double targetAngle, double power) {
 		super(robot, name);
 		
-		if(!getRobot().getSubsystems().containsKey("driveSystem")){
-			log(Level.ERROR, "initialize()", "Drive subsystem not found");
-			throw new IllegalArgumentException("Drive Subsystem not found");
-		}
-		driveSubsystem = (MDDriveSubsystem)getRobot().getSubsystems().get("driveSystem"); 
+		driveSubsystem = (MDDriveSubsystem)getRobot().getSubsystem("driveSystem"); 
 		requires(driveSubsystem);
 		
 		m_turningRight = (targetAngle > 0);       // Use sign of targetAngle to determine whether turning right or left

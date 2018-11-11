@@ -35,11 +35,8 @@ public class LiftCommand extends MDCommand {
 	 */
 	public LiftCommand(MDRobotBase robot) {
 		super(robot, "LiftCommand");
-		if(!getRobot().getSubsystems().containsKey("liftSubsystem")){
-			log(Level.ERROR, "initialize()", "lift subsystem not found");
-			throw new IllegalArgumentException("lift Subsystem not found");
-		}
-		liftSubsystem = (LiftSubsystem)getRobot().getSubsystems().get("liftSubsystem"); 
+
+		liftSubsystem = (LiftSubsystem)getRobot().getSubsystem("liftSubsystem"); 
 		requires(liftSubsystem);
 	}
 

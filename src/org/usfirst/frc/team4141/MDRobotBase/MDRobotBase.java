@@ -79,12 +79,27 @@ public abstract class MDRobotBase extends IterativeRobot{
     }
     
     // Return hashtable of all subsystems
-	public Hashtable<String, MDSubsystem> getSubsystems() {
+    // This method should not be used externally; instead call one of the following methods: 
+    //    getSubsystem() to look up a subsystem by name and return it
+    //    containsSubsystem() to determine whether a subsystem of a given name exists
+    //    getAllSubsystemNames() to get an array of all subsystem names
+	private Hashtable<String, MDSubsystem> getSubsystems() {
 		return subsystems;
+	}
+	
+	// Return an array of the names of all subsystems - i.e. the keys in the hashtable
+	public Object[] getAllSubsystemNames() {
+		return getSubsystems().keySet().toArray();
 	}
 	
 	// Look up one subsystem in hashtable and return it
 	public MDSubsystem getSubsystem(String subsystemName){
+		
+		if (getSubsystems()==null) {
+			// If the hashtable does not exist, there are no subsystems defined so raise an error
+			log(Level.ERROR, "getSubsystem()", "Subsystem " + subsystemName + " not found because Hashtable does not exist");
+			throw new IllegalArgumentException("Subsystem " + subsystemName + " not found because Hashtable does not exist");
+		}
 		
 		if(!getSubsystems().containsKey(subsystemName)){
 			// This subsystem name is not in the hastable so print error and contents of hashtable, then quit
@@ -116,6 +131,17 @@ public abstract class MDRobotBase extends IterativeRobot{
 		}
 		
 		return getSubsystems().get(subsystemName);
+	}
+	
+	// Check to see if a subsystem with the given name is in the hashtable and return True/False
+	public boolean containsSubsystem(String subsystemName){
+		
+		// If the hashtable does not exist, there are no subsystems defined
+		if (getSubsystems()==null) return false;
+		
+		if(!getSubsystems().containsKey(subsystemName)) return false;
+		
+		else return true;
 	}
 	
 	//register sensors

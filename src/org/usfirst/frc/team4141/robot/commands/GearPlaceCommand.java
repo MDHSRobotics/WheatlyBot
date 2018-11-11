@@ -35,11 +35,8 @@ public class GearPlaceCommand extends MDCommand {
 	 */
 	public GearPlaceCommand(MDRobotBase robot) {
 		super(robot, "GearPlaceCommand");
-		if(!getRobot().getSubsystems().containsKey("gearSubsystem")){
-			log(Level.ERROR, "initialize()", "Gear subsystem not found");
-			throw new IllegalArgumentException("Gear Subsystem not found");
-		}
-		gearSubsystem = (GearSubsystem)getRobot().getSubsystems().get("gearSubsystem"); 
+
+		gearSubsystem = (GearSubsystem)getRobot().getSubsystem("gearSubsystem"); 
 		requires(gearSubsystem);
 	}
 

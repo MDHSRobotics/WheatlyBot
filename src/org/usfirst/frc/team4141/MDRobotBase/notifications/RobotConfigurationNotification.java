@@ -44,14 +44,15 @@ public class RobotConfigurationNotification extends RobotNotification {
 		}
 		sb.append("\"fpgaTime\":");
 		sb.append(getFpgaTime());
-		Object[] subsystemNames = robot.getSubsystems().keySet().toArray();
+		
+		Object[] subsystemNames = robot.getAllSubsystemNames();
 		
 		if(subsystemNames.length>0){
 			sb.append(", \"subsystems\":{");
 			boolean firstWritten = false;
 			for(int k=0;k<subsystemNames.length;k++){
 				String subsystemName = (String)subsystemNames[k];
-				MDSubsystem subsystem = robot.getSubsystems().get(subsystemName);
+				MDSubsystem subsystem = robot.getSubsystem(subsystemName);
 				if(firstWritten) sb.append(", ");
 				else firstWritten = true;
 				Hashtable<String, ConfigSetting> settings = subsystem.getConfigSettings();

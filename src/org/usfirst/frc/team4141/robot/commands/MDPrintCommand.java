@@ -16,11 +16,7 @@ public class MDPrintCommand extends MDCommand {
 		this.setMessage(message);
 		
 		// Make sure that the Drive Subsystem is active - we need it to avoid MotorSafety errors
-		if(!getRobot().getSubsystems().containsKey("driveSystem")){
-			log(Level.ERROR, "initialize()", "Drive subsystem not found");
-			throw new IllegalArgumentException("Drive Subsystem not found");
-		}
-		driveSubsystem = (MDDriveSubsystem)getRobot().getSubsystems().get("driveSystem"); 
+		driveSubsystem = (MDDriveSubsystem)getRobot().getSubsystem("driveSystem"); 
 		requires(driveSubsystem);
 	}
 

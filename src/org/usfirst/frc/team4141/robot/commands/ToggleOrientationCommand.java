@@ -12,11 +12,8 @@ public class ToggleOrientationCommand extends MDCommand {
 
 	public ToggleOrientationCommand(MDRobotBase robot, String name) {
 		super(robot, name);
-		if(!getRobot().getSubsystems().containsKey("driveSystem")){
-			log(Level.ERROR, "initialize()",  "Orientation not found");
-			throw new IllegalArgumentException("Orientation system not found");
-		}
-		driveSystem = (MDDriveSubsystem)getRobot().getSubsystems().get("driveSystem"); 
+
+		driveSystem = (MDDriveSubsystem)getRobot().getSubsystem("driveSystem"); 
 		requires(driveSystem);
 		
 	}

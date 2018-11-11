@@ -83,10 +83,6 @@ public class ClosedLoopDriveDistanceCommand extends MDCommand {
 		kMotorInvert = reverse;
 		
 		// Make sure that the Drive Subsystem is active
-		if(!getRobot().getSubsystems().containsKey("driveSystem")){
-			log(Level.ERROR, "initialize()", "Drive subsystem not found");
-			throw new IllegalArgumentException("Drive Subsystem not found");
-		}
 		driveSubsystem = (MDDriveSubsystem)getRobot().getSubsystem("driveSystem"); 
 		requires(driveSubsystem);
 		autoSubsystem = (AutonomousSubsystem)getRobot().getSubsystem("autoSubsystem"); 
@@ -102,7 +98,7 @@ public class ClosedLoopDriveDistanceCommand extends MDCommand {
 	protected void initialize() {
 		System.out.println("Closed loop initialize");
 		MDRobotBase robot = this.getRobot();
-		driveSubsystem = (MDDriveSubsystem)robot.getSubsystems().get("driveSystem");		
+		driveSubsystem = (MDDriveSubsystem)robot.getSubsystem("driveSystem");		
 		String leftEncoderMotorName = MDDriveSubsystem.MotorPosition.rearLeft.toString();
 		String rightEncoderMotorName = MDDriveSubsystem.MotorPosition.frontRight.toString();
 		talonL = (WPI_TalonSRX)driveSubsystem.getMotors().get(leftEncoderMotorName);

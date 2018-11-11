@@ -14,14 +14,8 @@ public class ArcadeDriveCommand extends MDCommand {
 	MDDriveSubsystem driveSys;
 	public ArcadeDriveCommand(MDRobotBase robot) {
 		super(robot,"ArcadeDriveCommand");
-//		System.out.println("in arcade drive command");
-//		System.out.println(robot.toString());
-		Hashtable<String, MDSubsystem> subsystems = robot.getSubsystems();
-//		System.out.println(subsystems.toString());
-//		System.out.println("\n \n \n \n \n \n \n frgwesgr");
-//		System.out.flush();
-		MDSubsystem sys = subsystems.get("driveSystem");
-//		System.out.println("in arcade drive command" + sys.toString());
+
+		MDSubsystem sys = robot.getSubsystem("driveSystem");
 		requires(sys);
 		driveSys = (MDDriveSubsystem)sys;
     }

@@ -126,7 +126,7 @@ public class WebSocketSubsystem extends MDSubsystem implements MessageHandler{
 
 	private void targetAcquired(Request request, Map message) {
 		if(message.containsKey("filter") && message.containsKey("targetAcquired")){
-			HolySeeSubsystem visionSystem = (HolySeeSubsystem) getRobot().getSubsystems().get("HolySeeSubsystem");
+			HolySeeSubsystem visionSystem = (HolySeeSubsystem) getRobot().getSubsystem("HolySeeSubsystem");
 			String filter = (String)message.get("filter");
 			boolean targetAcquired = ((Boolean)message.get("targetAcquired")).booleanValue();
 			System.out.println("filter "+ filter +" targetAcquired: "+(targetAcquired?"true":"false"));
@@ -154,8 +154,8 @@ public class WebSocketSubsystem extends MDSubsystem implements MessageHandler{
 				eventManager.post(new RobotConfigurationNotification(getRobot()));
 //				String consoleAddress="10.41.41.101";  //TODO:  get from Request object
 				String consoleAddress=request.getSocket().getSession().getRemoteAddress().getHostString();
-				if(getRobot().getSubsystems()!=null && getRobot().getSubsystems().containsKey("HolySeeSubsystem")){
-					HolySeeSubsystem visionSystem = (HolySeeSubsystem) getRobot().getSubsystems().get("HolySeeSubsystem");
+				if(getRobot().containsSubsystem("HolySeeSubsystem")){
+					HolySeeSubsystem visionSystem = (HolySeeSubsystem) getRobot().getSubsystem("HolySeeSubsystem");
 					visionSystem.setConsoleAddress(consoleAddress);
 					if(visionSystem.getVisionConnected()){
 						eventManager.post(new ConsoleConnectionNotification(getRobot(),visionSystem.getConsoleAddress()));
@@ -164,8 +164,8 @@ public class WebSocketSubsystem extends MDSubsystem implements MessageHandler{
 			}
 			if(message.get("id").equals(Remote.tegra.toString())){
 				log("identifyRemote",Remote.console.toString()+" connected.");
-				if(getRobot().getSubsystems()!=null && getRobot().getSubsystems().containsKey("HolySeeSubsystem")){
-					HolySeeSubsystem visionSystem = (HolySeeSubsystem) getRobot().getSubsystems().get("HolySeeSubsystem");
+				if(getRobot().containsSubsystem("HolySeeSubsystem")){
+					HolySeeSubsystem visionSystem = (HolySeeSubsystem) getRobot().getSubsystem("HolySeeSubsystem");
 					visionSystem.setVisionConnected(true);
 					visionSystem.setTegraAddress(request.getSocket().getSession().getRemoteAddress().getHostName());
 					if(visionSystem.getConsoleAddress()!=null && visionSystem.getConsoleAddress().length()>0){
@@ -186,8 +186,8 @@ public class WebSocketSubsystem extends MDSubsystem implements MessageHandler{
 		if(message.containsKey("subsystem") && message.containsKey("settingName")){
 			String subsystemName = (String)(message.get("subsystem"));
 			String settingName = (String)(message.get("settingName"));
-			if(geRobot().getSubsystems().containsKey(subsystemName)){
-				MDSubsystem subsystem = getRobot().getSubsystems().get(subsystemName);
+			if(geRobot().containsSubsystem(subsystemName)){
+				MDSubsystem subsystem = getRobot().getSubsystem(subsystemName);
 				debug("changing setting for subsystem "+subsystem.getName());
 				if(subsystem.hasSetting(settingName)){
 					ConfigSetting setting = subsystem.getSetting(settingName);
@@ -267,8 +267,8 @@ public class WebSocketSubsystem extends MDSubsystem implements MessageHandler{
         System.out.println("session closed: "+socket.getName());
 
 		if(socket.getName().equals(Remote.tegra.toString())){
-			if(getRobot().getSubsystems()!=null && getRobot().getSubsystems().containsKey("HolySeeSubsystem")){
-				HolySeeSubsystem visionSystem = (HolySeeSubsystem) getRobot().getSubsystems().get("HolySeeSubsystem");
+			if(getRobot().containsSubsystem("HolySeeSubsystem")){
+				HolySeeSubsystem visionSystem = (HolySeeSubsystem) getRobot().getSubsystem("HolySeeSubsystem");
 				visionSystem.setVisionConnected(false);
 			}
 		}

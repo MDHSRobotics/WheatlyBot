@@ -47,10 +47,8 @@ public class MDMoveCommand extends MDCommand {
 	
 	@Override
 	protected void initialize() {
-		if(!getRobot().getSubsystems().containsKey("driveSystem")){
-			log(Level.ERROR, "initialize()",  "drive system not found");
-		}
-		driveSystem = (MDDriveSubsystem)getRobot().getSubsystems().get("driveSystem"); 
+
+		driveSystem = (MDDriveSubsystem)getRobot().getSubsystem("driveSystem"); 
 		start =(new Date()).getTime();
 	}
 	
