@@ -24,8 +24,8 @@ public class GearSubsystem extends MDSubsystem {
 	public static String gearMotorName="gearSpeedController";
 	private double governor = 1.0;
 	
-	public DigitalInput limitSwitchOne = new DigitalInput(1);
-	public DigitalInput limitSwitchTwo = new DigitalInput(2);
+	public DigitalInput limitSwitchUp = new DigitalInput(1);
+	public DigitalInput limitSwitchDown = new DigitalInput(2);
 
 	// ------------------------------------------------ //
 	
@@ -71,11 +71,11 @@ public class GearSubsystem extends MDSubsystem {
 		double defaultSpeed = gearSpeed;
 		double adjustedSpeed = (defaultSpeed)*(1.0-(1.0-governor));
 		
-		if(limitSwitchTwo.get() == true) {
-			while(limitSwitchOne.get() == false) gearSpeedController.set(adjustedSpeed);
+		if(limitSwitchDown.get() == true) {
+			while(limitSwitchUp.get() == false) gearSpeedController.set(adjustedSpeed);
 		}
 		else {
-			while(limitSwitchTwo.get() == false) gearSpeedController.set(-adjustedSpeed);
+			while(limitSwitchDown.get() == false) gearSpeedController.set(-adjustedSpeed);
 		}
 		
 	}
