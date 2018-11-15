@@ -85,10 +85,8 @@ public class Robot extends MDRobotBase {
 			  
 		driveSubsystem.add("accelerometer", new MD_BuiltInAccelerometer());
 		driveSubsystem.add("IMU", new MD_IMU()) 
-				.add(MotorPosition.frontLeft, new MDTalonSRX(1))
-				.add(MotorPosition.frontRight, new MDTalonSRX(3))
-				.add(MotorPosition.rearLeft, new MDTalonSRX(2))
-				.add(MotorPosition.rearRight, new MDTalonSRX(4))
+				.add(MotorPosition.left, new MDTalonSRX(1))
+				.add(MotorPosition.right, new MDTalonSRX(3))
 				.add("Ramp Time In seconds", new DoubleConfigSetting(0.0, 10.0, 1.0))
 				.add("forwardSpeed", new DoubleConfigSetting(0.0, 1.0, 0.25)) //High Speed - Turn Factor
 		 	    .add("rotateSpeed", new DoubleConfigSetting(0.0, 1.0, 1.0)) //Slow Speed - Turn Factor
@@ -118,7 +116,6 @@ public class Robot extends MDRobotBase {
 		
 		add(new LiftSubsystem(this, "liftSubsystem")
 				.add(LiftSubsystem.liftMotor1, new MDTalonSRX(5))
-				.add(LiftSubsystem.liftMotor2, new MDTalonSRX(6))
 				.add("liftSpeed", new DoubleConfigSetting(0.0, 1.0, 1.0))
 				.add("governor", new DoubleConfigSetting(0.0, 1.0, 1.0)) //Speed Governor
 				.configure()

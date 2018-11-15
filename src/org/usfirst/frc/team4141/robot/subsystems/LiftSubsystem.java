@@ -20,8 +20,7 @@ public class LiftSubsystem extends MDSubsystem {
 	public static String liftMotor1="liftSpeedController";
 	private double governor = 1.0;
 	
-	private SpeedController liftSpeedController2;
-	public static String liftMotor2="liftSpeedController2";
+
 	// ------------------------------------------------ //
 	
 	/**
@@ -40,10 +39,7 @@ public class LiftSubsystem extends MDSubsystem {
 				|| !getMotors().containsKey(liftMotor1))
 			throw new IllegalArgumentException("Invalid motor configuration for Lift system.");
 		liftSpeedController = (SpeedController)(getMotors().get(liftMotor1));
-		if(getMotors()==null 
-				|| !getMotors().containsKey(liftMotor2))
-			throw new IllegalArgumentException("Invalid motor configuration for Lift system.");
-		liftSpeedController2 = (SpeedController)(getMotors().get(liftMotor2));
+		
 	return this;
 }
 	
@@ -73,13 +69,11 @@ public class LiftSubsystem extends MDSubsystem {
 		double downwardSpeed = (downwardAxisValue)*(1.0-(1.0-governor));
 		double moveSpeed = upwardSpeed-downwardSpeed;
 		liftSpeedController.set(moveSpeed);
-		liftSpeedController2.set(moveSpeed);
 //		debug("lift speed is at " + moveSpeed);
 	}
 	
 	public void autoLift(double power){
 			liftSpeedController.set(power);
-			liftSpeedController2.set(power);
 		
 	}
 	
@@ -103,7 +97,6 @@ public class LiftSubsystem extends MDSubsystem {
 	 */
 	public void stop(){
 		liftSpeedController.set(0);
-		liftSpeedController2.set(0);
 		// doesn't stop motor when OI has  whenPressed
 		
 	}
