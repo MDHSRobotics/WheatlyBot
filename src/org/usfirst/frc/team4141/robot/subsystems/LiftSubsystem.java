@@ -60,15 +60,12 @@ public class LiftSubsystem extends MDSubsystem {
 	 * which raises the robot up the rope.
 	 */
 		
-	public void lift(Joystick xbox){
+	public void lift(Joystick axis){
 		//positive speed=wind
 		//negative speed=unwind
-		double upwardAxisValue = xbox.getRawAxis(2);
-		double upwardSpeed = (upwardAxisValue)*(1.0-(1.0-governor));
-		double downwardAxisValue = xbox.getRawAxis(3);
-		double downwardSpeed = (downwardAxisValue)*(1.0-(1.0-governor));
-		double moveSpeed = upwardSpeed-downwardSpeed;
-		liftSpeedController.set(moveSpeed);
+		double upwardAxisValue = axis.getY();
+		double upwardSpeed = -(upwardAxisValue)*(1.0-(1.0-governor));
+		liftSpeedController.set(upwardSpeed);
 //		debug("lift speed is at " + moveSpeed);
 	}
 	
@@ -132,7 +129,7 @@ public class LiftSubsystem extends MDSubsystem {
 	 */
 	@Override
 	protected void initDefaultCommand() {
-		setDefaultCommand(new LiftCommand(getRobot()));
+//		setDefaultCommand(new LiftCommand(getRobot()));
 	}
 
 

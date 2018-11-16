@@ -63,10 +63,10 @@ public class OI extends OIBase{
 			.configure()
 		);
 		
-		add(new MDJoystick(getRobot(), "xbox", 1)
-				.whileHeld("LiftCommand",5,new LiftCommand(getRobot()))
-				.configure()
-			);
+//		add(new MDJoystick(getRobot(), "xbox", 1)
+//				.whileHeld("LiftCommand",5,new LiftCommand(getRobot()))
+//				.configure()
+//			);
 
 //                               Configure the RioHID 
 //         Uncomment the following to attach a command to the user button on the RoboRIO. 

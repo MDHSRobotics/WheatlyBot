@@ -46,11 +46,13 @@ public class LiftCommand extends MDCommand {
 	 * When the command first starts nothing happens.
 	 */
 	
-	private MDJoystick xbox = null;
+	private MDJoystick axis = null;
 	
 	protected void initialize() {
 			super.initialize();
-			xbox = getRobot().getOi().getJoysticks().get("xbox");
+			axis = getRobot().getOi().getJoysticks().get("joystick");
+			System.out.println("initializing LiftCommand");
+			
 		}
 	
 	/**
@@ -67,7 +69,7 @@ public class LiftCommand extends MDCommand {
 	 * it reads no input from the driver. 
 	 */
 	protected void execute() {
-		if (liftSubsystem!=null)liftSubsystem.lift(xbox);
+		if (liftSubsystem!=null)liftSubsystem.lift(axis);
 //		log(Level.DEBUG,"execute()","Clawing");
 //		log(Level.DEBUG,"execute()","Lifting");
 	}

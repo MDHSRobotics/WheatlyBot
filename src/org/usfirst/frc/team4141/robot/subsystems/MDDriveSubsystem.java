@@ -341,7 +341,7 @@ public class MDDriveSubsystem extends MDSubsystem {
 			
 			double forward = (forwardAxisValue)*(1.0-(1.0-governor));
 		  	
-		  	System.out.println("MDDriveSubsystem has run" + " forwardAxisValue: " + forwardAxisValue + " forward: " + forward + " rotate value: " + rotate);
+		  //	System.out.println("MDDriveSubsystem has run" + " forwardAxisValue: " + forwardAxisValue + " forward: " + forward + " rotate value: " + rotate);
 		  	if(isFlipped){
 		  		forward = -forward;
 		  	}
@@ -354,7 +354,7 @@ public class MDDriveSubsystem extends MDSubsystem {
 		  	SmartDashboard.putNumber("Speed Right", speeds[1]);
 		    //debug("left: "+speeds[0]+", right: "+speeds[1]);
 		  	differentialDrive.tankDrive(-speeds[0], -speeds[1]);
-		  	System.out.println("Your two speeds are: " + -speeds[0] + " and " + -speeds[1]);
+		  //	System.out.println("Your two speeds are: " + -speeds[0] + " and " + -speeds[1]);
 		}
 	}
 	
