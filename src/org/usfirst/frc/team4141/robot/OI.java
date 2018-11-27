@@ -9,7 +9,6 @@ import org.usfirst.frc.team4141.MDRobotBase.OIBase;
 import org.usfirst.frc.team4141.MDRobotBase.RioHID;
 import org.usfirst.frc.team4141.robot.autocommands.DriveDistanceCommand;
 import org.usfirst.frc.team4141.robot.autocommands.TurnCommand;
-import org.usfirst.frc.team4141.robot.commands.GearPlaceCommand;
 import org.usfirst.frc.team4141.robot.commands.LiftCommand;
 import org.usfirst.frc.team4141.robot.commands.MDPrintCommand;
 import org.usfirst.frc.team4141.robot.commands.ToggleOrientationCommand;
@@ -58,7 +57,6 @@ public class OI extends OIBase{
 			.whenPressed("5",5,new ToggleOrientationCommand(getRobot(), "ToggleOrientationCommand"))
 			.whenPressed("8",8,new DriveDistanceCommand(getRobot(), "DriveDistanceCommand", 10.0 , 1.0))
 			.whenPressed("7",7,new TurnCommand(getRobot(), "TurnCommand", 90.0 , 1.0))
-			.whenPressed("10",10, new GearPlaceCommand(getRobot()))
 			.whileHeld("4",4,new LiftCommand(getRobot()))
 			.configure()
 		);
