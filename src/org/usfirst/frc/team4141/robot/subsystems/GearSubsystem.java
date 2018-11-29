@@ -24,8 +24,14 @@ public class GearSubsystem extends MDSubsystem {
 	public static String gearMotorName="gearSpeedController";
 	private double governor = 1.0;
 	
-	public DigitalInput limitSwitchUp = new DigitalInput(1);
-	public DigitalInput limitSwitchDown = new DigitalInput(2);
+	/**
+	 * False means the gear claw is closed.
+	 * True means the gear claw is open
+	 */
+	boolean gearState = false;
+	
+	public DigitalInput limitSwitchOpen = new DigitalInput(1);
+	public DigitalInput limitSwitchClose = new DigitalInput(2);
 
 	// ------------------------------------------------ //
 	
@@ -63,26 +69,33 @@ public class GearSubsystem extends MDSubsystem {
 	// ------------------------------------------------ //
 
 	/**
-	 * This calls the variable gearController to go in a positive direction
-	 * which lifts the gear into place.
+	 * False means the gear claw is closed.
+	 * True means the gear claw is open
 	 */
-	public void gearPlace() {
-		//The following lines are temporary, the speed needs to be adjusted 
-		double defaultSpeed = gearSpeed;
-		double adjustedSpeed = (defaultSpeed)*(1.0-(1.0-governor));
-		
-		if(limitSwitchDown.get() == true) {
-			while(limitSwitchUp.get() == false) gearSpeedController.set(adjustedSpeed);
-		}
-		else {
-			while(limitSwitchDown.get() == false) gearSpeedController.set(-adjustedSpeed);
-		}
-		
+	public void toggleGearState() {
+		gearState = !gearState;
 	}
 	
-	/**
-	 * This calls the variable gearController to halt its speed to 0.
-	 */
+	public boolean getGearState() {
+		return gearState;
+	}
+	
+	public boolean getLimitSwitchOpen() {
+		return limitSwitchOpen.get();
+	}
+	
+	public boolean getLimitSwitchClose() {
+		return limitSwitchClose.get();
+	}
+	
+	public void gearOpen() {
+		gearSpeedController.set(gearSpeed);
+	}
+	
+	public void gearClose() {
+		gearSpeedController.set(-gearSpeed);
+	}
+	
 	public void stop(){
 		gearSpeedController.set(0);
 		

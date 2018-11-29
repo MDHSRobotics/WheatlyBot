@@ -5,17 +5,18 @@ import org.usfirst.frc.team4141.MDRobotBase.MDJoystick;
 import org.usfirst.frc.team4141.MDRobotBase.MDRobotBase;
 import org.usfirst.frc.team4141.MDRobotBase.eventmanager.LogNotification.Level;
 import org.usfirst.frc.team4141.robot.subsystems.GearSubsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 
 
 /**
- * RopeRiseCommand is a command class based off the MDCommand.
- * This command calls the ropeSubsystem, which in this case 
- * uses motors to lift the robot up until a desired location
- * is met by the driver. 
+ * GearPlaceCommand is a command class based off the MDCommand.
+ * This command calls the GearSubsystem, which in this case 
+ * uses motors to open or close a gear claw within the range of
+ * limit switches
  * 
- * @see RopeSubsystem
+ * @see GearSubsystem
  */
 public class GearPlaceCommand extends MDCommand {
 	
@@ -43,36 +44,50 @@ public class GearPlaceCommand extends MDCommand {
 	// ------------------------------------------------ //
 	
 	/**
-	 * When the command first starts nothing happens.
+	 * When the command first starts the previous state of the GearSubsystem is inquired
 	 */
 	private MDJoystick xbox = null;
+	private boolean gearState;
 	
 	protected void initialize() {
 		super.initialize();
 		xbox = getRobot().getOi().getJoysticks().get("xbox");
+		gearState = gearSubsystem.getGearState();
+		SmartDashboard.putBoolean("gearState", gearState);
 		}
 	
 	protected void execute() {
-		gearSubsystem.gearPlace();
+		if(gearState) {		//If it is fully open
+				gearSubsystem.gearClose();
+		}
+		if(!gearState) {	//If it is fully closed
+				gearSubsystem.gearOpen();
+		}
 	}
 
 	/**
-	 * The robot does not stop the procedure until it is told by the driver.
-	 * 
-	 * @return false because the command never ends by itself.
+	 * The robot stops when the limit switches are triggered
 	 */
 	protected boolean isFinished() {
-		return false;
+		if(gearState && gearSubsystem.getLimitSwitchClose()) {
+			return true;
+		}
+		else if(!gearState && gearSubsystem.getLimitSwitchOpen()) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 	
 	 /**
-	 * This signifies the end of the command by stopping the ropeSubsystem motors
-	 * due to the halt of input by the driver.
+	 * This signifies the end of the command by stopping the GearSubsystem motors
+	 * and toggling the state of the GearSubsystem
 	 */
 	@Override
 		protected void end() {
 		super.end();
 		gearSubsystem.stop();
-			
+		gearSubsystem.toggleGearState();	
 		}
 }

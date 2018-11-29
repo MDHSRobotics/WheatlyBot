@@ -10,7 +10,7 @@ import org.usfirst.frc.team4141.robot.commands.MDMoveCommand.Direction;
 import org.usfirst.frc.team4141.robot.subsystems.MDDriveSubsystem;
 
 public class MDMoveCommand extends MDCommand {
-	// The purpoise of this command is to do basic motion testing
+	// The purpose of this command is to do basic motion testing
 	// four directions are defined, see Direction enum
 	// the duration is defaulted to 3 seconds
 	// speed is defaulted to 0.5
