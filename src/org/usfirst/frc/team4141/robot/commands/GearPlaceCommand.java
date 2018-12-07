@@ -47,20 +47,20 @@ public class GearPlaceCommand extends MDCommand {
 	 * When the command first starts the previous state of the GearSubsystem is inquired
 	 */
 	private MDJoystick xbox = null;
-	private boolean gearState;
+	private boolean previouslyOpen;
 	
 	protected void initialize() {
 		super.initialize();
 		xbox = getRobot().getOi().getJoysticks().get("xbox");
-		gearState = gearSubsystem.getGearState();
-		SmartDashboard.putBoolean("gearState", gearState);
+		previouslyOpen = gearSubsystem.getPreviousState();
+		SmartDashboard.putBoolean("gearState", previouslyOpen);
 		}
 	
 	protected void execute() {
-		if(gearState) {		//If it is fully open
+		if(previouslyOpen) {		//If it is fully open
 				gearSubsystem.gearClose();
 		}
-		if(!gearState) {	//If it is fully closed
+		if(!previouslyOpen) {	//If it is fully closed
 				gearSubsystem.gearOpen();
 		}
 	}
@@ -69,10 +69,10 @@ public class GearPlaceCommand extends MDCommand {
 	 * The robot stops when the limit switches are triggered
 	 */
 	protected boolean isFinished() {
-		if(gearState && gearSubsystem.getLimitSwitchClose()) {
+		if(previouslyOpen && gearSubsystem.getLimitSwitchClose()) {		//If the claw was open but is now closed
 			return true;
 		}
-		else if(!gearState && gearSubsystem.getLimitSwitchOpen()) {
+		else if(!previouslyOpen && gearSubsystem.getLimitSwitchOpen()) {	//If the claw was closed but is now open
 			return true;
 		}
 		else {
@@ -88,6 +88,6 @@ public class GearPlaceCommand extends MDCommand {
 		protected void end() {
 		super.end();
 		gearSubsystem.stop();
-		gearSubsystem.toggleGearState();	
+		gearSubsystem.toggleGearState();	//Toggles the previous state of the claw for the next command call
 		}
 }

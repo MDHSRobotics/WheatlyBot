@@ -30,7 +30,7 @@ public class GearSubsystem extends MDSubsystem {
 	 * False means the gear claw is closed.
 	 * True means the gear claw is open
 	 */
-	boolean gearState = false;
+	boolean previouslyOpen = false;
 	
 	public DigitalInput limitSwitchOpen = new DigitalInput(1);
 	public DigitalInput limitSwitchClose = new DigitalInput(2);
@@ -79,11 +79,11 @@ public class GearSubsystem extends MDSubsystem {
 	 * True means the gear claw is open
 	 */
 	public void toggleGearState() {
-		gearState = !gearState;
+		previouslyOpen = !previouslyOpen;
 	}
 	
-	public boolean getGearState() {
-		return gearState;
+	public boolean getPreviousState() {
+		return previouslyOpen;
 	}
 	
 	public boolean getLimitSwitchOpen() {
