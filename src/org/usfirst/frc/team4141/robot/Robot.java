@@ -15,6 +15,7 @@ import org.usfirst.frc.team4141.MDRobotBase.MDTalonSRX;
 import org.usfirst.frc.team4141.MDRobotBase.config.DoubleConfigSetting;
 import org.usfirst.frc.team4141.MDRobotBase.config.IntegerConfigSetting;
 import org.usfirst.frc.team4141.MDRobotBase.config.StringConfigSetting;
+import org.usfirst.frc.team4141.robot.commands.AUTOMoveFromWall;
 import org.usfirst.frc.team4141.robot.commands.MDPrintCommand;
 import org.usfirst.frc.team4141.robot.subsystems.AutonomousSubsystem;
 import org.usfirst.frc.team4141.robot.subsystems.CoreSubsystem;
@@ -124,6 +125,8 @@ public class Robot extends MDRobotBase {
 			
 		public void autonomousInit() {
 			super.autonomousInit();
+			AUTOMoveFromWall autoMoveFromWallCommand = new AUTOMoveFromWall(this);
+			autoMoveFromWallCommand.start();
 		}
 	
 }
