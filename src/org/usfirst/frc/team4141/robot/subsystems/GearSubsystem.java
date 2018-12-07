@@ -20,8 +20,10 @@ import edu.wpi.first.wpilibj.SpeedController;
 public class GearSubsystem extends MDSubsystem {
 	
 	private double gearSpeed=0.75;
-	private SpeedController gearSpeedController;
-	public static String gearMotorName="gearSpeedController";
+	private SpeedController gearSpeedControllerLeft;
+	public static String gearMotorLeft="gearSpeedControllerLeft";
+	private SpeedController gearSpeedControllerRight;
+	public static String gearMotorRight="gearSpeedControllerRight";
 	private double governor = 1.0;
 	
 	/**
@@ -47,9 +49,13 @@ public class GearSubsystem extends MDSubsystem {
 		super.configure();
 		
 		if(getMotors()==null 
-				|| !getMotors().containsKey(gearMotorName))
+				|| !getMotors().containsKey(gearMotorLeft))
 			throw new IllegalArgumentException("Invalid motor configuration for Gear system.");
-		gearSpeedController = (SpeedController)(getMotors().get(gearMotorName));
+		gearSpeedControllerLeft = (SpeedController)(getMotors().get(gearMotorLeft));
+		if(getMotors()==null 
+				|| !getMotors().containsKey(gearMotorRight))
+			throw new IllegalArgumentException("Invalid motor configuration for Gear system.");
+		gearSpeedControllerRight = (SpeedController)(getMotors().get(gearMotorRight));
 	return this;
 	
 	
@@ -89,15 +95,18 @@ public class GearSubsystem extends MDSubsystem {
 	}
 	
 	public void gearOpen() {
-		gearSpeedController.set(gearSpeed);
+		gearSpeedControllerLeft.set(gearSpeed);
+		gearSpeedControllerRight.set(-gearSpeed);
 	}
 	
 	public void gearClose() {
-		gearSpeedController.set(-gearSpeed);
+		gearSpeedControllerLeft.set(-gearSpeed);
+		gearSpeedControllerRight.set(gearSpeed);
 	}
 	
 	public void stop(){
-		gearSpeedController.set(0);
+		gearSpeedControllerLeft.set(0);
+		gearSpeedControllerRight.set(0);
 		
 	}
 	// ------------------------------------------------ //

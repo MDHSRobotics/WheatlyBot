@@ -15,6 +15,7 @@ import org.usfirst.frc.team4141.MDRobotBase.sensors.Sensor;
 import org.usfirst.frc.team4141.robot.commands.ArcadeDriveCommand;
 import org.usfirst.frc.team4141.robot.subsystems.MDDriveSubsystem.MotorPosition;
 import org.usfirst.frc.team4141.robot.subsystems.MDDriveSubsystem.Type;
+import com.analog.adis16448.frc.*;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -62,12 +63,13 @@ public class MDDriveSubsystem extends MDSubsystem {
 	private double speed = 0;
 	private double governor = 1.0;
 	private double timeInS;
-	private MD_IMU imu;
 	private double targetDistance; 
 	private double distanceInFeet;
 	private double encoderDistance; // <--- Placeholder
 	private MDDriveSubsystem driveSystem;
 	private TankDriveInterpolator interpolator = new TankDriveInterpolator();
+	public MD_IMU imu = new MD_IMU();
+	public double yawAngle = imu.getAngle();
 	
 //	private double F=0.0;
 //	private double P=0.0;

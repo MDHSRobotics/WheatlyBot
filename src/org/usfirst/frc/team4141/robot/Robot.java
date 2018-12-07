@@ -1,7 +1,5 @@
 package org.usfirst.frc.team4141.robot; 
 
-//Edit by Tyler on WheatlyBot master branch :)
-
 //===================================================================== Imported Systems ===================================================================== //
 //import java.util.Hashtable;
 
@@ -113,7 +111,8 @@ public class Robot extends MDRobotBase {
 		);
 				
 		add(new GearSubsystem(this, "gearSubsystem")
-				.add(GearSubsystem.gearMotorName, new MDTalonSRX(7))
+				.add(GearSubsystem.gearMotorLeft, new MDTalonSRX(7))
+				.add(GearSubsystem.gearMotorRight, new MDTalonSRX(8))
 				.configure());
 		
 		add(new LiftSubsystem(this, "liftSubsystem")
